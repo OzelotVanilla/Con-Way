@@ -1,11 +1,9 @@
 export class entity {
 
-    cycle;
     x;
     y;
 
-    constructor(cycle, x, y) {
-        this.cycle = cycle;
+    constructor(x, y) {
         this.pattern = pattern;
         this.xOffSet = xOffSet;
         this.yOffSet = yOffSet;
@@ -24,7 +22,7 @@ export class bullet extends entity {
     dx;
     dy;
     constructor(cycle, x, y, dx, dy) {
-        super(cycle, x, y);
+        super(x, y);
         this.dx = dx;
         this.dy = dy;
     }
