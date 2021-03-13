@@ -10,26 +10,35 @@ function setData(obj) {
 
 function stabtnClick() {
     that("game-status").className = "l1";
-    setData({ "cwinfo": "Please Wait" })
-    for (var i = 1; i < 4; i++) { that("log" + i).style.color = "#EBF6F7"; }
-    for (var i = 1; i < 4; i++) { that("log" + i + "_5").style.color = "#C7DC68"; }
-    setTimeout();
-    // that.setData({ stabtn_avai: false, cwinfo_avai: false, l1open: true });
-    // setTimeout(function () { that.setData({ stabtn_text: "      -      " }) }, 100);
-    // setTimeout(function () { that.setData({ stabtn_text: "     <->     " }) }, 200);
-    // setTimeout(function () { that.setData({ stabtn_text: "    <--->    ", l2open: true }) }, 300);
-    // setTimeout(function () { that.setData({ l3open: true, l4open: true }) }, 350);
-    // setTimeout(function () { that.setData({ stabtn_text: "   <----->   ", l2_5open: true }) }, 400);
-    // setTimeout(function () { that.setData({ stabtn_text: "  <------->  ", l3_5open: true }) }, 500);
-    // setTimeout(function () { that.setData({ stabtn_text: " <---------> " }) }, 600);
-    // setTimeout(function () { that.setData({ stabtn_text: "<----------->", l4_5open: true }) }, 700);
-    // setTimeout(function () { that.setData({ stabtn_text: "<- LOADING ->" }) }, 800);
-    // setTimeout(function () { that.setData({ enjoy: true }) }, 900);
-    // setTimeout(function () {
-    //     wx.redirectTo({
-    //         url: '../lifegame/lifegame',
-    //     })
-    // }, 1500);
+    that("stabtn").disabled = true; that("cwinfo").disabled = true;
+    setData({ "game-status": "Lauching", "cwinfo": "Please Wait" });
+    setTimeout(function () { setData({ "stabtn": "      -      " }) }, 100);
+    setTimeout(function () { setData({ "stabtn": "     <->     " }); }, 200);
+    setTimeout(function () { setData({ "stabtn": "    <--->    " }); that("log1").style.color = "#EBF6F7"; }, 300);
+    setTimeout(function () { that("log2").style.color = "#EBF6F7"; that("log3").style.color = "#EBF6F7"; }, 350);
+    setTimeout(function () { setData({ "stabtn": "   <----->   " }); that("log1_5").style.color = "#C7DC68" }, 400);
+    setTimeout(function () { setData({ "stabtn": "  <------->  " }); that("log2_5").style.color = "#C7DC68" }, 500);
+    setTimeout(function () { setData({ "stabtn": " <---------> " }); }, 600);
+    setTimeout(function () { setData({ "stabtn": "<----------->" }); that("log3_5").style.color = "#C7DC68" }, 700);
+    setTimeout(function () { setData({ "stabtn": "<- LOADING ->" }); }, 800);
+    setTimeout(function () { that("enjoy").style.color = "#38A1DB"; }, 900);
+    setTimeout(function () {
+        window.location.href = "../game/index.html";
+    }, 1500);
+}
+
+function cwinfoClick() {
+    that("stabtn").disabled = true; that("cwinfo").disabled = true;
+    setData({ "stabtn": "Please Wait" });
+    setTimeout(function () { setData({ "cwinfo": "< >" }) }, 100);
+    setTimeout(function () { setData({ "cwinfo": "<< >>" }) }, 200);
+    setTimeout(function () { setData({ "cwinfo": "<<< >>>" }) }, 300);
+    setTimeout(function () { setData({ "cwinfo": "<<<< >>>>" }) }, 400);
+    setTimeout(function () { setData({ "cwinfo": "<<<<< >>>>>" }) }, 500);
+    setTimeout(function () { setData({ "cwinfo": "<<<<<< >>>>>>" }) }, 600);
+    setTimeout(function () {
+        window.location.href = "../cwinfo/index.html";
+    });
 }
 
 setInterval(function () {
@@ -39,7 +48,7 @@ setInterval(function () {
         "mm": fmtDate(d.getMinutes()),
         "ss": fmtDate(d.getSeconds()),
         "MM": fmtDate(d.getMonth() + 1),
-        "DD": fmtDate(d.getDay()),
+        "DD": fmtDate(d.getDate()),
         "YYYY": fmtDate(d.getFullYear())
     })
 }, 1000)

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./cwinfo.css">
+    <title>Conway Game of Life</title>
+</head>
+
+<body class="cwinfo-bkimg">
+    <div id="w1" class="window" style="background-color: #DCDDDD">
+        <div id="w1-title" class="w-title">
+            <div class="w-title-name"> What is Conway Game of Life </div>
+            <div class="w-title-control" style="background-color: #F3CCCC">Close</div>
+        </div>
+        <div class="w-body" style="background-color: #FBFAF5;">
+            <div>Conway game of life follow the rule like this:</div>
+            <div style="padding-top: 10px;">
+                Every little square in the game can be seen as a cell.<br />
+                * If there is 0 or 1 filled cell between a cell, the cell will disappear.<br />
+                * If there is 4 or more, the cell also disappear.<br />
+                * If there are 2 or 3, it still remains here.<br />
+            </div>
+            <div style="padding-top: 40px; margin-left: -5px; text-align: center;">
+                <button class="try-it-btn">
+                    Try it yourself!
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="w2" class="window" style="background-color: #DCDDDD;">
+        <div id="w2-title" class="w-title"></div>
+    </div>
+</body>
+<script src="./cwinfo.js" type="text/javascript"></script>
+
+</html>
