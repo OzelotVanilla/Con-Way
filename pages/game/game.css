@@ -1,0 +1,16 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+}
+
+.cwf {
+    display: block;
+    background-color: #333333;
+    width: 100%; height: 100%; 
+}
