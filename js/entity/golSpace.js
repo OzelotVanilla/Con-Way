@@ -1,0 +1,3 @@
+class golSpace extends doublegrid {
+
+}
