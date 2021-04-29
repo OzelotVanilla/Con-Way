@@ -26,5 +26,6 @@ class eventbus {
                 }
             }
         }
+        event.getCurrentAction()();
     }
 }
