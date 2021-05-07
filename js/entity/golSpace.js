@@ -1,6 +1,19 @@
+
+/**
+ * Game of life Space
+ * It can be a background of game, or be contained
+ * @author MagicStone
+ */
 class golSpace extends visibleEntity {
 
-    width;//width and height are the the lengths of the grid of lifegame;
+    /**
+     * Width of the grid of this entity. Unit is (Pixel).
+     */
+    width;
+
+    /**
+     * Height of the grid of this entity. Unit is (Pixel).
+     */
     height;
     sideLength;
 
