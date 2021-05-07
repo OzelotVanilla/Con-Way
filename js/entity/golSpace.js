@@ -1,4 +1,4 @@
-class golSpace extends VisibleEntity {
+class golSpace extends visibleEntity {
 
     width;//width and height are the the lengths of the grid of lifegame;
     height;
@@ -7,8 +7,8 @@ class golSpace extends VisibleEntity {
     absoluteXPos = 0;//absoluteXPos and absoluteYPos are the position where the golSpace is on the screen;
     absoluteYPos = 0;
 
-    constructor(xPos, yPos, xVelocity, yVelocity, width, height, sideLength, space, destructorCondition) {
-        super("golSpace", xPos, yPos, xVelocity, yVelocity, space, destructorCondition, this.render);
+    constructor(xPos, yPos, xVelocity, yVelocity, width, height, sideLength, space, canvas, destructorCondition) {
+        super("golSpace", xPos, yPos, xVelocity, yVelocity, space, destructorCondition, canvas, this.render);
         if (typeof width === 'number'
             && typeof height === 'number'
             && typeof sideLength === 'number') {
