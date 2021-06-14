@@ -4,15 +4,15 @@
  * It can be a background of game, or be contained
  * @author MagicStone
  */
-class golSpace extends visibleEntity {
+con_way.golSpace = class extends con_way.visibleEntity {
 
     /**
-     * Width of the grid of this entity. Unit is (Pixel).
+     * Width of the grid of this entity. Unit is (grid).
      */
     width;
 
     /**
-     * Height of the grid of this entity. Unit is (Pixel).
+     * Height of the grid of this entity. Unit is (grid).
      */
     height;
     sideLength;
@@ -34,7 +34,8 @@ class golSpace extends visibleEntity {
     tick(time) {
         super.tick(time);
         if (this.space === null) {
-            this.absoluteXPos, this.absoluteYPos = space.absoluteXPos + this.xPos, space.absoluteYPos + this.yPos;
+            this.absoluteXPos, this.absoluteYPos =
+                (space.absoluteXPos + this.xPos * this.sideLength), (space.absoluteYPos + this.yPos * this.sideLength);
         }
     }
 

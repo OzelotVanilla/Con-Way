@@ -1,4 +1,11 @@
-class loopgrid {
+/**
+ * A virtual looping straight 2-dimensional space.
+ * It contains its data by a normal 2d array, but you shouldn't access the array directly.
+ * When accessing to it by its function, coordinates will be transformed to their modulus to its inner 2d array.
+ * The factory function which the forEach method needs should looks like this: factory(this, x, y){ } and have return value,
+ * because its return value will be the new value of that position.
+ */
+con_way.loopgrid = class {
 
   constructor(x, y, factory) {
     this.innerarray = new Array();
@@ -14,6 +21,7 @@ class loopgrid {
       }
     }
   }
+
   set(x, y, data) {
     x = x % this.xWidth;
     y = y % this.yWidth;
@@ -26,7 +34,7 @@ class loopgrid {
     this.innerarray[x][y] = data;
   }
 
-  setAndGet(x, y, data) {
+  getAndSet(x, y, data) {
     x = x % this.xWidth;
     y = y % this.yWidth;
     if (x < 0) {

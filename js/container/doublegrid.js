@@ -1,4 +1,11 @@
-export class doublegrid extends loopgrid {
+/**
+ * A modified loopgrid. It has two looping spaces. One is its facial space, and the other is a hidden space.
+ * By invoking its methods extended from loopgrid, you can modify its facial space.
+ * By invoking its own methods which are penetrated versions of loopgrid's methods,
+ * you can modify its hidden space. A constant rule is: you SHOULD NOT get any data from or modify its hidden space.
+ * By invoking the flip method, you can switch its facial and hidden space.
+ */
+con_way.doublegrid = class extends con_way.loopgrid {
   constructor(x, y, factory) {
     super(x, y, factory);
     this.hidenarray = new Array();
@@ -17,7 +24,32 @@ export class doublegrid extends loopgrid {
     this.hidenarray = mid;
   }
 
-  forEach(factory) {
+  setPenetrated(x, y, data) {
+    x = x % this.xWidth;
+    y = y % this.yWidth;
+    if (x < 0) {
+      x += this.xWidth;
+    }
+    if (y < 0) {
+      y += this.yWidth;
+    }
+    this.hidenarray[x][y] = data;
+  }
+
+  getAndSetPenetrated(x, y, data) {
+    x = x % this.xWidth;
+    y = y % this.yWidth;
+    if (x < 0) {
+      x += this.xWidth;
+    }
+    if (y < 0) {
+      y += this.yWidth;
+    }
+    this.hidenarray[x][y] = data;
+    return this.innerarray[x][y];
+  }
+
+  forEachPenetrated(factory) {
     for (var y = 0; y < this.yWidth; y++) {
       if (y == this.yOffSet) {
         continue;

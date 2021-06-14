@@ -1,20 +1,23 @@
-class entity {
+/**
+ * Special object on a golSpace, which has a position and a velocity and has its specific behaviour.
+ */
+con_way.entity = class {
 
-    type;
+    type;//Different type entity has different type. ( -_ -)
 
     xPos;
-    yPos;
+    yPos;//Position
 
     xVelocity;
-    yVelocity;
+    yVelocity;//Velocity
 
-    space;
+    space;//One entity can only belong to one space.
 
     lastUpdateTime;
 
     destructorCondition;
 
-    isDead;
+    isDead;//Death flag, you shouldn't do anything to a dead entity, except for removing it.
 
     constructor(type, xPos, yPos, xVelocity, yVelocity, space, destructorCondition) {
         if (typeof type === 'string'

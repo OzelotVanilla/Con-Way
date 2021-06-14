@@ -1,4 +1,7 @@
-class visibleEntity extends entity {
+/**
+ * A visible entity.
+ */
+con_way.visibleEntity = class extends con_way.entity {
 
     renderer;
     canvas;
