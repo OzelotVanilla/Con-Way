@@ -1,8 +1,18 @@
 class eventbus {
 
+    /**
+     * Key: Event;s name; Value: a set of functions which is linked with the event (key)
+     */
     subscribers = new Map();
 
-    subscribe(subscriber, eventName) {
+    constructor() { }
+
+    /**
+     * 
+     * @param {*} subscriber 
+     * @param {*} eventName 
+     */
+    subscribe(eventName, subscriber) {
         if (typeof subscriber == "function") {
             var subscriberGroup;
             if (this.subscribers.has(eventName)) {
@@ -15,17 +25,33 @@ class eventbus {
         }
     }
 
-    post(event, eventName) {
-        var elements = eventName.split("_")
+    /**
+     * Delete function combined to event. If the function (subscriber) is not specified,
+     * all functions combined to that event will be removed.
+     * 
+     * @param {string} eventName The name you want to find in the event bus
+     * @param {function} subscriber The action you want to cancel from the event bus
+     */
+    desubscribe(eventName, subscriber) {
+        let subscriberGroup = this.subscribers.get(eventName); // subscriberGroup: set
+        if (subscriberGroup != null) {
+            if (subscriber === undefined) { subscriberGroup.clear(); }
+            else {
+                subscriberGroup.delete(subscriber);
+            }
+        }
+    }
+
+    post(event) {
+        var elements = event.getName().split("_")
         for (var i = 0, name = elements[0]; i < elements.length; i = i + 1, name = name + "_" + elements[i]) {
             var subscriberGroup = this.subscribers.get(name);
             for (var subscriber of subscriberGroup) {
-                subscriber(event, eventName);
-                if (event.isCanceled()) {
-                    return;
-                }
+                subscriber(event);
             }
         }
-        event.getCurrentAction()();
+        if (!event.isCanceled()) {
+            event.getCurrentAction()();
+        }
     }
 }
