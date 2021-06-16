@@ -23,7 +23,7 @@ function stabtnClick() {
     setTimeout(function () { setData({ "stabtn": "<- LOADING ->" }); }, 800);
     setTimeout(function () { that("enjoy").style.color = "#38A1DB"; }, 900);
     setTimeout(function () {
-        window.location.href = "./pages/game/index.html";
+        window.location.href = "./pages/game/game.html";
     }, 1500);
 }
 
@@ -37,7 +37,7 @@ function cwinfoClick() {
     setTimeout(function () { setData({ "cwinfo": "<<<<< >>>>>" }) }, 500);
     setTimeout(function () { setData({ "cwinfo": "<<<<<< >>>>>>" }) }, 600);
     setTimeout(function () {
-        window.location.href = "./pages/cwinfo/index.html";
+        window.location.href = "./pages/cwinfo/cwinfo.html";
     }, 1000);
 }
 
