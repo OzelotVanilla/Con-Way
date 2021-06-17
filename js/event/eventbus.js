@@ -1,7 +1,8 @@
 class eventbus {
 
     /**
-     * Key: Event;s name; Value: a set of functions which is linked with the event (key)
+     * Key: Event's name; Value: a set of functions which is linked with the event (key).
+     * One event can trigger multiple events.
      */
     subscribers = new Map();
 
@@ -9,8 +10,8 @@ class eventbus {
 
     /**
      * 
-     * @param {*} subscriber 
-     * @param {*} eventName 
+     * @param {string} eventName The name you want to find in the event bus
+     * @param {function} subscriber The action you want to add to the event
      */
     subscribe(eventName, subscriber) {
         if (typeof subscriber == "function") {

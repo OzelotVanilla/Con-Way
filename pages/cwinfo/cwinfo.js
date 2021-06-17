@@ -1,6 +1,4 @@
-function that(p) { return document.getElementById(p); }
-
-dragElement(that("w1"));
+dragElement($("#w1")[0]);
 
 // Idea from: https://www.w3schools.com/howto/howto_js_draggable.asp
 function dragElement(elmnt) {
@@ -42,4 +40,8 @@ function dragElement(elmnt) {
         document.onmouseup = null;
         document.onmousemove = null;
     }
+}
+
+function tryItYourself() {
+    window.location.href = "../game/game.html";
 }
