@@ -24,8 +24,8 @@ var success = function (data) {
     }
 };
 
-var jqxhr = $.ajax('/js/lifegame/patternLib.json', {
-    dataType: 'json'
+var jqxhr = $.ajax("/js/lifegame/patternLib.json", {
+    dataType: "json"
 }).done(success).fail(function (xhr, status) {
     properties.ajax = function () { return false; }
 }).always(function () {

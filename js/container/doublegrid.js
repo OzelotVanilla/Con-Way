@@ -6,6 +6,9 @@
  * By invoking the flip method, you can switch its facial and hidden space.
  */
 con_way.doublegrid = class extends con_way.loopgrid {
+
+  hidenarray;
+
   constructor(x, y, factory) {
     super(x, y, factory);
     this.hidenarray = new Array();
@@ -25,25 +28,49 @@ con_way.doublegrid = class extends con_way.loopgrid {
   }
 
   setPenetrated(x, y, data) {
-    x = x % this.xWidth;
-    y = y % this.yWidth;
-    if (x < 0) {
-      x += this.xWidth;
+    if (x < 0 || this.xWidth <= x) {
+      if (horizonalLoop) {
+        return;
+      } else {
+        x = x % this.xWidth;
+        if (x < 0) {
+          x += this.xWidth;
+        }
+      }
     }
-    if (y < 0) {
-      y += this.yWidth;
+    if (y < 0 || this.yWidth <= y) {
+      if (this.verticalLoop) {
+        return;
+      } else {
+        y = y % this.yWidth;
+        if (y < 0) {
+          y += this.yWidth;
+        }
+      }
     }
     this.hidenarray[x][y] = data;
   }
 
   getAndSetPenetrated(x, y, data) {
-    x = x % this.xWidth;
-    y = y % this.yWidth;
-    if (x < 0) {
-      x += this.xWidth;
+    if (x < 0 || this.xWidth <= x) {
+      if (horizonalLoop) {
+        return initialize(this, x, y);
+      } else {
+        x = x % this.xWidth;
+        if (x < 0) {
+          x += this.xWidth;
+        }
+      }
     }
-    if (y < 0) {
-      y += this.yWidth;
+    if (y < 0 || this.yWidth <= y) {
+      if (this.verticalLoop) {
+        return initialize(this, x, y);
+      } else {
+        y = y % this.yWidth;
+        if (y < 0) {
+          y += this.yWidth;
+        }
+      }
     }
     this.hidenarray[x][y] = data;
     return this.innerarray[x][y];

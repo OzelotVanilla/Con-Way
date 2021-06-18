@@ -6,7 +6,7 @@ con_way.entity = class {
     type;//Different type entity has different type. ( -_ -)
 
     xPos;
-    yPos;//Position
+    yPos;//Position from the space where the entity is (proportion).
 
     xVelocity;
     yVelocity;//Velocity

@@ -1,4 +1,4 @@
-class event {
+con_way.event = class {
 
     name;
     canceled = false;

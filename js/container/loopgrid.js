@@ -7,11 +7,20 @@
  */
 con_way.loopgrid = class {
 
-  constructor(x, y, factory) {
+  innerarray;
+  xWidth;
+  yWidth;
+  initialize;
+  horizonalLoop;
+  verticalLoop;
+
+  constructor(x, y, factory, horizonalLoop, verticalLoop) {
     this.innerarray = new Array();
     this.xWidth = x;
     this.yWidth = y;
     this.initialize = factory;
+    this.horizonalLoop = horizonalLoop;
+    this.verticalLoop = verticalLoop;
 
     for (var dx = 0; dx < x; dx++) {
       var column = new Array();
@@ -23,25 +32,49 @@ con_way.loopgrid = class {
   }
 
   set(x, y, data) {
-    x = x % this.xWidth;
-    y = y % this.yWidth;
-    if (x < 0) {
-      x += this.xWidth;
+    if (x < 0 || this.xWidth <= x) {
+      if (horizonalLoop) {
+        return;
+      } else {
+        x = x % this.xWidth;
+        if (x < 0) {
+          x += this.xWidth;
+        }
+      }
     }
-    if (y < 0) {
-      y += this.yWidth;
+    if (y < 0 || this.yWidth <= y) {
+      if (this.verticalLoop) {
+        return;
+      } else {
+        y = y % this.yWidth;
+        if (y < 0) {
+          y += this.yWidth;
+        }
+      }
     }
     this.innerarray[x][y] = data;
   }
 
   getAndSet(x, y, data) {
-    x = x % this.xWidth;
-    y = y % this.yWidth;
-    if (x < 0) {
-      x += this.xWidth;
+    if (x < 0 || this.xWidth <= x) {
+      if (horizonalLoop) {
+        return initialize(this, x, y);
+      } else {
+        x = x % this.xWidth;
+        if (x < 0) {
+          x += this.xWidth;
+        }
+      }
     }
-    if (y < 0) {
-      y += this.yWidth;
+    if (y < 0 || this.yWidth <= y) {
+      if (this.verticalLoop) {
+        return initialize(this, x, y);
+      } else {
+        y = y % this.yWidth;
+        if (y < 0) {
+          y += this.yWidth;
+        }
+      }
     }
     var re = this.innerarray[x][y];
     this.innerarray[x][y] = data;
@@ -49,13 +82,25 @@ con_way.loopgrid = class {
   }
 
   get(x, y) {
-    x = x % this.xWidth;
-    y = y % this.yWidth;
-    if (x < 0) {
-      x += this.xWidth;
+    if (x < 0 || this.xWidth <= x) {
+      if (horizonalLoop) {
+        return initialize(this, x, y);
+      } else {
+        x = x % this.xWidth;
+        if (x < 0) {
+          x += this.xWidth;
+        }
+      }
     }
-    if (y < 0) {
-      y += this.yWidth;
+    if (y < 0 || this.yWidth <= y) {
+      if (this.verticalLoop) {
+        return initialize(this, x, y);
+      } else {
+        y = y % this.yWidth;
+        if (y < 0) {
+          y += this.yWidth;
+        }
+      }
     }
     return this.innerarray[x][y];
   }

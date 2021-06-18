@@ -1,4 +1,4 @@
-class eventbus {
+con_way.eventbus = class {
 
     /**
      * Key: Event's name; Value: a set of functions which is linked with the event (key).
