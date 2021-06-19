@@ -1,9 +1,11 @@
+import $ = require('jquery');
+
 function fmtDate(param) {
     return param < 10 ? "0" + param : param;
 }
 
 function setData(obj) {
-    for (p in obj) { document.getElementById(p).innerHTML = obj[p]; }
+    for (var p in obj) { document.getElementById(p).innerHTML = obj[p]; }
 }
 
 function stabtnClick() {

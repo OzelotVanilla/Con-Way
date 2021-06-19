@@ -1,0 +1,5 @@
+./gitignore
+.vscode/settings.json
+tsconfig.json
+.vscode/tasks.json
+node_modules/@types/
