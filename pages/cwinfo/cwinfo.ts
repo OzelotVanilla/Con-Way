@@ -1,7 +1,9 @@
+declare function $(...args: any): any;
+
 dragElement($("#w1")[0]);
 
 // Idea from: https://www.w3schools.com/howto/howto_js_draggable.asp
-function dragElement(elmnt) {
+function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: { top: string; left: string; }; offsetTop: number; offsetLeft: number; }) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
     if (document.getElementById(elmnt.id + "-title")) {
         // if present, the header is where you move the DIV from:
@@ -11,7 +13,7 @@ function dragElement(elmnt) {
         elmnt.onmousedown = dragMouseDown;
     }
 
-    function dragMouseDown(e) {
+    function dragMouseDown(e: any) {
         e = e || window.event;
         e.preventDefault();
         // get the mouse cursor position at startup:
@@ -22,7 +24,7 @@ function dragElement(elmnt) {
         document.onmousemove = elementDrag;
     }
 
-    function elementDrag(e) {
+    function elementDrag(e: any) {
         e = e || window.event;
         e.preventDefault();
         // calculate the new cursor position:
@@ -42,6 +44,6 @@ function dragElement(elmnt) {
     }
 }
 
-function tryItYourself() {
+function tryItYourself(): void {
     window.location.href = "../game/game.html";
 }
