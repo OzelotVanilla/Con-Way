@@ -1,4 +1,4 @@
-import $ = require('jquery');
+declare const $: any;
 
 function fmtDate(param) {
     return param < 10 ? "0" + param : param;

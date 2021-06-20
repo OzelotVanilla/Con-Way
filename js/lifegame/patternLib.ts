@@ -1,6 +1,6 @@
 import { properties } from '../gamecycle/properties';
 import { loopgrid } from "../container/loopgrid";
-import $ = require('jquery');
+declare const $: any;
 /**
  * All legal patterns from patternLib.json will be loaded into con-way.patternLib.
  * The method genPattern needs a string as the pattern's name and generate that pattern into the grid.
