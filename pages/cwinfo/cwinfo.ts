@@ -1,4 +1,4 @@
-declare function $(...args: any): any;
+declare var $: any;
 
 dragElement($("#w1")[0]);
 

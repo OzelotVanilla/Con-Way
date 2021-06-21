@@ -7,19 +7,21 @@ import { golSpace } from "./golSpace";
 export class visibleEntity extends entity {
 
     renderer: (vsb_ent: visibleEntity, x_pos: number, y_pos: number, spc: golSpace, canvas: any) => void;
-    canvas: HTMLCanvasElement;
+    canvas: CanvasRenderingContext2D;
+    autoRender: boolean;
 
-    constructor(type: string, xPos: number, yPos: number, xVelocity: number, yVelocity: number, space: golSpace,
-        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean, canvas: HTMLCanvasElement,
+    constructor(type: string, xPos: number, yPos: number, xVelocity: number, yVelocity: number, space: golSpace, autoRender: boolean,
+        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean, canvas: CanvasRenderingContext2D,
         renderer: (vsb_ent: visibleEntity, x_pos: number, y_pos: number, spc: golSpace, canvas: any) => void) {
         super(type, xPos, yPos, xVelocity, yVelocity, space, destructorCondition);
         this.renderer = renderer;
         this.canvas = canvas;
+        this.autoRender = autoRender;
     }
 
     tick(time: number) {
         super.tick(time);
-        if (!this.isDead) {
+        if ((!this.isDead) && this.autoRender) {
             this.renderer(this, this.xPos, this.yPos, this.space, this.canvas);
         }
     }

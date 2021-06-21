@@ -6,7 +6,7 @@ export class event {
     defaultAction: (...args: any) => void;
     currentAction: (...args: any) => void;
 
-    constructor(name: string, action: (...args: any) => any) {
+    constructor(name: string, action: (e: event) => any) {
         this.name = name;
         this.defaultAction = this.currentAction = action;
     }

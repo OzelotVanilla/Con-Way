@@ -7,10 +7,12 @@ export class foegen {
     interval: number = 0;
     initialized: boolean = false;
     modes: { mode: mode, duration: number, interval: number, top: number, weight: number }[] = [];
+    yWidth: number;
 
     constructor(name: string, space: loopgrid) {
         this.name = name;
         this.space = space;
+        this.yWidth = this.space.getYWidth() - 1;
     }
 
     bind(mode: mode, duration: number, weight: number) {
@@ -45,7 +47,7 @@ export class foegen {
         if (time - this.lastUpdateTime >= this.currentMode.interval) {
             this.lastUpdateTime = this.lastUpdateTime + this.currentMode.interval;
             var place: number, gen: (grid: loopgrid, x: number, y: number) => void = this.currentMode.mode.place();
-            gen(this.space, Math.round(place * this.space.getXWidth()), 0);
+            gen(this.space, Math.round(place * this.space.getXWidth()), this.yWidth);
             if (time - this.lastSwitchedTime >= this.currentMode.duration) {
                 var parameter = this.currentMode.mode.finish();
                 switch (typeof parameter) {

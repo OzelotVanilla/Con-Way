@@ -6,7 +6,7 @@ import { loopgrid } from "./loopgrid";
  * you can modify its hidden space. A constant rule is: you SHOULD NOT get any data from or modify its hidden space.
  * By invoking the flip method, you can switch its facial and hidden space.
  */
-class doublegrid extends loopgrid {
+export class doublegrid extends loopgrid {
 
   hidenarray: boolean[][];
 
@@ -77,7 +77,7 @@ class doublegrid extends loopgrid {
     return this.innerarray[x][y];
   }
 
-  forEachPenetrated(factory) {
+  forEachPenetrated(factory: (grid: loopgrid, x: number, y: number) => boolean) {
     for (var y: number = 0; y < this.yWidth; y++) {
       if (y == this.yOffSet) {
         continue;
