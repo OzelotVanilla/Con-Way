@@ -9,8 +9,8 @@ export class loopgrid
 {
 
     innerarray: boolean[][];
-    xWidth: number;
-    yWidth: number;
+    width: number;
+    height: number;
     initialize: (grid: loopgrid, x: number, y: number) => boolean;
     horizonalLoop: boolean;
     verticalLoop: boolean;
@@ -19,8 +19,8 @@ export class loopgrid
         horizonalLoop: boolean, verticalLoop: boolean)
     {
         this.innerarray = new Array();
-        this.xWidth = x;
-        this.yWidth = y;
+        this.width = x;
+        this.height = y;
         this.initialize = factory;
         this.horizonalLoop = horizonalLoop;
         this.verticalLoop = verticalLoop;
@@ -36,19 +36,19 @@ export class loopgrid
         }
     }
 
-    getXWidth(): number
+    getWidth(): number
     {
-        return this.xWidth;
+        return this.width;
     }
 
-    getYWidth(): number
+    getHeight(): number
     {
-        return this.yWidth;
+        return this.height;
     }
 
     set(x: number, y: number, data: boolean)
     {
-        if (x < 0 || this.xWidth <= x)
+        if (x < 0 || this.width <= x)
         {
             if (this.horizonalLoop)
             {
@@ -56,14 +56,14 @@ export class loopgrid
             }
             else
             {
-                x = x % this.xWidth;
+                x = x % this.width;
                 if (x < 0)
                 {
-                    x += this.xWidth;
+                    x += this.width;
                 }
             }
         }
-        if (y < 0 || this.yWidth <= y)
+        if (y < 0 || this.height <= y)
         {
             if (this.verticalLoop)
             {
@@ -71,10 +71,10 @@ export class loopgrid
             }
             else
             {
-                y = y % this.yWidth;
+                y = y % this.height;
                 if (y < 0)
                 {
-                    y += this.yWidth;
+                    y += this.height;
                 }
             }
         }
@@ -83,7 +83,7 @@ export class loopgrid
 
     getAndSet(x: number, y: number, data: boolean): boolean
     {
-        if (x < 0 || this.xWidth <= x)
+        if (x < 0 || this.width <= x)
         {
             if (this.horizonalLoop)
             {
@@ -91,14 +91,14 @@ export class loopgrid
             }
             else
             {
-                x = x % this.xWidth;
+                x = x % this.width;
                 if (x < 0)
                 {
-                    x += this.xWidth;
+                    x += this.width;
                 }
             }
         }
-        if (y < 0 || this.yWidth <= y)
+        if (y < 0 || this.height <= y)
         {
             if (this.verticalLoop)
             {
@@ -106,10 +106,10 @@ export class loopgrid
             }
             else
             {
-                y = y % this.yWidth;
+                y = y % this.height;
                 if (y < 0)
                 {
-                    y += this.yWidth;
+                    y += this.height;
                 }
             }
         }
@@ -120,7 +120,7 @@ export class loopgrid
 
     get(x: number, y: number): boolean
     {
-        if (x < 0 || this.xWidth <= x)
+        if (x < 0 || this.width <= x)
         {
             if (this.horizonalLoop)
             {
@@ -128,25 +128,25 @@ export class loopgrid
             }
             else
             {
-                x = x % this.xWidth;
+                x = x % this.width;
                 if (x < 0)
                 {
-                    x += this.xWidth;
+                    x += this.width;
                 }
             }
         }
 
-        if (y < 0 || this.yWidth <= y)
+        if (y < 0 || this.height <= y)
         {
             if (this.verticalLoop)
             {
                 return this.initialize(this, x, y);
             } else
             {
-                y = y % this.yWidth;
+                y = y % this.height;
                 if (y < 0)
                 {
-                    y += this.yWidth;
+                    y += this.height;
                 }
             }
         }
@@ -156,20 +156,20 @@ export class loopgrid
 
     getPropoties(): number | number
     {
-        return this.xWidth, this.yWidth;
+        return this.width, this.height;
     }
 
     yOffSet: number;
 
     forEach(factory: (grid: loopgrid, x: number, y: number) => null)
     {
-        for (var y: number = 0; y < this.yWidth; y++)
+        for (var y: number = 0; y < this.height; y++)
         {
             if (y == this.yOffSet)
             {
                 continue;
             }
-            for (var x: number = 0; x < this.xWidth; x++)
+            for (var x: number = 0; x < this.width; x++)
             {
                 this.innerarray[x][y] = factory(this, x, y);
             }

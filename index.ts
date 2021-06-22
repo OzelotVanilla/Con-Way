@@ -1,5 +1,3 @@
-declare var $: any;
-
 function fmtDate(param)
 {
     return param < 10 ? "0" + param : param;
@@ -12,8 +10,9 @@ function setData(obj)
 
 function stabtnClick()
 {
-    $("#game-status").className = "l1";
-    $("#stabtn").disabled = true; $("#cwinfo").disabled = true;
+    $("#game-status")[0].className = "l1";
+    (<HTMLButtonElement>$("#stabtn")[0]).disabled = true;
+    (<HTMLButtonElement>$("#stabtn")[0]).disabled = true;
     setData({ "game-status": "Lauching", "cwinfo": "Please Wait" });
     setTimeout(function () { setData({ "stabtn": "      -      " }) }, 100);
     setTimeout(function () { setData({ "stabtn": "     <->     " }); }, 200);
@@ -33,7 +32,8 @@ function stabtnClick()
 
 function cwinfoClick()
 {
-    $("#stabtn").disabled = true; $("#cwinfo").disabled = true;
+    (<HTMLButtonElement>$("#stabtn")[0]).disabled = true;
+    (<HTMLButtonElement>$("#stabtn")[0]).disabled = true;
     setData({ "stabtn": "Please Wait" });
     setTimeout(function () { setData({ "cwinfo": "< >" }) }, 100);
     setTimeout(function () { setData({ "cwinfo": "<< >>" }) }, 200);

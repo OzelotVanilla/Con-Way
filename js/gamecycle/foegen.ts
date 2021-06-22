@@ -7,16 +7,15 @@ export class foegen
 
     name: string;
     space: loopgrid;
-    interval: number = 0;
     initialized: boolean = false;
-    modes: { mode: mode, duration: number, interval: number, top: number, weight: number }[] = [];
-    yWidth: number;
+    modes: { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] = [];
+    height: number;
 
     constructor(name: string, space: loopgrid)
     {
         this.name = name;
         this.space = space;
-        this.yWidth = this.space.getYWidth() - 1;
+        this.height = this.space.getHeight() - 1;
     }
 
     bind(mode: mode, duration: number, weight: number)
@@ -27,7 +26,7 @@ export class foegen
         }
         this.modes.push({
             mode: mode,
-            duration: duration,
+            gen_limit: duration,
             interval: mode.getInterval(),
             top: weight + (this.modes[this.modes.length - 1].top || 0),
             weight: weight
@@ -41,20 +40,31 @@ export class foegen
         this.currentMode = this.modes[0];
     }
 
-    currentMode: { mode: mode, duration: number, interval: number, top: number, weight: number };
+    currentMode: { mode: mode, gen_limit: number, interval: number, top: number, weight: number };
     invokeTimes: number = 0;
 
+    /**
+     * One tick is the minimum time unit of the game.
+     * 
+     * @param {event} ev The event 
+     */
     tick(ev: event)
     {
+        // When "tick" function done "interval" times
         if (this.invokeTimes % this.currentMode.interval === 0)
         {
-            var place: number, gen: (grid: loopgrid, x: number, y: number) => void = this.currentMode.mode.place();
-            gen(this.space, Math.round(place * this.space.getXWidth()), this.yWidth);
-            if (this.currentMode.duration == this.invokeTimes)
+            // Init postion and gen func, by getting two return values from place()
+            var position: number, gen: (grid: loopgrid, x: number, y: number) => void = this.currentMode.mode.place();
+            gen(this.space, Math.round(position * this.space.getWidth()), this.height);
+
+            // If reach the max limit of generation in one mode
+            if (this.invokeTimes == this.currentMode.gen_limit)
             {
+                // Tell the next mode to change
                 var parameter = this.currentMode.mode.finish();
                 switch (typeof parameter)
                 {
+                    // Using weight, choose next mode
                     case "undefined":
                         var random = Math.random() * this.modes[this.modes.length - 1].top;
                         for (var mode of this.modes)
@@ -65,7 +75,9 @@ export class foegen
                             }
                         }
                         break;
+                    // Change to the mode in the object
                     case "object":
+                        // If it is array, choose from it randomly
                         if (Array.isArray(parameter))
                         {
                             var totalWeight = 0.0;
@@ -81,7 +93,9 @@ export class foegen
                                     totalWeight -= i.weight;
                                 }
                             }
-                        } else
+                        }
+                        // If not array, it will be the next mode
+                        else
                         {
                             this.currentMode = parameter;
                         }
@@ -95,14 +109,16 @@ export class foegen
 
 export class mode
 {
-
     name: string;
 
     interval: number;
 
+    /**
+     * From pattern libs, choose one pattern.
+     */
     pattern: (grid: loopgrid, x: number, y: number) => void;
 
-    constructor(name: string, interval: number, pattern: (loopgrid) => void)
+    constructor(name: string, interval: number, pattern: (grid: loopgrid) => void)
     {
         this.name = name;
         this.interval = interval;
@@ -113,14 +129,19 @@ export class mode
 
     getInterval(): number { return this.interval; }
 
+    /**
+     * The generate place of the foe. position = place() * width_of_screen
+     */
     place()
     {
         return Math.random(), this.pattern;
     }
 
-    finish(): { mode: mode, duration: number, interval: number, top: number, weight: number } | { mode: mode, duration: number, interval: number, top: number, weight: number } | undefined
+    finish():
+        { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
+        { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
+        undefined
     {
         return undefined;
     }
-
 }

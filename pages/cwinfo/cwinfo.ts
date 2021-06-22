@@ -1,5 +1,3 @@
-import $ from "jquery"
-
 dragElement($("#w1")[0]);
 
 // Idea from: https://www.w3schools.com/howto/howto_js_draggable.asp
@@ -10,7 +8,8 @@ function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: 
     {
         // if present, the header is where you move the DIV from:
         document.getElementById(elmnt.id + "-title").onmousedown = dragMouseDown;
-    } else
+    }
+    else
     {
         // otherwise, move the DIV from anywhere inside the DIV:
         elmnt.onmousedown = dragMouseDown;

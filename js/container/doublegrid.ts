@@ -1,4 +1,5 @@
 import { loopgrid } from "./loopgrid";
+
 /**
  * A modified loopgrid. It has two looping spaces. One is its facial space, and the other is a hidden space.
  * By invoking its methods extended from loopgrid, you can modify its facial space.
@@ -35,31 +36,31 @@ export class doublegrid extends loopgrid
 
   setPenetrated(x: number, y: number, data)
   {
-    if (x < 0 || this.xWidth <= x)
+    if (x < 0 || this.width <= x)
     {
       if (this.horizonalLoop)
       {
         return;
       } else
       {
-        x = x % this.xWidth;
+        x = x % this.width;
         if (x < 0)
         {
-          x += this.xWidth;
+          x += this.width;
         }
       }
     }
-    if (y < 0 || this.yWidth <= y)
+    if (y < 0 || this.height <= y)
     {
       if (this.verticalLoop)
       {
         return;
       } else
       {
-        y = y % this.yWidth;
+        y = y % this.height;
         if (y < 0)
         {
-          y += this.yWidth;
+          y += this.height;
         }
       }
     }
@@ -68,31 +69,31 @@ export class doublegrid extends loopgrid
 
   getAndSetPenetrated(x: number, y: number, data: boolean): boolean
   {
-    if (x < 0 || this.xWidth <= x)
+    if (x < 0 || this.width <= x)
     {
       if (this.horizonalLoop)
       {
         return this.initialize(this, x, y);
       } else
       {
-        x = x % this.xWidth;
+        x = x % this.width;
         if (x < 0)
         {
-          x += this.xWidth;
+          x += this.width;
         }
       }
     }
-    if (y < 0 || this.yWidth <= y)
+    if (y < 0 || this.height <= y)
     {
       if (this.verticalLoop)
       {
         return this.initialize(this, x, y);
       } else
       {
-        y = y % this.yWidth;
+        y = y % this.height;
         if (y < 0)
         {
-          y += this.yWidth;
+          y += this.height;
         }
       }
     }
@@ -102,13 +103,13 @@ export class doublegrid extends loopgrid
 
   forEachPenetrated(factory: (grid: loopgrid, x: number, y: number) => boolean)
   {
-    for (var y: number = 0; y < this.yWidth; y++)
+    for (var y: number = 0; y < this.height; y++)
     {
       if (y == this.yOffSet)
       {
         continue;
       }
-      for (var x: number = 0; x < this.xWidth; x++)
+      for (var x: number = 0; x < this.width; x++)
       {
         this.hidenarray[x][y] = factory(this, x, y);
       }

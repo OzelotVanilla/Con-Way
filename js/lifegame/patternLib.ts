@@ -9,13 +9,13 @@ declare var $: any;
 
 export var patternLib: Map<string, (grid: loopgrid, x: number, y: number) => void> = new Map();
 
-function success(data): void
+function success(data: { [x: string]: number[][]; }): void
 {
     properties.registAssertion("ajax", function () { return true; }, true);
     for (var key in data)
     {
-        var pattern = data[key];
-        var gen = function (grid, x, y)
+        var pattern: number[][] = data[key];
+        function gen(grid: loopgrid, x: number, y: number): void
         {
             for (var dy = 0; dy < pattern.length; dy++)
             {

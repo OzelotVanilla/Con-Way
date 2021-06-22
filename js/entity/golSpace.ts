@@ -114,14 +114,17 @@ export var rules = {
             numberOfCells++;
         }
 
+        var state: boolean;
         switch (numberOfCells)
         {
             case 2:
-                return grid.get(x, y);
+                state = grid.get(x, y);
             case 3:
-                return true;
+                state = true;
             default:
-                return false;
+                state = false;
         }
+        console.log(x + " " + y + " " + state);
+        return state;
     }
 }
