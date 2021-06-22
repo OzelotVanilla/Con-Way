@@ -4,7 +4,8 @@ export class eventbus
 {
 
     /**
-     * Key: Event's name; Value: a set of functions which is linked with the event (key).
+     * Key: Event's name (key is not event, and event exist only when it is occured);
+     * Value: a set of functions which is linked with the event (key).
      * One event can trigger multiple events.
      */
     subscribers: Map<string, Set<(ev: event) => void>> = new Map();
@@ -50,6 +51,12 @@ export class eventbus
         }
     }
 
+    /**
+     * When a event happend, it will check the event bus, and find the functions corresponding to this event's name,
+     * then run these functions.
+     * 
+     * @param ev The event you want to post
+     */
     post(ev: event)
     {
         var elements = ev.getName().split("_");

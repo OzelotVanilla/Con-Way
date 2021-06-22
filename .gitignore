@@ -4,3 +4,4 @@ tsconfig.json
 .vscode/tasks.json
 node_modules
 package.json
+tscCompile.vbs
