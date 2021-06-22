@@ -6,7 +6,7 @@ export class eventbus {
      * Key: Event's name; Value: a set of functions which is linked with the event (key).
      * One event can trigger multiple events.
      */
-    subscribers: Map<string, Set<(...args: any) => any>> = new Map();
+    subscribers: Map<string, Set<(ev: event) => void>> = new Map();
 
     constructor() { }
 
@@ -16,7 +16,7 @@ export class eventbus {
      * @param {function} subscriber The action you want to add to the event
      */
     subscribe(event_name: string, subscriber: (ev: event) => void): void {
-        let subscriber_group: Set<(...args: any) => any>;
+        let subscriber_group: Set<(ev: event) => void>;
         if (this.subscribers.has(event_name)) {
             subscriber_group = this.subscribers.get(event_name);
         } else {
@@ -47,8 +47,10 @@ export class eventbus {
         var elements = ev.getName().split("_");
         for (var i = 0, name = elements[0]; i < elements.length; i = i + 1, name = name + "_" + elements[i]) {
             var subscriberGroup = this.subscribers.get(name);
-            for (var subscriber of subscriberGroup) {
-                subscriber(ev);
+            if (subscriberGroup != undefined) {
+                for (var subscriber of subscriberGroup) {
+                    subscriber(ev);
+                }
             }
         }
         if (!ev.isCanceled()) {
