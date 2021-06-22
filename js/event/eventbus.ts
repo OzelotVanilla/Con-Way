@@ -56,3 +56,5 @@ export class eventbus {
         }
     }
 }
+
+export var event_bus: eventbus = new eventbus();

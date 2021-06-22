@@ -1,4 +1,5 @@
 import { loopgrid } from "../container/loopgrid";
+import { event_bus } from "../../js/event/eventbus";
 
 export class foegen {
 
@@ -30,25 +31,18 @@ export class foegen {
 
     finish() {
         this.initialized = true;
-        //event_bus.subscribe("tick", tick);
+        event_bus.subscribe("tick", this.tick);
+        this.currentMode = this.modes[0];
     }
 
-    currentMode;
-    lastUpdateTime = 0;
-    lastSwitchedTime = 0;
+    currentMode: { mode: mode, duration: number, interval: number, top: number, weight: number };
+    invokeTimes: number = 0;
 
     tick(event) {
-        var time = event.time;
-        if ((this.lastSwitchedTime === 0) || (this.lastUpdateTime === 0)) {
-            this.lastSwitchedTime = time;
-            this.lastUpdateTime = time;
-            this.currentMode = this.modes[0];
-        }
-        if (time - this.lastUpdateTime >= this.currentMode.interval) {
-            this.lastUpdateTime = this.lastUpdateTime + this.currentMode.interval;
+        if (this.invokeTimes % this.currentMode.interval === 0) {
             var place: number, gen: (grid: loopgrid, x: number, y: number) => void = this.currentMode.mode.place();
             gen(this.space, Math.round(place * this.space.getXWidth()), this.yWidth);
-            if (time - this.lastSwitchedTime >= this.currentMode.duration) {
+            if (this.currentMode.duration == this.invokeTimes) {
                 var parameter = this.currentMode.mode.finish();
                 switch (typeof parameter) {
                     case "undefined":
@@ -76,7 +70,7 @@ export class foegen {
                         }
                         break;
                 }
-                this.lastSwitchedTime = this.lastUpdateTime;
+                this.invokeTimes = 0;
             }
         }
     }
@@ -104,8 +98,8 @@ export class mode {
         return Math.random(), this.pattern;
     }
 
-    finish() {
-
+    finish(): { mode: mode, duration: number, interval: number, top: number, weight: number } | { mode: mode, duration: number, interval: number, top: number, weight: number } | undefined {
+        return undefined;
     }
 
 }

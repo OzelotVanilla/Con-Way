@@ -1,15 +1,13 @@
 declare function $(...args: any): any;
 
 import { golSpace, rules } from "../../js/entity/golSpace";
-import { eventbus } from "../../js/event/eventbus";
+import { event_bus } from "../../js/event/eventbus";
 import { event } from "../../js/event/event";
 import { patternLib } from "../../js/lifegame/patternLib";
 
 var space: golSpace = new golSpace(0, 0, 0, 0, 100, 200, 20, undefined, $("#cwf"), () => false, rules.b3s23);
 
 var lastTime: number;
-
-var event_bus = new eventbus();
 
 var tick: (e: event) => void = (e: event) => {
     var now: number = new Date().getTime();
