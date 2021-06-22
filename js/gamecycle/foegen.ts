@@ -1,7 +1,9 @@
 import { loopgrid } from "../container/loopgrid";
+import { event } from "../event/event";
 import { event_bus } from "../../js/event/eventbus";
 
-export class foegen {
+export class foegen
+{
 
     name: string;
     space: loopgrid;
@@ -10,14 +12,17 @@ export class foegen {
     modes: { mode: mode, duration: number, interval: number, top: number, weight: number }[] = [];
     yWidth: number;
 
-    constructor(name: string, space: loopgrid) {
+    constructor(name: string, space: loopgrid)
+    {
         this.name = name;
         this.space = space;
         this.yWidth = this.space.getYWidth() - 1;
     }
 
-    bind(mode: mode, duration: number, weight: number) {
-        if (this.initialized) {
+    bind(mode: mode, duration: number, weight: number)
+    {
+        if (this.initialized)
+        {
             return;
         }
         this.modes.push({
@@ -29,7 +34,8 @@ export class foegen {
         });
     }
 
-    finish() {
+    finish()
+    {
         this.initialized = true;
         event_bus.subscribe("tick", this.tick);
         this.currentMode = this.modes[0];
@@ -38,34 +44,45 @@ export class foegen {
     currentMode: { mode: mode, duration: number, interval: number, top: number, weight: number };
     invokeTimes: number = 0;
 
-    tick(event) {
-        if (this.invokeTimes % this.currentMode.interval === 0) {
+    tick(ev: event)
+    {
+        if (this.invokeTimes % this.currentMode.interval === 0)
+        {
             var place: number, gen: (grid: loopgrid, x: number, y: number) => void = this.currentMode.mode.place();
             gen(this.space, Math.round(place * this.space.getXWidth()), this.yWidth);
-            if (this.currentMode.duration == this.invokeTimes) {
+            if (this.currentMode.duration == this.invokeTimes)
+            {
                 var parameter = this.currentMode.mode.finish();
-                switch (typeof parameter) {
+                switch (typeof parameter)
+                {
                     case "undefined":
                         var random = Math.random() * this.modes[this.modes.length - 1].top;
-                        for (var mode of this.modes) {
-                            if (random < mode.top) {
+                        for (var mode of this.modes)
+                        {
+                            if (random < mode.top)
+                            {
                                 this.currentMode = mode;
                             }
                         }
                         break;
                     case "object":
-                        if (Array.isArray(parameter)) {
+                        if (Array.isArray(parameter))
+                        {
                             var totalWeight = 0.0;
-                            for (var i of parameter) {
+                            for (var i of parameter)
+                            {
                                 totalWeight += i.weight;
                             }
-                            for (var i of parameter) {
-                                if (Math.random() < i.weight / totalWeight) {
+                            for (var i of parameter)
+                            {
+                                if (Math.random() < i.weight / totalWeight)
+                                {
                                     this.currentMode = i;
                                     totalWeight -= i.weight;
                                 }
                             }
-                        } else {
+                        } else
+                        {
                             this.currentMode = parameter;
                         }
                         break;
@@ -76,7 +93,8 @@ export class foegen {
     }
 }
 
-export class mode {
+export class mode
+{
 
     name: string;
 
@@ -84,7 +102,8 @@ export class mode {
 
     pattern: (grid: loopgrid, x: number, y: number) => void;
 
-    constructor(name: string, interval: number, pattern: (loopgrid) => void) {
+    constructor(name: string, interval: number, pattern: (loopgrid) => void)
+    {
         this.name = name;
         this.interval = interval;
         this.pattern = pattern;
@@ -94,11 +113,13 @@ export class mode {
 
     getInterval(): number { return this.interval; }
 
-    place() {
+    place()
+    {
         return Math.random(), this.pattern;
     }
 
-    finish(): { mode: mode, duration: number, interval: number, top: number, weight: number } | { mode: mode, duration: number, interval: number, top: number, weight: number } | undefined {
+    finish(): { mode: mode, duration: number, interval: number, top: number, weight: number } | { mode: mode, duration: number, interval: number, top: number, weight: number } | undefined
+    {
         return undefined;
     }
 

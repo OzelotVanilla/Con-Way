@@ -9,14 +9,16 @@ var space: golSpace = new golSpace(0, 0, 0, 0, 100, 200, 20, undefined, $("#cwf"
 
 var lastTime: number;
 
-var tick: (e: event) => void = (e: event) => {
+var tick: (e: event) => void = (e: event) =>
+{
     var now: number = new Date().getTime();
     space.tick(now);
     setTimeout(() => event_bus.post(new event("tick", tick)), 50 - now + lastTime);
     lastTime += 50;
 }
 
-$(function () {
+$(function ()
+{
     lastTime = new Date().getTime();
     event_bus.post(new event("tick", tick));
     patternLib.get("lightWeight")(space.grid, 50, space.grid.getYWidth());

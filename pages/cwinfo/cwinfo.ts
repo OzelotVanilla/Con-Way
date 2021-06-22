@@ -1,19 +1,23 @@
-declare var $: any;
+import $ from "jquery"
 
 dragElement($("#w1")[0]);
 
 // Idea from: https://www.w3schools.com/howto/howto_js_draggable.asp
-function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: { top: string; left: string; }; offsetTop: number; offsetLeft: number; }) {
+function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: { top: string; left: string; }; offsetTop: number; offsetLeft: number; })
+{
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "-title")) {
+    if (document.getElementById(elmnt.id + "-title"))
+    {
         // if present, the header is where you move the DIV from:
         document.getElementById(elmnt.id + "-title").onmousedown = dragMouseDown;
-    } else {
+    } else
+    {
         // otherwise, move the DIV from anywhere inside the DIV:
         elmnt.onmousedown = dragMouseDown;
     }
 
-    function dragMouseDown(e: any) {
+    function dragMouseDown(e: any)
+    {
         e = e || window.event;
         e.preventDefault();
         // get the mouse cursor position at startup:
@@ -24,7 +28,8 @@ function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: 
         document.onmousemove = elementDrag;
     }
 
-    function elementDrag(e: any) {
+    function elementDrag(e: any)
+    {
         e = e || window.event;
         e.preventDefault();
         // calculate the new cursor position:
@@ -37,13 +42,15 @@ function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: 
         elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
     }
 
-    function closeDragElement() {
+    function closeDragElement()
+    {
         // stop moving when mouse button is released:
         document.onmouseup = null;
         document.onmousemove = null;
     }
 }
 
-function tryItYourself(): void {
+function tryItYourself(): void
+{
     window.location.href = "../game/game.html";
 }

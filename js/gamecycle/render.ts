@@ -1,3 +1,4 @@
-export function render(): void {
+export function render(): void
+{
 
 }

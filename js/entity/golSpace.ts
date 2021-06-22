@@ -9,7 +9,8 @@ import { doublegrid } from "../container/doublegrid";
  * It can be a background of game, or be contained
  * @author MagicStone
  */
-export class golSpace extends visibleEntity {
+export class golSpace extends visibleEntity
+{
 
     /**
      * Width of the grid of this entity. Unit is (grid).
@@ -33,7 +34,8 @@ export class golSpace extends visibleEntity {
     constructor(xPos: number, yPos: number, xVelocity: number, yVelocity: number, width: number, height: number, sideLength: number,
         space: golSpace, canvas: CanvasRenderingContext2D,
         destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean,
-        rule: (grid: loopgrid, x: number, y: number) => boolean) {
+        rule: (grid: loopgrid, x: number, y: number) => boolean)
+    {
         super("golSpace", xPos, yPos, xVelocity, yVelocity, space, false, destructorCondition, canvas, render);
 
         this.grid = new doublegrid(width, height, (grid: loopgrid, x: number, y: number) => true, false, true);
@@ -42,26 +44,32 @@ export class golSpace extends visibleEntity {
         this.sideLength = sideLength;
         this.rule = rule;
 
-        if (space === undefined) {
+        if (space === undefined)
+        {
             this.absoluteYPos = window.innerHeight - height * sideLength;
         }
     }
 
-    tick(time: number) {
+    tick(time: number)
+    {
         super.tick(time);
-        if (this.space != undefined) {
+        if (this.space != undefined)
+        {
             this.absoluteXPos, this.absoluteYPos =
                 (this.space.absoluteXPos + this.xPos * this.sideLength), (this.space.absoluteYPos + this.yPos * this.sideLength);
             this.canvas.clearRect(0, 0, window.innerWidth, window.innerHeight);
         }
-        this.grid.forEachPenetrated((grid: loopgrid, x: number, y: number) => {
-            if (this.rule(grid, x, y)) {
+        this.grid.forEachPenetrated((grid: loopgrid, x: number, y: number) =>
+        {
+            if (this.rule(grid, x, y))
+            {
                 this.canvas.fillRect(
                     x * this.sideLength + this.absoluteXPos,
                     window.innerWidth - (y + 1) * this.sideLength + this.absoluteYPos,
                     this.sideLength, this.sideLength);
                 return true;
-            } else {
+            } else
+            {
                 return false;
             }
         });
@@ -69,35 +77,45 @@ export class golSpace extends visibleEntity {
 }
 
 export var rules = {
-    b3s23: function (grid: loopgrid, x: number, y: number): boolean {
+    b3s23: function (grid: loopgrid, x: number, y: number): boolean
+    {
         var numberOfCells: number = 0;
 
-        if (grid.get(x - 1, y - 1)) {
+        if (grid.get(x - 1, y - 1))
+        {
             numberOfCells++;
         }
-        if (grid.get(x - 1, y + 0)) {
+        if (grid.get(x - 1, y + 0))
+        {
             numberOfCells++;
         }
-        if (grid.get(x - 1, y + 1)) {
+        if (grid.get(x - 1, y + 1))
+        {
             numberOfCells++;
         }
-        if (grid.get(x + 0, y + 1)) {
+        if (grid.get(x + 0, y + 1))
+        {
             numberOfCells++;
         }
-        if (grid.get(x + 1, y + 1)) {
+        if (grid.get(x + 1, y + 1))
+        {
             numberOfCells++;
         }
-        if (grid.get(x + 1, y + 0)) {
+        if (grid.get(x + 1, y + 0))
+        {
             numberOfCells++;
         }
-        if (grid.get(x + 1, y - 1)) {
+        if (grid.get(x + 1, y - 1))
+        {
             numberOfCells++;
         }
-        if (grid.get(x + 0, y - 1)) {
+        if (grid.get(x + 0, y - 1))
+        {
             numberOfCells++;
         }
 
-        switch (numberOfCells) {
+        switch (numberOfCells)
+        {
             case 2:
                 return grid.get(x, y);
             case 3:

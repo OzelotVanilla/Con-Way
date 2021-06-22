@@ -2,4 +2,5 @@
 .vscode/settings.json
 tsconfig.json
 .vscode/tasks.json
-node_modules/@types/
+node_modules
+package.json

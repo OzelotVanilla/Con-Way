@@ -1,6 +1,7 @@
 import { event } from "./event";
 
-export class eventbus {
+export class eventbus
+{
 
     /**
      * Key: Event's name; Value: a set of functions which is linked with the event (key).
@@ -15,11 +16,14 @@ export class eventbus {
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribe(event_name: string, subscriber: (ev: event) => void): void {
+    subscribe(event_name: string, subscriber: (ev: event) => void): void
+    {
         let subscriber_group: Set<(ev: event) => void>;
-        if (this.subscribers.has(event_name)) {
+        if (this.subscribers.has(event_name))
+        {
             subscriber_group = this.subscribers.get(event_name);
-        } else {
+        } else
+        {
             subscriber_group = new Set();
             this.subscribers.set(event_name, subscriber_group);
         }
@@ -33,27 +37,35 @@ export class eventbus {
      * @param {string} eventName The name you want to find in the event bus
      * @param {function} subscriber The action you want to cancel from the event bus
      */
-    desubscribe(eventName: string, subscriber: (ev: event) => void): void {
+    desubscribe(eventName: string, subscriber: (ev: event) => void): void
+    {
         let subscriber_group = this.subscribers.get(eventName); // subscriberGroup: set
-        if (subscriber_group != null) {
+        if (subscriber_group != null)
+        {
             if (subscriber === undefined) { subscriber_group.clear(); }
-            else {
+            else
+            {
                 subscriber_group.delete(subscriber);
             }
         }
     }
 
-    post(ev: event) {
+    post(ev: event)
+    {
         var elements = ev.getName().split("_");
-        for (var i = 0, name = elements[0]; i < elements.length; i = i + 1, name = name + "_" + elements[i]) {
+        for (var i = 0, name = elements[0]; i < elements.length; i = i + 1, name = name + "_" + elements[i])
+        {
             var subscriberGroup = this.subscribers.get(name);
-            if (subscriberGroup != undefined) {
-                for (var subscriber of subscriberGroup) {
+            if (subscriberGroup != undefined)
+            {
+                for (var subscriber of subscriberGroup)
+                {
                     subscriber(ev);
                 }
             }
         }
-        if (!ev.isCanceled()) {
+        if (!ev.isCanceled())
+        {
             ev.getCurrentAction()();
         }
     }

@@ -1,4 +1,5 @@
-export class event {
+export class event
+{
 
     name: string;
     canceled: boolean = false;
@@ -6,36 +7,44 @@ export class event {
     defaultAction: (...args: any) => void;
     currentAction: (...args: any) => void;
 
-    constructor(name: string, action: (e: event) => any) {
+    constructor(name: string, action: (e: event) => any)
+    {
         this.name = name;
         this.defaultAction = this.currentAction = action;
     }
 
-    getName(): string {
+    getName(): string
+    {
         return this.name;
     }
 
-    isCanceled(): boolean {
+    isCanceled(): boolean
+    {
         return this.canceled;
     }
 
-    setCanceled(canceled: boolean): void {
+    setCanceled(canceled: boolean): void
+    {
         this.canceled = canceled;
     }
 
-    getDefaultAction(): (...args: any) => any {
+    getDefaultAction(): (...args: any) => any
+    {
         return this.defaultAction;
     }
 
-    getCurrentAction(): (...args: any) => any {
+    getCurrentAction(): (...args: any) => any
+    {
         return this.currentAction;
     }
 
-    setCurrentAction(action: (...args: any) => any): void {
+    setCurrentAction(action: (...args: any) => any): void
+    {
         this.currentAction = action;
     }
 
-    resetCurrentAction(): void {
+    resetCurrentAction(): void
+    {
         this.currentAction = this.defaultAction;
     }
 }

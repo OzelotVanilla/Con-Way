@@ -3,7 +3,8 @@ import { golSpace } from "./golSpace";
 /**
 * Special object on a golSpace, which has a position and a velocity and has its specific behaviour.
 */
-export class entity {
+export class entity
+{
 
     type: string; //Different type entity has different type. ( -_ -)
 
@@ -22,7 +23,8 @@ export class entity {
     isDead: boolean; //Death flag, you shouldn't do anything to a dead entity, except for removing it.
 
     constructor(type: string, xPos: number, yPos: number, xVelocity: number, yVelocity: number, space: golSpace,
-        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean) {
+        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean)
+    {
         this.type = type;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -33,12 +35,14 @@ export class entity {
         this.lastUpdateTime = new Date().getMilliseconds() / 1000.0;
     }
 
-    getPos(time: number) {
+    getPos(time: number)
+    {
         var delta = time - this.lastUpdateTime;
         return this.xPos + delta * this.xVelocity, this.yPos + delta * this.yVelocity;
     }
 
-    tick(time: number) {
+    tick(time: number)
+    {
         var delta = time - this.lastUpdateTime;
         this.xPos, this.yPos = this.xPos + delta * this.xVelocity, this.yPos + delta * this.yVelocity;
         this.lastUpdateTime = time;
