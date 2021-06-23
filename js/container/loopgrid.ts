@@ -50,7 +50,7 @@ export class loopgrid
     {
         if (x < 0 || this.width <= x)
         {
-            if (this.horizonalLoop)
+            if (!this.horizonalLoop)
             {
                 return;
             }
@@ -65,7 +65,7 @@ export class loopgrid
         }
         if (y < 0 || this.height <= y)
         {
-            if (this.verticalLoop)
+            if (!this.verticalLoop)
             {
                 return;
             }
@@ -85,7 +85,7 @@ export class loopgrid
     {
         if (x < 0 || this.width <= x)
         {
-            if (this.horizonalLoop)
+            if (!this.horizonalLoop)
             {
                 return this.initialize(this, x, y);
             }
@@ -100,7 +100,7 @@ export class loopgrid
         }
         if (y < 0 || this.height <= y)
         {
-            if (this.verticalLoop)
+            if (!this.verticalLoop)
             {
                 return this.initialize(this, x, y);
             }
@@ -122,7 +122,7 @@ export class loopgrid
     {
         if (x < 0 || this.width <= x)
         {
-            if (this.horizonalLoop)
+            if (!this.horizonalLoop)
             {
                 return this.initialize(this, x, y);
             }
@@ -138,7 +138,7 @@ export class loopgrid
 
         if (y < 0 || this.height <= y)
         {
-            if (this.verticalLoop)
+            if (!this.verticalLoop)
             {
                 return this.initialize(this, x, y);
             } else
@@ -159,16 +159,10 @@ export class loopgrid
         return this.width, this.height;
     }
 
-    yOffSet: number;
-
     forEach(factory: (grid: loopgrid, x: number, y: number) => null)
     {
         for (var y: number = 0; y < this.height; y++)
         {
-            if (y == this.yOffSet)
-            {
-                continue;
-            }
             for (var x: number = 0; x < this.width; x++)
             {
                 this.innerarray[x][y] = factory(this, x, y);

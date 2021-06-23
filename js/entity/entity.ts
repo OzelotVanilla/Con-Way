@@ -22,14 +22,14 @@ export class entity
 
     isDead: boolean; //Death flag, you shouldn't do anything to a dead entity, except for removing it.
 
-    constructor(type: string, xPos: number, yPos: number, xVelocity: number, yVelocity: number, space: golSpace,
+    constructor(type: string, kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number }, space: golSpace,
         destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean)
     {
         this.type = type;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
+        this.xPos = kinematics.xPos;
+        this.yPos = kinematics.yPos;
+        this.xVelocity = kinematics.xVelocity;
+        this.yVelocity = kinematics.yVelocity;
         this.space = space;
         this.destructorCondition = destructorCondition;
         this.lastUpdateTime = new Date().getMilliseconds() / 1000.0;
