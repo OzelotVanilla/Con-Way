@@ -38,9 +38,11 @@ export class foegen
         this.initialized = true;
         event_bus.subscribe("tick", this.tick);
         this.currentMode = this.modes[0];
+        this.currentPattern = this.currentMode.mode.getPattern();
     }
 
     currentMode: { mode: mode, gen_limit: number, interval: number, top: number, weight: number };
+    currentPattern: (grid: loopgrid, x: number, y: number) => void;
     invokeTimes: number = 0;
 
     /**
@@ -54,14 +56,15 @@ export class foegen
         if (this.invokeTimes % this.currentMode.interval === 0)
         {
             // Init postion and gen func, by getting two return values from place()
-            var position: number, gen: (grid: loopgrid, x: number, y: number) => void = this.currentMode.mode.place();
-            gen(this.space, Math.round(position * this.space.getWidth()), this.height);
+            var position: number = this.currentMode.mode.place();
+            this.currentPattern(this.space, Math.round(position * this.space.getWidth()), this.height);
 
             // If reach the max limit of generation in one mode
             if (this.invokeTimes == this.currentMode.gen_limit)
             {
                 // Tell the next mode to change
                 var parameter = this.currentMode.mode.finish();
+                var currentMode: { mode: mode, gen_limit: number, interval: number, top: number, weight: number };
                 switch (typeof parameter)
                 {
                     // Using weight, choose next mode
@@ -71,7 +74,7 @@ export class foegen
                         {
                             if (random < mode.top)
                             {
-                                this.currentMode = mode;
+                                currentMode = mode;
                             }
                         }
                         break;
@@ -89,7 +92,11 @@ export class foegen
                             {
                                 if (Math.random() < i.weight / totalWeight)
                                 {
-                                    this.currentMode = i;
+                                    currentMode = i;
+                                    break;
+                                }
+                                else
+                                {
                                     totalWeight -= i.weight;
                                 }
                             }
@@ -97,10 +104,12 @@ export class foegen
                         // If not array, it will be the next mode
                         else
                         {
-                            this.currentMode = parameter;
+                            currentMode = parameter;
                         }
                         break;
                 }
+                this.currentMode = currentMode;
+                this.currentPattern = currentMode.mode.getPattern();
                 this.invokeTimes = 0;
             }
         }
@@ -129,12 +138,17 @@ export class mode
 
     getInterval(): number { return this.interval; }
 
+    getPattern(): (grid: loopgrid, x: number, y: number) => void
+    {
+        return this.pattern;
+    }
+
     /**
      * The generate place of the foe. position = place() * width_of_screen
      */
-    place()
+    place(): number
     {
-        return Math.random(), this.pattern;
+        return Math.random();
     }
 
     finish():

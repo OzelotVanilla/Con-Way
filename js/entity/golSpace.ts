@@ -6,7 +6,6 @@ import { doublegrid } from "../container/doublegrid";
 /**
  * Game of life Space
  * It can be a background of game, or be contained
- * @author MagicStone
  */
 export class golSpace extends visibleEntity
 {
@@ -21,14 +20,26 @@ export class golSpace extends visibleEntity
      */
     height: number;
 
+    /**
+     * The grid which contains game of life cells.
+     */
     grid: doublegrid;
 
     canvasheight: number;
 
+    /**
+     * Rule of gol.
+     */
     rule: (grid: loopgrid, x: number, y: number) => boolean;
 
+    /**
+     * Part of the grid which players can see.
+     */
     visibleRange: { minX: number, maxX: number, minY: number, maxY: number };
 
+    /**
+     * Size players see on the screen.
+     */
     absoluteWidth: number;
     absoluteHeight: number;
 
@@ -77,26 +88,28 @@ export class golSpace extends visibleEntity
         }
         this.grid.forEachPenetrated((grid: loopgrid, x: number, y: number) =>
         {
-            if (this.rule(grid, x, y) &&
-                this.visibleRange.minX <= x &&
-                x < this.visibleRange.maxX &&
-                this.visibleRange.minY <= y &&
-                y < this.visibleRange.maxY)
+            if (this.rule(grid, x, y))
             {
-                var renderX: number = x - this.visibleRange.minX;
-                var width: number = this.visibleRange.maxX - this.visibleRange.minX;
-                var fillX: number = Math.round(renderX * this.absoluteWidth / width);
-                var sideX: number = Math.round((renderX + 1) * this.absoluteWidth / width) - fillX;
-                fillX += + this.absoluteXPos;
-                var renderY: number = x - this.visibleRange.minX;
-                var height: number = this.visibleRange.maxY - this.visibleRange.minY;
-                var fillY: number = Math.round((renderY + 1) * this.absoluteHeight / height);
-                var sideY: number = fillY - Math.round((renderY) * this.absoluteHeight / height);
-                fillY = this.canvasheight - fillY - this.absoluteYPos;
-                this.canvas.fillRect(
-                    fillX,
-                    fillY,
-                    sideX, sideY);
+                if (this.visibleRange.minX <= x &&
+                    x < this.visibleRange.maxX &&
+                    this.visibleRange.minY <= y &&
+                    y < this.visibleRange.maxY)
+                {
+                    var renderX: number = x - this.visibleRange.minX;
+                    var width: number = this.visibleRange.maxX - this.visibleRange.minX;
+                    var fillX: number = Math.round(renderX * this.absoluteWidth / width);
+                    var sideX: number = Math.round((renderX + 1) * this.absoluteWidth / width) - fillX;
+                    fillX += this.absoluteXPos;
+                    var renderY: number = y - this.visibleRange.minY;
+                    var height: number = this.visibleRange.maxY - this.visibleRange.minY;
+                    var fillY: number = Math.round((renderY + 1) * this.absoluteHeight / height);
+                    var sideY: number = fillY - Math.round((renderY) * this.absoluteHeight / height);
+                    fillY = this.canvasheight - fillY - this.absoluteYPos;
+                    this.canvas.fillRect(
+                        fillX,
+                        fillY,
+                        sideX, sideY);
+                }
                 return true;
             }
             else
@@ -111,7 +124,7 @@ export class golSpace extends visibleEntity
 export var rules = {
     scroll: function (grid: loopgrid, x: number, y: number): boolean
     {
-        return grid.get(x, y - 1);
+        return grid.get(x, y + 1);
     },
 
     stay: function (grid: loopgrid, x: number, y: number): boolean

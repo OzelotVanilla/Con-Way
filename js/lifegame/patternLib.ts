@@ -27,12 +27,13 @@ function success(data: { [x: string]: number[][]; }): void
         }
         function gen(grid: loopgrid, x: number, y: number): void
         {
+            var y_minus_length = y - pattern.length;
             for (var dy = 0; dy < pattern.length; dy++)
             {
                 var line: boolean[] = pattern[dy];
                 for (var dx = 0; dx < line.length; dx++)
                 {
-                    grid.set(x + dx, y + dy, line[dx]);
+                    grid.set(x + dx, y_minus_length + dy, line[dx]);
                 }
             }
         };
