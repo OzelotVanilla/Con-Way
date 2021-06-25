@@ -8,6 +8,7 @@ import { patternLib } from "../../js/lifegame/patternLib";
  */
 export class tickevent extends event
 {
+
     current_time: number;
 
     constructor(current_time: number)
@@ -19,6 +20,30 @@ export class tickevent extends event
     getCurrentTime(): number
     {
         return this.current_time;
+    }
+
+    protected static ticking: boolean = false;
+
+    /**
+     * The tick function.
+     */
+    protected static tick(): void
+    {
+        var now: number = new Date().getTime();
+        event_bus.post(new tickevent(now));
+        if (tickevent.ticking)
+        {
+            var sleep: number = delay - now + lastTime;
+            if (sleep >= 0)
+            {
+                lastTime += delay;
+            }
+            else
+            {
+                lastTime = now;
+            }
+            setTimeout(tickevent.tick, delay);
+        }
     }
 }
 
@@ -33,8 +58,6 @@ var lastTime: number;
  * Delay between two ticks.
  */
 export var delay: number = 50;
-
-var ticking: boolean = false;
 
 /**
  * Invoke before posting tickbeginevent.
@@ -58,35 +81,3 @@ export function initialize(): void
     patternLib.get("glider")(space.grid, 5, space.grid.getHeight() - 1);
 }
 
-/**
- * Begins and stops the game.
- */
-event_bus.subscribe("tick_begin", () =>
-{
-    ticking = true;
-    setTimeout(tick, delay);
-});
-
-event_bus.subscribe("tick_stop", () => ticking = false);
-
-/**
- * The tick function.
- */
-function tick(): void
-{
-    var now: number = new Date().getTime();
-    event_bus.post(new tickevent(now));
-    if (ticking)
-    {
-        var sleep: number = delay - now + lastTime;
-        if (sleep >= 0)
-        {
-            lastTime += delay;
-        }
-        else
-        {
-            lastTime = now;
-        }
-        setTimeout(tick, delay);
-    }
-}

@@ -9,5 +9,6 @@ export class tickstopevent extends tickevent
     {
         super(current_time);
         this.name = "tick_stop";
+        this.currentAction = this.defaultAction = () => tickevent.ticking = false;
     }
 }
