@@ -7,10 +7,15 @@ import { loopgrid } from "../container/loopgrid";
  * All patterns' name will be made one item of con-way.patternLib.
  */
 
-export var patternLib: Map<string, (grid: loopgrid, x: number, y: number) => void> = new Map();
+export var initializer: { initialize: () => void } = {
+    initialize(): void { }
+};
+
+export var patternLib: Map<string, (grid: loopgrid, x: number, y: number) => void>;
 
 function success(data: { [x: string]: number[][]; }): void
 {
+    patternLib = new Map();
     properties.registAssertion("ajax", function () { return true; }, true);
     for (var key in data)
     {
@@ -39,7 +44,8 @@ function success(data: { [x: string]: number[][]; }): void
         };
         patternLib.set(key, gen);
     }
-};
+    initializer.initialize();
+}
 
 $.ajax("/js/lifegame/patternLib.json", {
     dataType: "json"
