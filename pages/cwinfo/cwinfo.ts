@@ -1,52 +1,18 @@
-dragElement($("#w1")[0]);
+var is_mouse_down: boolean = false;
 
-// Idea from: https://www.w3schools.com/howto/howto_js_draggable.asp
-function dragElement(elmnt: { id: string; onmousedown: (e: any) => void; style: { top: string; left: string; }; offsetTop: number; offsetLeft: number; })
+function mousedown(): void
 {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "-title"))
-    {
-        // if present, the header is where you move the DIV from:
-        document.getElementById(elmnt.id + "-title").onmousedown = dragMouseDown;
-    }
-    else
-    {
-        // otherwise, move the DIV from anywhere inside the DIV:
-        elmnt.onmousedown = dragMouseDown;
-    }
+    is_mouse_down = true;
+}
 
-    function dragMouseDown(e: any)
-    {
-        e = e || window.event;
-        e.preventDefault();
-        // get the mouse cursor position at startup:
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        document.onmouseup = closeDragElement;
-        // call a function whenever the cursor moves:
-        document.onmousemove = elementDrag;
-    }
+function mouseup(): void
+{
+    is_mouse_down = false;
+}
 
-    function elementDrag(e: any)
-    {
-        e = e || window.event;
-        e.preventDefault();
-        // calculate the new cursor position:
-        pos1 = pos3 - e.clientX;
-        pos2 = pos4 - e.clientY;
-        pos3 = e.clientX;
-        pos4 = e.clientY;
-        // set the element's new position:
-        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
+function mousemove(): void
+{
 
-    function closeDragElement()
-    {
-        // stop moving when mouse button is released:
-        document.onmouseup = null;
-        document.onmousemove = null;
-    }
 }
 
 function tryItYourself(): void

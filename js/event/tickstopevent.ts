@@ -5,7 +5,7 @@ import { tickevent } from "./tickevent";
  */
 export class tickstopevent extends tickevent
 {
-    constructor(current_time: number)
+    constructor(current_time: number = new Date().getTime())
     {
         super(current_time);
         this.name = "tick_stop";

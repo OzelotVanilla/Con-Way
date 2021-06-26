@@ -11,7 +11,7 @@ export class tickevent extends event
 
     current_time: number;
 
-    constructor(current_time: number)
+    constructor(current_time: number = new Date().getTime())
     {
         super("tick", () => space.tick(current_time));
         this.current_time = current_time;
