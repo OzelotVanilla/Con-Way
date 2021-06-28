@@ -1,33 +1,31 @@
+import { initialize as patternLib } from "../../js/lifegame/patternLib";
 import { event_bus } from "../../js/event/eventbus"
-import { tickbeginevent } from "../../js/event/tickbeginevent"
+import { startgameevent } from "../../js/event/startgameevent"
 import { tickstopevent } from "../../js/event/tickstopevent"
 import { initialize } from "../../js/event/tickevent"
-import { patternLib, initializer } from "../../js/lifegame/patternLib";
+import { initevent } from "../../js/event/initevent";
 
-function init(): void
-{
-    if (patternLib === undefined)
-    {
-        initializer.initialize = init;
-        return;
-    }
-    else
-    {
-        initialize();
-        event_bus.post(new tickbeginevent());
-    }
-}
-
-function pauseGame(): void
+export function pauseGame(): void
 {
     event_bus.post(new tickstopevent());
     return;
 }
 
-function resumeGame(): void
+export function resumeGame(): void
 {
     event_bus.post(new tickstopevent());
     return;
 }
 
-$(init);
+export function pressKey() { }
+
+export function releaseKey() { }
+
+event_bus.subscribe("init", patternLib);
+
+$(() => event_bus.post(new initevent(() =>
+{
+    initialize();
+    event_bus.post(new startgameevent(event_bus));
+}
+)));

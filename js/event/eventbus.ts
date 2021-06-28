@@ -73,7 +73,7 @@ export class eventbus
         }
         if (!ev.isCanceled())
         {
-            ev.getCurrentAction()();
+            ev.doAction();
         }
     }
 }
