@@ -1,6 +1,7 @@
 import { loopgrid } from "../container/loopgrid";
 import { event } from "../event/event";
 import { event_bus } from "../../js/event/eventbus";
+import { mode } from "./mode/mode";
 
 export class foegen
 {
@@ -113,49 +114,5 @@ export class foegen
                 this.invokeTimes = 0;
             }
         }
-    }
-}
-
-export class mode
-{
-    name: string;
-
-    interval: number;
-
-    /**
-     * From pattern libs, choose one pattern.
-     */
-    pattern: (grid: loopgrid, x: number, y: number) => void;
-
-    constructor(name: string, interval: number, pattern: (grid: loopgrid) => void)
-    {
-        this.name = name;
-        this.interval = interval;
-        this.pattern = pattern;
-    }
-
-    getName(): string { return this.name; }
-
-    getInterval(): number { return this.interval; }
-
-    getPattern(): (grid: loopgrid, x: number, y: number) => void
-    {
-        return this.pattern;
-    }
-
-    /**
-     * The generate place of the foe. position = place() * width_of_screen
-     */
-    place(): number
-    {
-        return Math.random();
-    }
-
-    finish():
-        { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
-        { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
-        undefined
-    {
-        return undefined;
     }
 }
