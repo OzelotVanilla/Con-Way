@@ -1,4 +1,4 @@
-import { mode } from "mode"
+import { mode } from "./mode"
 import { loopgrid } from "../../container/loopgrid";
 
 export class scanningmode extends mode

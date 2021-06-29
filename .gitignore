@@ -5,3 +5,5 @@ tsconfig.json
 node_modules
 package.json
 tscCompile.vbs
+package-lock.json
+bgm/.mscbackup

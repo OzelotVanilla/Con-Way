@@ -1,0 +1,55 @@
+{
+    "stages": [
+        {
+            "name": "meadow",
+            "bgm": "Meadow_We_Go.mp3",
+            "bkimg": null,
+            "length": 120,
+            "foegen": [
+                {
+                    "name": "easy bionm",
+                    "type": "binomialmode",
+                    "data": {
+                        "expectation": 0.5,
+                        "deviation": 0.3
+                    }
+                }
+            ]
+        },
+        {
+            "name": "ocean",
+            "bgm": null,
+            "bkimg": null
+        },
+        {
+            "name": "forest",
+            "bgm": null,
+            "bkimg": null
+        }
+    ],
+    "template": {
+        "name": "example",
+        "bgm": "example",
+        "bkimg": "example",
+        "length": 0,
+        "foegen": [
+            {
+                "name": "example",
+                "type": "example",
+                "interval": 0,
+                "pattern": [
+                    {
+                        "type": "example",
+                        "weight": 0
+                    }
+                ],
+                "data": {
+                    "specific properties": "example value"
+                },
+                "succ": [
+                    "example"
+                ]
+            }
+        ]
+    }
+}

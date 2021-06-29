@@ -22,7 +22,8 @@ class asserting
 
 }
 
-export var properties = {
+export var properties =
+{
     value: new Map<string, asserting>(),
 
     registAssertion: function <T>(name: string, assertion: () => T, defaultState: T)
