@@ -21,7 +21,7 @@ export class visibleEntity extends entity
         this.autoRender = autoRender;
     }
 
-    tick(time: number)
+    tick(time: number): void
     {
         super.tick(time);
         if ((!this.isDead) && this.autoRender)

@@ -39,11 +39,9 @@ export class foegen
         this.initialized = true;
         event_bus.subscribe("tick", this.tick);
         this.currentMode = this.modes[0];
-        this.currentPattern = this.currentMode.mode.getPattern();
     }
 
     currentMode: { mode: mode, gen_limit: number, interval: number, top: number, weight: number };
-    currentPattern: (grid: loopgrid, x: number, y: number) => void;
     invokeTimes: number = 0;
 
     /**
@@ -56,26 +54,28 @@ export class foegen
         // When "tick" function done "interval" times
         if (this.invokeTimes % this.currentMode.interval === 0)
         {
+            var mode: mode = this.currentMode.mode;
             // Init postion and gen func, by getting two return values from place()
-            var position: number = this.currentMode.mode.place();
-            this.currentPattern(this.space, Math.round(position * this.space.getWidth()), this.height);
+            var position: number = mode.place();
+            var currentPattern: (grid: loopgrid, x: number, y: number) => void = mode.getPattern();
+            currentPattern(this.space, Math.round(position * this.space.getWidth()), this.height);
 
             // If reach the max limit of generation in one mode
             if (this.invokeTimes == this.currentMode.gen_limit)
             {
                 // Tell the next mode to change
-                var parameter = this.currentMode.mode.finish();
+                var parameter = mode.finish();
                 var currentMode: { mode: mode, gen_limit: number, interval: number, top: number, weight: number };
                 switch (typeof parameter)
                 {
                     // Using weight, choose next mode
                     case "undefined":
                         var random = Math.random() * this.modes[this.modes.length - 1].top;
-                        for (var mode of this.modes)
+                        for (var theMode of this.modes)
                         {
-                            if (random < mode.top)
+                            if (random < theMode.top)
                             {
-                                currentMode = mode;
+                                currentMode = theMode;
                             }
                         }
                         break;
@@ -110,7 +110,6 @@ export class foegen
                         break;
                 }
                 this.currentMode = currentMode;
-                this.currentPattern = currentMode.mode.getPattern();
                 this.invokeTimes = 0;
             }
         }

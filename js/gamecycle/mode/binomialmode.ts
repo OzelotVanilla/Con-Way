@@ -1,5 +1,4 @@
 import { mode } from "./mode"
-import { loopgrid } from "../../container/loopgrid";
 
 /**
  * Use binomial curve to calculate the position of generate place of enermy
@@ -17,9 +16,9 @@ export class binomialmode extends mode
      */
     deviation: number;
 
-    constructor(name: string, interval: number, pattern: (grid: loopgrid) => void, data: { expectation: number, deviation: number })
+    constructor(name: string, interval: number, data: { expectation: number, deviation: number }, patterns: { type: string, weight: number }[])
     {
-        super(name, interval, pattern, data);
+        super(name, interval, data, patterns);
         this.expectation = data.expectation;
         this.deviation = data.deviation;
     }

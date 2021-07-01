@@ -25,6 +25,8 @@ export class golSpace extends visibleEntity
      */
     grid: doublegrid;
 
+    entities: Set<entity>;
+
     canvasheight: number;
 
     /**
@@ -74,7 +76,12 @@ export class golSpace extends visibleEntity
         }
     }
 
-    tick(time: number)
+    addEntity(ent: entity): void
+    {
+        this.entities.add(ent);
+    }
+
+    tick(time: number): void
     {
         super.tick(time);
         if (this.space != undefined)
@@ -118,6 +125,16 @@ export class golSpace extends visibleEntity
             }
         });
         this.grid.flip();
+        this.entities.forEach(entity =>
+        {
+            if (!entity.isDead)
+            {
+                entity.tick(time);
+            } else
+            {
+                this.entities.delete(entity);
+            }
+        });
     }
 }
 

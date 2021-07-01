@@ -35,13 +35,13 @@ export class entity
         this.lastUpdateTime = new Date().getMilliseconds() / 1000.0;
     }
 
-    getPos(time: number)
+    getPos(time: number): number
     {
         var delta = time - this.lastUpdateTime;
         return this.xPos + delta * this.xVelocity, this.yPos + delta * this.yVelocity;
     }
 
-    tick(time: number)
+    tick(time: number): void
     {
         var delta = time - this.lastUpdateTime;
         this.xPos, this.yPos = this.xPos + delta * this.xVelocity, this.yPos + delta * this.yVelocity;
