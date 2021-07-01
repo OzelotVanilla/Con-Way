@@ -1,42 +1,19 @@
 {
     "stages": [
-        {
-            "name": "meadow",
-            "bgm": "Meadow_We_Go.mp3",
-            "bkimg": null,
-            "length": 120,
-            "foegen": [
-                {
-                    "name": "easy bionm",
-                    "type": "binomialmode",
-                    "data": {
-                        "expectation": 0.5,
-                        "deviation": 0.3
-                    }
-                }
-            ]
-        },
-        {
-            "name": "ocean",
-            "bgm": null,
-            "bkimg": null
-        },
-        {
-            "name": "forest",
-            "bgm": null,
-            "bkimg": null
-        }
+        "meadow",
+        "forest",
+        "ocean"
     ],
-    "template": {
-        "name": "example",
-        "bgm": "example",
-        "bkimg": "example",
-        "length": 0,
+    "default": {
+        "name": "default",
+        "bgm": "Meadow_We_Go.mp3",
+        "bkimg": "#000000",
+        "length": 120,
         "foegen": [
             {
-                "name": "example",
-                "type": "example",
-                "interval": 0,
+                "name": "default generation mode",
+                "type": "binomialmode",
+                "interval": -1,
                 "pattern": [
                     {
                         "type": "example",
@@ -44,10 +21,11 @@
                     }
                 ],
                 "data": {
-                    "specific properties": "example value"
+                    "expectation": 0.5,
+                    "deviation": 0.3
                 },
                 "succ": [
-                    "example"
+                    "default generation mode"
                 ]
             }
         ]
