@@ -6,15 +6,13 @@ import { mode } from "./mode/mode";
 export class foegen
 {
 
-    name: string;
     space: loopgrid;
     initialized: boolean = false;
     modes: { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] = [];
     height: number;
 
-    constructor(name: string, space: loopgrid)
+    constructor(space: loopgrid)
     {
-        this.name = name;
         this.space = space;
         this.height = this.space.getHeight() - 1;
     }
@@ -113,5 +111,38 @@ export class foegen
                 this.invokeTimes = 0;
             }
         }
+    }
+
+    static loadFoegenFromJSON(json: string, grid: loopgrid): foegen
+    {
+        let mode_classes: Map<string, typeof mode> = new Map();
+        let structs: {
+            name: string, type: string, interval: number,
+            pattern: { type: string, weight: number }[],
+            duration: number, weight: number, data: any, succ: any
+        }[] = JSON.parse(json);
+        let theFoegen: foegen = new foegen(grid);
+        for (let struct of structs)
+        {
+            let type: string = struct.type;
+            let mode_class;
+            if (mode_classes.has(type))
+            {
+                mode_class = mode_classes.get(type);
+                theFoegen.bind(
+                    new mode_class(struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
+                    struct.duration, struct.weight);
+            } else
+            {
+                import("./mode/" + type).then(clazz =>
+                {
+                    mode_classes.set(type, clazz);
+                    theFoegen.bind(
+                        new clazz[type](struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
+                        struct.duration, struct.weight);
+                });
+            }
+        }
+        return theFoegen;
     }
 }

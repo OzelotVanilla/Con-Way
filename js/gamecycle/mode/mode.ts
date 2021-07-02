@@ -12,8 +12,16 @@ export abstract class mode
      */
     patterns: { pattern: (grid: loopgrid, x: number, y: number) => void, top: number }[] = [];
 
+    succ: { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
+        { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
+        undefined;
 
-    constructor(name: string, interval: number, data: any, patterns: { type: string, weight: number }[])
+
+    constructor(name: string, interval: number, data: any, patterns: { type: string, weight: number }[],
+        succ: { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
+            { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
+            undefined
+    )
     {
         this.name = name;
         this.interval = interval;
@@ -55,6 +63,6 @@ export abstract class mode
         { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
         undefined
     {
-        return undefined;
+        return this.succ;
     }
 }
