@@ -10,10 +10,7 @@
             "data": {
                 "expectation": 0.5,
                 "deviation": 0.3
-            },
-            "succ": [
-                "easy bionm"
-            ]
+            }
         }
     ]
 }

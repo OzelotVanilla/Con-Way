@@ -4,14 +4,14 @@
         "forest",
         "ocean"
     ],
-    "default": {
-        "name": "default",
+    "fallback": {
+        "name": "fallback",
         "bgm": "Meadow_We_Go.mp3",
         "bkimg": "#000000",
         "length": 120,
         "foegen": [
             {
-                "name": "default generation mode",
+                "name": "fallback generation mode",
                 "type": "binomialmode",
                 "interval": -1,
                 "pattern": [
@@ -25,7 +25,7 @@
                     "deviation": 0.3
                 },
                 "succ": [
-                    "default generation mode"
+                    "fallback generation mode"
                 ]
             }
         ]

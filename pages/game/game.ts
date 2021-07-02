@@ -4,6 +4,7 @@ import { startgameevent } from "../../js/event/startgameevent"
 import { tickstopevent } from "../../js/event/tickstopevent"
 import { initialize } from "../../js/event/tickevent"
 import { initevent } from "../../js/event/initevent";
+import { sst } from "./savestate";
 
 export function pauseGame(): void
 {
@@ -23,9 +24,14 @@ export function releaseKey() { }
 
 event_bus.subscribe("init", patternLib);
 
-$(() => event_bus.post(new initevent(() =>
-{
-    initialize();
-    event_bus.post(new startgameevent(event_bus));
-}
-)));
+$(
+    () => event_bus.post
+        (
+            new initevent(
+                () =>
+                {
+                    initialize();
+                    event_bus.post(new startgameevent(event_bus, sst));
+                })
+        )
+);
