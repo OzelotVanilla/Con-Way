@@ -16,9 +16,12 @@ export class binomialmode extends mode
      */
     deviation: number;
 
-    constructor(name: string, interval: number, data: { expectation: number, deviation: number }, patterns: { type: string, weight: number }[])
+    constructor(name: string, interval: number, data: { expectation: number, deviation: number }, patterns: { type: string, weight: number }[],
+        succ: { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
+            { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
+            undefined)
     {
-        super(name, interval, data, patterns);
+        super(name, interval, data, patterns, succ);
         this.expectation = data.expectation;
         this.deviation = data.deviation;
     }

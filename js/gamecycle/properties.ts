@@ -33,10 +33,12 @@ export var properties =
 
     complete: function (): boolean
     {
-        return this.value.every(function (name: string, assertion: asserting): boolean
-        {
-            return assertion.getAssert();
-        });
+        return this.value.every(
+            function (name: string, assertion: asserting): boolean
+            {
+                return assertion.getAssert();
+            }
+        );
     },
 
     isFine: function (name: string): boolean

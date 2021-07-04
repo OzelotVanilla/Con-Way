@@ -18,12 +18,15 @@
 
 </head>
 
-<body onkeydown="" onkeyup="">
+<body onkeydown="" onkeyup=""
+    onresize="require(['../../js/event/tickevent'],function(e){e.setCanvas($('#cwf')[0], window.innerWidth,window.innerHeight);});">
     <canvas id="cwf" height="" width="">
         Sorry, your brower does not support HTML canvas. There is no game. (T _ T)
     </canvas>
-    <svg>
 
+    <!-- Will load by ts -->
+    <svg>
+        <circle r="40" stroke="#000000" stroke-width="5"></circle>
     </svg>
 
 </body>

@@ -25,7 +25,7 @@ export class golSpace extends visibleEntity
      */
     grid: doublegrid;
 
-    entities: Set<entity>;
+    entities: Set<entity> = new Set();
 
     canvasheight: number;
 
@@ -83,7 +83,6 @@ export class golSpace extends visibleEntity
 
     tick(time: number): void
     {
-        super.tick(time);
         if (this.space != undefined)
         {
             this.absoluteXPos = Math.round(this.space.absoluteXPos + this.xPos * this.absoluteWidth / this.width);
@@ -91,8 +90,9 @@ export class golSpace extends visibleEntity
         }
         else
         {
-            this.canvas.clearRect(0, 0, window.innerWidth, window.innerHeight);
+            this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
         }
+        super.tick(time);
         this.grid.forEachPenetrated((grid: loopgrid, x: number, y: number) =>
         {
             if (this.rule(grid, x, y))
@@ -197,3 +197,8 @@ export var rules = {
         }
     }
 }
+
+/**
+ * The main golSpace on the screen.
+ */
+export var the_space: golSpace;

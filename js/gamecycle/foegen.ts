@@ -11,10 +11,9 @@ export class foegen
     modes: { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] = [];
     height: number;
 
-    constructor(space: loopgrid)
+    constructor()
     {
-        this.space = space;
-        this.height = this.space.getHeight() - 1;
+
     }
 
     bind(mode: mode, duration: number, weight: number)
@@ -32,8 +31,10 @@ export class foegen
         });
     }
 
-    finish()
+    finish(space: loopgrid)
     {
+        this.space = space;
+        this.height = this.space.getHeight() - 1;
         this.initialized = true;
         event_bus.subscribe("tick", this.tick);
         this.currentMode = this.modes[0];
@@ -113,36 +114,57 @@ export class foegen
         }
     }
 
-    static loadFoegenFromJSON(json: string, grid: loopgrid): foegen
-    {
-        let mode_classes: Map<string, typeof mode> = new Map();
-        let structs: {
+    static loadFoegenFromJSON(
+        structs: {
             name: string, type: string, interval: number,
             pattern: { type: string, weight: number }[],
             duration: number, weight: number, data: any, succ: any
-        }[] = JSON.parse(json);
-        let theFoegen: foegen = new foegen(grid);
+        }[],
+        grid: loopgrid, cb: (gen: foegen) => void
+    ): void
+    {
+        let mode_classes: Map<string, typeof mode> = new Map();
+        let theFoegen: foegen = new foegen();
+        let remaining_items: number = 1;
         for (let struct of structs)
         {
             let type: string = struct.type;
-            let mode_class;
+
             if (mode_classes.has(type))
             {
+                let mode_class;
                 mode_class = mode_classes.get(type);
                 theFoegen.bind(
                     new mode_class(struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
-                    struct.duration, struct.weight);
-            } else
+                    struct.duration, struct.weight
+                );
+            }
+            else
             {
-                import("./mode/" + type).then(clazz =>
-                {
-                    mode_classes.set(type, clazz);
-                    theFoegen.bind(
-                        new clazz[type](struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
-                        struct.duration, struct.weight);
-                });
+                remaining_items++;
+                import("./mode/" + type).then(
+                    (clazz) =>
+                    {
+                        mode_classes.set(type, clazz[type]);
+                        theFoegen.bind(
+                            new clazz[type](struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
+                            struct.duration, struct.weight
+                        );
+                        remaining_items--;
+                        if (remaining_items === 0)
+                        {
+                            theFoegen.finish(grid);
+                            cb(theFoegen);
+                        }
+                    }
+                );
             }
         }
-        return theFoegen;
+        remaining_items--;
+        if (remaining_items === 0)
+        {
+            theFoegen.finish(grid);
+            cb(theFoegen);
+        }
     }
 }

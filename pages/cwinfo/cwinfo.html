@@ -12,9 +12,9 @@
     <title>Conway Game of Life</title>
 </head>
 
-<body class="cwinfo-bkimg">
+<body class="cwinfo-bkimg" onmousemove="mousemove(event)" onmouseup="mouseup()">
     <div id="w1" class="window" style="background-color: #DCDDDD">
-        <div id="w1-title" class="w-title">
+        <div id="w1-title" class="w-title" onmousedown="mousedown(event)" ontouchmove="touchmove(event)">
             <div class="w-title-name"> What is Conway Game of Life </div>
             <div class="w-title-control" style="background-color: #F3CCCC">Close</div>
         </div>

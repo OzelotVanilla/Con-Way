@@ -14,11 +14,13 @@ export class savestate
     }
 }
 
-$(() =>
-{
-    sst = new savestate(
-        localStorage.getItem("name"),
-        localStorage.getItem("stage"),
-        Number(localStorage.getItem("score"))
-    );
-})
+$(
+    () =>
+    {
+        sst = new savestate(
+            localStorage.getItem("name"),
+            localStorage.getItem("stage"),
+            Number(localStorage.getItem("score"))
+        );
+    }
+)

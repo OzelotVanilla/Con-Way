@@ -8,9 +8,12 @@ export class scanningmode extends mode
     offset: number;
     current_place: number;
 
-    constructor(name: string, interval: number, data: { initial_place: number, offset: number }, patterns: { type: string, weight: number }[])
+    constructor(name: string, interval: number, data: { initial_place: number, offset: number }, patterns: { type: string, weight: number }[],
+        succ: { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
+            { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
+            undefined)
     {
-        super(name, interval, data, patterns);
+        super(name, interval, data, patterns, succ);
         this.offset = data.offset;
         this.initial_place = data.initial_place;
         this.current_place = data.initial_place;
