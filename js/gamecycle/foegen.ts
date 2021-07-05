@@ -3,6 +3,9 @@ import { event } from "../event/event";
 import { event_bus } from "../../js/event/eventbus";
 import { mode } from "./mode/mode";
 
+/**
+ * 
+ */
 export class foegen
 {
 
@@ -114,6 +117,12 @@ export class foegen
         }
     }
 
+    /**
+     * A tool function. Initialize a foegen from input data (usually loaded from a JSON file).
+     * @param structs The fixed structured array which contains information of each mode of the foegen.
+     * @param grid The loopgrid (usually doublegrid) where the foegen generate gol structs.
+     * @param cb The callback function which is called when the foegen is completely initialized.
+     */
     static loadFoegenFromJSON(
         structs: {
             name: string, type: string, interval: number,
@@ -166,5 +175,10 @@ export class foegen
             theFoegen.finish(grid);
             cb(theFoegen);
         }
+    }
+
+    static subscribe_events(): void
+    {
+
     }
 }

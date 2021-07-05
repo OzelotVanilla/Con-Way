@@ -5,6 +5,7 @@ import { initevent } from "../../js/event/initevent";
 import { sst } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
 import golSpace_ts = require("../../js/entity/golSpace");
+import { onStartGame } from "../../js/lifegame/stage";
 
 var canvas: HTMLCanvasElement;
 
@@ -53,7 +54,6 @@ $(
                 }
             )
         );
-
     }
 );
 
@@ -62,6 +62,7 @@ $(
  */
 function initialize(): HTMLCanvasElement
 {
+    subscribeEvents();
     // Create canvas and element on canvas based on user's device's width
     var canvas: HTMLCanvasElement = <HTMLCanvasElement>($("#cwf")[0]);
     canvas.width = window.innerWidth;
@@ -78,4 +79,9 @@ function initialize(): HTMLCanvasElement
         undefined, context, () => false, rules.b3s23
     );
     return canvas;
+}
+
+function subscribeEvents(): void
+{
+    event_bus.subscribe("game_start", onStartGame);
 }

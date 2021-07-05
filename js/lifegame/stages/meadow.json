@@ -3,7 +3,7 @@
     "bgm": "Meadow_We_Go.mp3",
     "bkimg": null,
     "length": 120,
-    "foegen": [
+    "mode": [
         {
             "name": "easy bionm",
             "type": "binomialmode",
