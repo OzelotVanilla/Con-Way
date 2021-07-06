@@ -1,6 +1,7 @@
 import { event } from "../event/event";
 import { foegen } from "../gamecycle/foegen";
 import { the_space } from "../../js/entity/golSpace";
+import { sst } from "../../pages/game/savestate";
 
 /**
  * Complete stage object.
@@ -32,7 +33,7 @@ export function onStartGame(ev: event)
 {
     ev.detain();
     $.ajax(
-        "/js/lifegame/stageLib.json",
+        "/js/lifegame/stages/" + sst.stage + ".json",
         {
             dataType: "json"
         }
@@ -41,6 +42,7 @@ export function onStartGame(ev: event)
         foegen.loadFoegenFromJSON(data.mode, the_space.grid, gen =>
         {
             var the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
+            ev.release();
         });
     });
 }
