@@ -5,7 +5,6 @@ import { golSpace } from "./golSpace";
 */
 export class entity
 {
-
     type: string; //Different type entity has different type. ( -_ -)
 
     xPos: number;

@@ -42,6 +42,9 @@ export function resize(ev: Event): void
     setCanvas(canvas, (<Window>ev.currentTarget).innerWidth, (<Window>ev.currentTarget).innerHeight);
 }
 
+/**
+ * Entry of the game
+ */
 $(
     () => 
     {
