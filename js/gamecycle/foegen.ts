@@ -176,9 +176,4 @@ export class foegen
             cb(theFoegen);
         }
     }
-
-    static subscribe_events(): void
-    {
-
-    }
 }

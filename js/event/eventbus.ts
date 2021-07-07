@@ -23,7 +23,8 @@ export class eventbus
         if (this.subscribers.has(event_name))
         {
             subscriber_group = this.subscribers.get(event_name);
-        } else
+        }
+        else
         {
             subscriber_group = new Set();
             this.subscribers.set(event_name, subscriber_group);

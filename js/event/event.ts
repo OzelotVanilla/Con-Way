@@ -9,8 +9,8 @@ export class event
      */
     detainedTimes: number = 0;
 
-    defaultAction: () => void;
-    currentAction: () => void;
+    defaultAction: (...args: any) => void;
+    currentAction: (...args: any) => void;
 
     constructor(name: string, action: () => any)
     {

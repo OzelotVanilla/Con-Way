@@ -11,10 +11,11 @@ export class effectcard extends entity
     inside: effect;
     remaining_tick: number;
 
-    constructor(effect_inside: effect, duration: number, kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number }, space: golSpace,
-        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean)
+    constructor(effect_inside: effect, duration: number,
+        kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number },
+        space: golSpace)
     {
-        super("effectcard", kinematics, space, destructorCondition);
+        super("effectcard", kinematics, space);
         this.inside = effect_inside;
         this.remaining_tick = duration;
     }

@@ -52,10 +52,10 @@ export class golSpace extends visibleEntity
         scale: { width: number, height: number, absoluteWidth: number, absoluteHeight: number },
         visibleRange: { minX: number, maxX: number, minY: number, maxY: number },
         space: golSpace, canvas: CanvasRenderingContext2D,
-        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean,
         rule: (grid: loopgrid, x: number, y: number) => boolean)
     {
-        super("golSpace", kinematics, space, false, destructorCondition, canvas, undefined);
+        // golSpace uses its own code to render hence it doesn't need a renderer function.
+        super("golSpace", kinematics, space, false, canvas, undefined);
 
         this.grid = new doublegrid(scale.width, scale.height, (grid: loopgrid, x: number, y: number) =>
         {

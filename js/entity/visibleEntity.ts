@@ -11,11 +11,11 @@ export class visibleEntity extends entity
     canvas: CanvasRenderingContext2D;
     autoRender: boolean;
 
-    constructor(type: string, kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number }, space: golSpace, autoRender: boolean,
-        destructorCondition: (ent: entity, x_pos: number, y_pos: number, space: any) => boolean, canvas: CanvasRenderingContext2D,
+    constructor(type: string, kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number },
+        space: golSpace, autoRender: boolean, canvas: CanvasRenderingContext2D,
         renderer: (vsb_ent: visibleEntity, x_pos: number, y_pos: number, spc: golSpace, canvas: any) => void)
     {
-        super(type, kinematics, space, destructorCondition);
+        super(type, kinematics, space);
         this.renderer = renderer;
         this.canvas = canvas;
         this.autoRender = autoRender;

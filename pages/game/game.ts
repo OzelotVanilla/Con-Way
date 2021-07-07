@@ -4,8 +4,10 @@ import { tickstopevent } from "../../js/event/tickstopevent"
 import { initevent } from "../../js/event/initevent";
 import { sst } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
-import golSpace_ts = require("../../js/entity/golSpace");
 import { onStartGame } from "../../js/lifegame/stage";
+import { subscribeEvents as subscribeEventsForPatternLib } from "../../js/lifegame/patternLib";
+
+import golSpace_ts = require("../../js/entity/golSpace");
 
 var canvas: HTMLCanvasElement;
 
@@ -42,23 +44,6 @@ export function resize(ev: Event): void
     setCanvas(canvas, (<Window>ev.currentTarget).innerWidth, (<Window>ev.currentTarget).innerHeight);
 }
 
-/**
- * Entry of the game
- */
-$(
-    () => 
-    {
-        event_bus.post(
-            new initevent(
-                () =>
-                {
-                    canvas = initialize();
-                    event_bus.post(new startgameevent(event_bus, sst));
-                }
-            )
-        );
-    }
-);
 
 /**
  * Invoke before posting tickbeginevent.
@@ -79,12 +64,31 @@ function initialize(): HTMLCanvasElement
         { xPos: 0, yPos: 0, xVelocity: 0, yVelocity: 0 },
         { width: width, height: height, absoluteWidth: canvas.width, absoluteHeight: canvas.height },
         { minX: 0, maxX: width, minY: Math.round(height / 4), maxY: Math.round(height * 3 / 4) + 1 },
-        undefined, context, () => false, rules.b3s23
+        undefined, context, rules.b3s23
     );
     return canvas;
 }
 
 function subscribeEvents(): void
 {
+    subscribeEventsForPatternLib(event_bus);
     event_bus.subscribe("game_start", onStartGame);
 }
+
+/**
+ * Entry of the game
+ */
+$(
+    () => 
+    {
+        event_bus.post(
+            new initevent(
+                () =>
+                {
+                    canvas = initialize();
+                    event_bus.post(new startgameevent(event_bus, sst));
+                }
+            )
+        );
+    }
+);
