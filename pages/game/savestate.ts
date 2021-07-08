@@ -1,3 +1,6 @@
+import { event } from "../../js/event/event";
+import { eventbus } from "../../js/event/eventbus";
+
 export var sst: savestate;
 
 export class savestate
@@ -14,13 +17,18 @@ export class savestate
     }
 }
 
-$(
-    () =>
-    {
-        sst = new savestate(
-            localStorage.getItem("name"),
-            localStorage.getItem("stage"),
-            Number(localStorage.getItem("score"))
-        );
-    }
-)
+export function subscribeEvents(bus: eventbus): void
+{
+    bus.subscribe("init", onInit);
+}
+
+function onInit(ev: event): void 
+{
+    console.log("onInit");
+    sst = new savestate(
+        localStorage.getItem("name"),
+        localStorage.getItem("stage"),
+        Number(localStorage.getItem("score"))
+    );
+    console.log(sst);
+}

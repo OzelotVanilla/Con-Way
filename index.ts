@@ -80,7 +80,6 @@ function release()
     if (pattern_loaded && stage_loaded)
     {
         (<HTMLButtonElement>$("#stabtn")[0]).disabled = false;
-        console.log("released")
     }
 }
 
@@ -95,7 +94,6 @@ function preloadPatternLib(): void
         (data: string) =>
         {
             sessionStorage.setItem("patternLib", data);
-            console.log("pattern loaded");
             pattern_loaded = true;
             release();
         }
@@ -111,7 +109,6 @@ function preloadPatternLib(): void
         {
             sessionStorage.setItem("stageLib", data);
             stage_loaded = true;
-            console.log("stage loaded");
             release();
         }
     )

@@ -2,7 +2,7 @@ import { event_bus } from "../../js/event/eventbus"
 import { startgameevent } from "../../js/event/startgameevent"
 import { tickstopevent } from "../../js/event/tickstopevent"
 import { initevent } from "../../js/event/initevent";
-import { sst } from "./savestate";
+import { sst, subscribeEvents as subscribe_events_for_savestate } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
 import { subscribeEvents as subscribe_events_for_patternLib } from "../../js/lifegame/patternLib";
 import { subscribeEvents as subscribe_events_for_stage } from "../../js/lifegame/stage";
@@ -50,7 +50,6 @@ export function resize(ev: Event): void
  */
 function initialize(): HTMLCanvasElement
 {
-    subscribeEvents();
     // Create canvas and element on canvas based on user's device's width
     var canvas: HTMLCanvasElement = <HTMLCanvasElement>($("#cwf")[0]);
     canvas.width = window.innerWidth;
@@ -73,6 +72,7 @@ function subscribeEvents(): void
 {
     subscribe_events_for_patternLib(event_bus);
     subscribe_events_for_stage(event_bus);
+    subscribe_events_for_savestate(event_bus);
 }
 
 /**
@@ -81,6 +81,7 @@ function subscribeEvents(): void
 $(
     () => 
     {
+        subscribeEvents();
         event_bus.post(
             new initevent(
                 () =>

@@ -51,7 +51,7 @@ export class foegen
      * 
      * @param {event} ev The event 
      */
-    tick(ev: event)
+    tick(ev: event): void
     {
         // When "tick" function done "interval" times
         if (this.invokeTimes % this.currentMode.interval === 0)
