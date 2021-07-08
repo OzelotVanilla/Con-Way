@@ -1,6 +1,6 @@
 import { entity } from "./entity";
 import { effect } from "../lifegame/speffect/effect"
-import { exitevent } from "../event/exitevent"
+import { endgameevent } from "../event/endgameevent"
 import { event_bus } from "../event/eventbus"
 import { the_space } from "./golSpace";
 
@@ -25,6 +25,12 @@ export class player extends entity
 
     tick(time: number)
     {
+        // Check if the player is already dead
+        if (this.hp <= 0)
+        {
+            // event_bus.post(new endgameevent());
+        }
+
         // Move player according to input
 
 
