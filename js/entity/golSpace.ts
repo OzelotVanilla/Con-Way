@@ -60,7 +60,7 @@ export class golSpace extends visibleEntity
         this.grid = new doublegrid(scale.width, scale.height, (grid: loopgrid, x: number, y: number) =>
         {
             return false;
-        }, true, true);
+        }, true, false);
         this.width = scale.width;
         this.height = scale.height;
         this.rule = rule;
@@ -93,48 +93,52 @@ export class golSpace extends visibleEntity
             this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
         }
         super.tick(time);
-        this.grid.forEachPenetrated((grid: loopgrid, x: number, y: number) =>
-        {
-            if (this.rule(grid, x, y))
+        this.grid.forEachPenetrated(
+            (grid: loopgrid, x: number, y: number) =>
             {
-                if (this.visibleRange.minX <= x &&
-                    x < this.visibleRange.maxX &&
-                    this.visibleRange.minY <= y &&
-                    y < this.visibleRange.maxY)
+                if (this.rule(grid, x, y))
                 {
-                    var renderX: number = x - this.visibleRange.minX;
-                    var width: number = this.visibleRange.maxX - this.visibleRange.minX;
-                    var fillX: number = Math.round(renderX * this.absoluteWidth / width);
-                    var sideX: number = Math.round((renderX + 1) * this.absoluteWidth / width) - fillX;
-                    fillX += this.absoluteXPos;
-                    var renderY: number = y - this.visibleRange.minY;
-                    var height: number = this.visibleRange.maxY - this.visibleRange.minY;
-                    var fillY: number = Math.round((renderY + 1) * this.absoluteHeight / height);
-                    var sideY: number = fillY - Math.round((renderY) * this.absoluteHeight / height);
-                    fillY = this.canvasheight - fillY - this.absoluteYPos;
-                    this.canvas.fillRect(
-                        fillX,
-                        fillY,
-                        sideX, sideY);
+                    if (this.visibleRange.minX <= x &&
+                        x < this.visibleRange.maxX &&
+                        this.visibleRange.minY <= y &&
+                        y < this.visibleRange.maxY)
+                    {
+                        var renderX: number = x - this.visibleRange.minX;
+                        var width: number = this.visibleRange.maxX - this.visibleRange.minX;
+                        var fillX: number = Math.round(renderX * this.absoluteWidth / width);
+                        var sideX: number = Math.round((renderX + 1) * this.absoluteWidth / width) - fillX;
+                        fillX += this.absoluteXPos;
+                        var renderY: number = y - this.visibleRange.minY;
+                        var height: number = this.visibleRange.maxY - this.visibleRange.minY;
+                        var fillY: number = Math.round((renderY + 1) * this.absoluteHeight / height);
+                        var sideY: number = fillY - Math.round((renderY) * this.absoluteHeight / height);
+                        fillY = this.canvasheight - fillY - this.absoluteYPos;
+                        this.canvas.fillRect(
+                            fillX,
+                            fillY,
+                            sideX, sideY);
+                    }
+                    return true;
                 }
-                return true;
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
-        });
+        );
         this.grid.flip();
-        this.entities.forEach(entity =>
-        {
-            if (!entity.isDead)
+        this.entities.forEach(
+            entity =>
             {
-                entity.tick(time);
-            } else
-            {
-                this.entities.delete(entity);
+                if (!entity.isDead)
+                {
+                    entity.tick(time);
+                } else
+                {
+                    this.entities.delete(entity);
+                }
             }
-        });
+        );
     }
 }
 

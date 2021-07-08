@@ -4,8 +4,8 @@ import { tickstopevent } from "../../js/event/tickstopevent"
 import { initevent } from "../../js/event/initevent";
 import { sst } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
-import { onStartGame } from "../../js/lifegame/stage";
-import { subscribeEvents as subscribeEventsForPatternLib } from "../../js/lifegame/patternLib";
+import { subscribeEvents as subscribe_events_for_patternLib } from "../../js/lifegame/patternLib";
+import { subscribeEvents as subscribe_events_for_stage } from "../../js/lifegame/stage";
 
 import golSpace_ts = require("../../js/entity/golSpace");
 
@@ -71,8 +71,8 @@ function initialize(): HTMLCanvasElement
 
 function subscribeEvents(): void
 {
-    subscribeEventsForPatternLib(event_bus);
-    event_bus.subscribe("game_start", onStartGame);
+    subscribe_events_for_patternLib(event_bus);
+    subscribe_events_for_stage(event_bus);
 }
 
 /**

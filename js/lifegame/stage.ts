@@ -2,6 +2,7 @@ import { event } from "../event/event";
 import { foegen } from "../gamecycle/foegen";
 import { the_space } from "../../js/entity/golSpace";
 import { sst } from "../../pages/game/savestate";
+import { eventbus } from "../event/eventbus";
 
 /**
  * Complete stage object.
@@ -29,7 +30,12 @@ export class stage
 
 export var stages_names: string[] = JSON.parse(sessionStorage.getItem("stageLib")).stages;
 
-export function onStartGame(ev: event)
+export function subscribeEvents(bus: eventbus): void
+{
+    bus.subscribe("game_start", onStartGame);
+}
+
+function onStartGame(ev: event)
 {
     ev.detain();
     $.ajax(
@@ -37,12 +43,16 @@ export function onStartGame(ev: event)
         {
             dataType: "json"
         }
-    ).done((data: any) =>
-    {
-        foegen.loadFoegenFromJSON(data.mode, the_space.grid, gen =>
+    ).done(
+        (data: any) =>
         {
-            var the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
-            ev.release();
-        });
-    });
+            foegen.loadFoegenFromJSON(data.mode, the_space.grid,
+                gen =>
+                {
+                    var the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
+                    ev.release();
+                }
+            );
+        }
+    );
 }
