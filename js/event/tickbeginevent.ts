@@ -9,9 +9,11 @@ export class tickbeginevent extends tickevent
     {
         super(current_time);
         this.name = "tick_begin";
+        var tick_action = this.currentAction;
         this.currentAction = this.defaultAction = () =>
         {
             tickevent.ticking = true;
+            tick_action();
             setTimeout(tickevent.tick, 0);
         };
     }

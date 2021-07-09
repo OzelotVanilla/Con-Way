@@ -9,18 +9,20 @@ import { stages_names } from "../lifegame/stage";
  */
 export class startgameevent extends event
 {
+    sst: savestate;
+
     constructor(event_bus: eventbus, sst: savestate)
     {
         super("game_start", () => event_bus.post(new tickbeginevent()));
+        this.sst = sst;
         startgameevent.normalizeSavestate(sst);
     }
 
     /**
      * If the savestate is not valid, make them default.
      */
-    static normalizeSavestate(sst: savestate): void
+    static normalizeSavestate(sst: savestate): savestate
     {
-        console.log("normalizeSavestate");
         if (sst.name === null || sst.name === undefined)
         {
             sst.name = "User"
@@ -31,6 +33,6 @@ export class startgameevent extends event
         {
             sst.stage = "meadow";
         }
-        console.log(sst);
+        return sst;
     }
 }

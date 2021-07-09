@@ -45,9 +45,10 @@ export abstract class mode
         var random = Math.random() * this.patterns[this.patterns.length - 1].top;
         for (var pattern of this.patterns)
         {
-            if (random < pattern.top)
+            if (random <= pattern.top)
             {
                 currentPattern = pattern.pattern;
+                break;
             }
         }
         return currentPattern;

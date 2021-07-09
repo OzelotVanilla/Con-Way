@@ -1,9 +1,8 @@
 import { event } from "../event/event";
+import { startgameevent } from "../event/startgameevent";
 import { foegen } from "../gamecycle/foegen";
 import { the_space } from "../../js/entity/golSpace";
-import { sst } from "../../pages/game/savestate";
-import { eventbus } from "../event/eventbus";
-import { event_bus } from "../event/eventbus";
+import { eventbus, event_bus } from "../event/eventbus";
 
 /**
  * Complete stage object.
@@ -38,7 +37,8 @@ export function subscribeEvents(bus: eventbus): void
 
 function onStartGame(ev: event)
 {
-    console.log(sst);
+    var e: startgameevent = (<startgameevent>ev);
+    var sst = e.sst;
     ev.detain();
     $.ajax(
         "/js/lifegame/stages/" + sst.stage + ".json",
@@ -52,7 +52,10 @@ function onStartGame(ev: event)
                 gen =>
                 {
                     var the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
-                    event_bus.subscribe("tick", (e: event) => { gen.tick(e); });
+                    event_bus.subscribe("tick", (e: event) =>
+                    {
+                        gen.tick(e);
+                    });
                     ev.release();
                 }
             );

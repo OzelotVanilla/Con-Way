@@ -2,7 +2,7 @@ import { event_bus } from "../../js/event/eventbus"
 import { startgameevent } from "../../js/event/startgameevent"
 import { tickstopevent } from "../../js/event/tickstopevent"
 import { initevent } from "../../js/event/initevent";
-import { sst, subscribeEvents as subscribe_events_for_savestate } from "./savestate";
+import { subscribeEvents as subscribe_events_for_savestate } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
 import { subscribeEvents as subscribe_events_for_patternLib } from "../../js/lifegame/patternLib";
 import { subscribeEvents as subscribe_events_for_stage } from "../../js/lifegame/stage";
@@ -71,8 +71,8 @@ function initialize(): HTMLCanvasElement
 function subscribeEvents(): void
 {
     subscribe_events_for_patternLib(event_bus);
-    subscribe_events_for_stage(event_bus);
     subscribe_events_for_savestate(event_bus);
+    subscribe_events_for_stage(event_bus);
 }
 
 /**
@@ -82,12 +82,14 @@ $(
     () => 
     {
         subscribeEvents();
+        var ev: initevent;
         event_bus.post(
-            new initevent(
+            ev = new initevent(
                 () =>
                 {
+
                     canvas = initialize();
-                    event_bus.post(new startgameevent(event_bus, sst));
+                    event_bus.post(new startgameevent(event_bus, ev.sst));
                 }
             )
         );

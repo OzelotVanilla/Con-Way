@@ -29,7 +29,7 @@ export class foegen
             mode: mode,
             gen_limit: duration,
             interval: mode.getInterval(),
-            top: weight + (this.modes[this.modes.length - 1].top || 0),
+            top: weight + ((this.modes[this.modes.length - 1] || {}).top || 0),
             weight: weight
         });
     }
@@ -39,7 +39,6 @@ export class foegen
         this.space = space;
         this.height = this.space.getHeight() - 1;
         this.initialized = true;
-        event_bus.subscribe("tick", this.tick);
         this.currentMode = this.modes[0];
     }
 
@@ -75,9 +74,10 @@ export class foegen
                         var random = Math.random() * this.modes[this.modes.length - 1].top;
                         for (var theMode of this.modes)
                         {
-                            if (random < theMode.top)
+                            if (random <= theMode.top)
                             {
                                 currentMode = theMode;
+                                break;
                             }
                         }
                         break;
@@ -115,6 +115,7 @@ export class foegen
                 this.invokeTimes = 0;
             }
         }
+        this.invokeTimes++;
     }
 
     /**
