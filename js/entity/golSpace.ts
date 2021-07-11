@@ -133,7 +133,8 @@ export class golSpace extends visibleEntity
                 if (!entity.isDead)
                 {
                     entity.tick(time);
-                } else
+                }
+                else
                 {
                     this.entities.delete(entity);
                 }

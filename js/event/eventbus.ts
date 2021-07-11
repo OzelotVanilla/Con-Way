@@ -17,7 +17,7 @@ export class eventbus
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribe(event_name: string, subscriber: (ev: event) => void): void
+    subscribe<TypeName extends event>(event_name: string, subscriber?: (ev: TypeName) => void): void
     {
         let subscriber_group: Set<(ev: event) => void>;
         if (this.subscribers.has(event_name))
@@ -29,7 +29,7 @@ export class eventbus
             subscriber_group = new Set();
             this.subscribers.set(event_name, subscriber_group);
         }
-        subscriber_group.add(subscriber);
+        subscriber_group.add(<(ev: event) => void>subscriber);
     }
 
     /**
@@ -39,7 +39,7 @@ export class eventbus
      * @param {string} eventName The name you want to find in the event bus
      * @param {function} subscriber The action you want to cancel from the event bus
      */
-    desubscribe(eventName: string, subscriber: (ev: event) => void): void
+    desubscribe<TypeName extends event>(eventName: string, subscriber: (ev: TypeName) => void): void
     {
         let subscriber_group = this.subscribers.get(eventName); // subscriberGroup: set
         if (subscriber_group != null)
@@ -47,7 +47,7 @@ export class eventbus
             if (subscriber === undefined) { subscriber_group.clear(); }
             else
             {
-                subscriber_group.delete(subscriber);
+                subscriber_group.delete(<(ev: event) => void>subscriber);
             }
         }
     }

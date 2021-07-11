@@ -1,4 +1,6 @@
-import { event } from "../event/event";
+import { tickevent } from "../event/tickevent";
+import { tickbeginevent } from "../event/tickbeginevent";
+import { tickstopevent } from "../event/tickstopevent";
 import { startgameevent } from "../event/startgameevent";
 import { foegen } from "../gamecycle/foegen";
 import { the_space } from "../../js/entity/golSpace";
@@ -15,7 +17,7 @@ export class stage
     length: number;
     gen_method: foegen;
 
-    constructor(name: string, bgm_path: string, bkimg_path: string, length, gen_method: foegen)
+    constructor(name: string, bgm_path: string, bkimg_path: string, length: number, gen_method: foegen)
     {
         this.name = name;
         this.bgm = new Audio("../../bgm/" + bgm_path);
@@ -35,7 +37,7 @@ export function subscribeEvents(bus: eventbus): void
     bus.subscribe("game_start", onStartGame);
 }
 
-function onStartGame(ev: event)
+function onStartGame(ev: startgameevent)
 {
     var e: startgameevent = (<startgameevent>ev);
     var sst = e.sst;
@@ -52,10 +54,10 @@ function onStartGame(ev: event)
                 gen =>
                 {
                     var the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
-                    event_bus.subscribe("tick", (e: event) =>
-                    {
-                        gen.tick(e);
-                    });
+                    the_stage.bgm.loop = true;
+                    event_bus.subscribe("tick", (e: tickevent) => { gen.tick(e); });
+                    event_bus.subscribe("tick_begin", () => { the_stage.bgm.play(); });
+                    event_bus.subscribe("tick_stop", () => { the_stage.bgm.pause(); });
                     ev.release();
                 }
             );

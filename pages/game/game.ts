@@ -1,11 +1,14 @@
 import { event_bus } from "../../js/event/eventbus"
 import { startgameevent } from "../../js/event/startgameevent"
 import { tickstopevent } from "../../js/event/tickstopevent"
+import { event } from "../../js/event/event";
 import { initevent } from "../../js/event/initevent";
 import { subscribeEvents as subscribe_events_for_savestate } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
 import { subscribeEvents as subscribe_events_for_patternLib } from "../../js/lifegame/patternLib";
 import { subscribeEvents as subscribe_events_for_stage } from "../../js/lifegame/stage";
+import { ply } from "../../js/entity/player";
+import { downKey, upKey } from "./moveconverter";
 
 import golSpace_ts = require("../../js/entity/golSpace");
 
@@ -23,9 +26,29 @@ export function resumeGame(): void
     return;
 }
 
-export function pressKey() { }
+export function pressKey(event: KeyboardEvent)
+{
+    if (needPauseFromUserKeybooard(event))
+    {
+        pauseGame();
+    }
+    else
+    {
+        downKey(event);
+    }
+}
 
-export function releaseKey() { }
+export function releaseKey(event: KeyboardEvent)
+{
+    upKey(event);
+}
+
+function needPauseFromUserKeybooard(event: KeyboardEvent): boolean
+{
+    let should_pause_key: string[] = [" ", "Escape"];
+    if (should_pause_key.includes(event.key)) { return true; }
+    else { return false; }
+}
 
 function setCanvas(canvas: HTMLCanvasElement, width: number, height: number, block_length: number = 10)
 {

@@ -18,6 +18,17 @@
 
 </head>
 
+<script>
+    require(["./game.ts", "./moveconverter"], function (game, converter)
+    {
+        $(document).keydown(game.pressKey);
+        $(document).keyup(game.releaseKey);
+        $(document).on("mousedown", converter.downMouse);
+        $(document).on("mouseup", converter.upMouse);
+        $(document).on("mousemove", converter.moveMouse);
+    });
+</script>
+
 <body onkeydown="" onkeyup=""
     onresize="require(['../../js/event/tickevent'],function(e){e.setCanvas($('#cwf')[0], window.innerWidth,window.innerHeight);});">
     <canvas id="cwf" height="" width="">
