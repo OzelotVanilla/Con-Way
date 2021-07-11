@@ -87,7 +87,6 @@ $(
             ev = new initevent(
                 () =>
                 {
-
                     canvas = initialize();
                     event_bus.post(new startgameevent(event_bus, ev.sst));
                 }

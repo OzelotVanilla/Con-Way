@@ -69,7 +69,7 @@ button {
 }
 
 .index-bkimg {
-  background-image: url('./pages/images/index.jpg');
+  background-image: url('./img/index.jpg');
   background-size: cover;
   height: 100vh;
 }

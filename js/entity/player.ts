@@ -1,13 +1,12 @@
 import { entity } from "./entity";
+import { visibleEntity } from "./visibleEntity"
 import { effect } from "../lifegame/speffect/effect"
-import { endgameevent } from "../event/endgameevent"
-import { event_bus } from "../event/eventbus"
 import { the_space } from "./golSpace";
 
 /**
  * The plane that player controls
  */
-export class player extends entity
+export class player extends visibleEntity
 {
     hp: number;
     kill: number;
@@ -20,7 +19,7 @@ export class player extends entity
     constructor()
     {
         var c = the_space.canvas.canvas;
-        super("player", { xPos: c.width / 2, yPos: c.height, xVelocity: 0, yVelocity: 0 }, the_space);
+        super("player", { xPos: c.width / 2, yPos: c.height * 0.95, xVelocity: 0, yVelocity: 0 }, the_space, true, the_space.canvas);
     }
 
     tick(time: number)

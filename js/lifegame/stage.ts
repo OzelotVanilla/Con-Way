@@ -18,9 +18,9 @@ export class stage
     constructor(name: string, bgm_path: string, bkimg_path: string, length, gen_method: foegen)
     {
         this.name = name;
-        this.bgm = new Audio(bgm_path);
+        this.bgm = new Audio("../../bgm/" + bgm_path);
         this.bkimg = new Image();
-        this.bkimg.src = bkimg_path;
+        this.bkimg.src = "../../img/" + bkimg_path;
         this.length = length;
         this.gen_method = gen_method; // TODO use name to load
     }

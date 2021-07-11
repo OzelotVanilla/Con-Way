@@ -13,7 +13,7 @@ button {
 }
 
 .cwinfo-bkimg {
-  background-image: url('../images/cwinfo.jpg');
+  background-image: url('../../img/cwinfo.jpg');
   background-size: cover;
   height: 100vh;
 }

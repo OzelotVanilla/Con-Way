@@ -52,6 +52,11 @@ export class foegen
      */
     tick(ev: event): void
     {
+        if (this.currentMode === undefined)
+        {
+            console.log("Undefined interval");
+        }
+
         // When "tick" function done "interval" times
         if (this.invokeTimes % this.currentMode.interval === 0)
         {
@@ -74,7 +79,7 @@ export class foegen
                         var random = Math.random() * this.modes[this.modes.length - 1].top;
                         for (var theMode of this.modes)
                         {
-                            if (random <= theMode.top)
+                            if (random < theMode.top)
                             {
                                 currentMode = theMode;
                                 break;

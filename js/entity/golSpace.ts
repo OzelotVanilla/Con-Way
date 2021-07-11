@@ -55,7 +55,7 @@ export class golSpace extends visibleEntity
         rule: (grid: loopgrid, x: number, y: number) => boolean)
     {
         // golSpace uses its own code to render hence it doesn't need a renderer function.
-        super("golSpace", kinematics, space, false, canvas, undefined);
+        super("golSpace", kinematics, space, false, canvas);
 
         this.grid = new doublegrid(scale.width, scale.height, (grid: loopgrid, x: number, y: number) =>
         {
