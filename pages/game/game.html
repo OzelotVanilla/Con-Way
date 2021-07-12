@@ -13,20 +13,26 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-    <script src="https://requirejs.org/docs/release/2.3.6/comments/require.js" defer async="true"
-        data-main="./game.js"></script>
+    <script src="https://requirejs.org/docs/release/2.3.6/comments/require.js" data-main="./game.js"></script>
 
 </head>
 
 <script>
-    require(["./game.ts", "./moveconverter"], function (game, converter)
-    {
-        $(document).keydown(game.pressKey);
-        $(document).keyup(game.releaseKey);
-        $(document).on("mousedown", converter.downMouse);
-        $(document).on("mouseup", converter.upMouse);
-        $(document).on("mousemove", converter.moveMouse);
-    });
+    $(
+        function ()
+        {
+            require(["./game", "./moveconverter"],
+                function (game, converter)
+                {
+                    $(document).keydown(game.pressKey);
+                    $(document).keyup(game.releaseKey);
+                    $(document).on("mousedown", converter.downMouse);
+                    $(document).on("mouseup", converter.upMouse);
+                    $(document).on("mousemove", converter.moveMouse);
+                }
+            )
+        }
+    );
 </script>
 
 <body onkeydown="" onkeyup=""

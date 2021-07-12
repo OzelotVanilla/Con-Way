@@ -8,7 +8,7 @@ export class eventbus
      * Value: a set of functions which is linked with the event (key).
      * One event can trigger multiple events.
      */
-    subscribers: Map<string, Set<(ev: event) => void>> = new Map();
+    subscribers: Map<string, Set<(ev: event<any>) => void>> = new Map();
 
     constructor() { }
 
@@ -17,9 +17,9 @@ export class eventbus
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribe<TypeName extends event>(event_name: string, subscriber?: (ev: TypeName) => void): void
+    subscribe<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber?: (ev: TypeName) => void): void
     {
-        let subscriber_group: Set<(ev: event) => void>;
+        let subscriber_group: Set<(ev: event<any>) => void>;
         if (this.subscribers.has(event_name))
         {
             subscriber_group = this.subscribers.get(event_name);
@@ -29,7 +29,7 @@ export class eventbus
             subscriber_group = new Set();
             this.subscribers.set(event_name, subscriber_group);
         }
-        subscriber_group.add(<(ev: event) => void>subscriber);
+        subscriber_group.add(<(ev: any) => void>subscriber);
     }
 
     /**
@@ -39,7 +39,7 @@ export class eventbus
      * @param {string} eventName The name you want to find in the event bus
      * @param {function} subscriber The action you want to cancel from the event bus
      */
-    desubscribe<TypeName extends event>(eventName: string, subscriber: (ev: TypeName) => void): void
+    desubscribe<EntityType, TypeName extends event<EntityType>>(eventName: string, subscriber: (ev: TypeName) => void): void
     {
         let subscriber_group = this.subscribers.get(eventName); // subscriberGroup: set
         if (subscriber_group != null)
@@ -47,7 +47,7 @@ export class eventbus
             if (subscriber === undefined) { subscriber_group.clear(); }
             else
             {
-                subscriber_group.delete(<(ev: event) => void>subscriber);
+                subscriber_group.delete(<(ev: any) => void>subscriber);
             }
         }
     }
@@ -58,7 +58,7 @@ export class eventbus
      * 
      * @param ev The event you want to post
      */
-    post(ev: event)
+    post<EntityType>(ev: event<any>, ent: EntityType): void
     {
         var elements = ev.getName().split("_");
         for (var i = 0, name = elements[0]; i < elements.length; i = i + 1, name = name + "_" + elements[i])
@@ -74,7 +74,7 @@ export class eventbus
         }
         if (!ev.isCanceled())
         {
-            ev.doAction();
+            ev.doAction(ent);
         }
     }
 }

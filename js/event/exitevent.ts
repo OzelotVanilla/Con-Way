@@ -4,4 +4,4 @@ import { event } from "./event";
  * Save user's state before exit
  */
 
-export class exitevent extends event { }
+export class exitevent extends event<never> { }

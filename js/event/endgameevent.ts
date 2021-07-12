@@ -6,7 +6,7 @@ import { savestate } from "../../pages/game/savestate";
  * While the player can go next stage, or dead, this event is called.
  */
 
-export class endgameevent extends event
+export class endgameevent extends event<never>
 {
 
 }

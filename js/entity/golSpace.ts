@@ -2,6 +2,8 @@ import { entity } from "./entity";
 import { visibleEntity } from "./visibleEntity";
 import { loopgrid } from "../container/loopgrid";
 import { doublegrid } from "../container/doublegrid";
+import { eventbus, event_bus } from "../event/eventbus";
+import { tickevent } from "../event/tickevent";
 
 /**
  * Game of life Space
@@ -199,6 +201,53 @@ export var rules = {
                 return true;
             default:
                 return false;
+        }
+    }
+}
+
+var ticker: {
+    ticking: boolean,
+
+    /**
+     * The tick function.
+     */
+    tick: () => void
+
+
+    lastTime: number;
+
+    /**
+     * Delay between two ticks.
+     */
+    delay: number;
+} = {
+    ticking: false,
+    lastTime: 0,
+    delay: 50,
+
+    /**
+     * The tick function.
+     */
+    tick: () =>
+    {
+        var now: number = new Date().getTime();
+        event_bus.post(new tickevent(now), the_space);
+        if (ticker.ticking)
+        {
+            var sleep: number = ticker.delay - now + ticker.lastTime;
+            if (sleep >= 0)
+            {
+                if (sleep <= ticker.delay)
+                {
+                    ticker.lastTime += ticker.delay;
+                }
+            }
+            else
+            {
+                ticker.lastTime = now;
+                sleep = ticker.delay;
+            }
+            setTimeout(ticker.tick, sleep);
         }
     }
 }

@@ -1,18 +1,19 @@
-export class event
+export class event<EntityType>
 {
 
     name: string;
     canceled: boolean = false;
+    entity: EntityType;
 
     /**
      * Detained times.
      */
     detainedTimes: number = 0;
 
-    defaultAction: (...args: any) => void;
-    currentAction: (...args: any) => void;
+    defaultAction: (ent: EntityType) => void;
+    currentAction: (ent: EntityType) => void;
 
-    constructor(name: string, action: () => any)
+    constructor(name: string, action: (ent: EntityType) => any)
     {
         this.name = name;
         this.defaultAction = this.currentAction = action;
@@ -33,12 +34,12 @@ export class event
         this.canceled = canceled;
     }
 
-    getDefaultAction(): () => any
+    getDefaultAction(): (ent: EntityType) => any
     {
         return this.defaultAction;
     }
 
-    getCurrentAction(): () => any
+    getCurrentAction(): (ent: EntityType) => any
     {
         return this.currentAction;
     }
@@ -61,15 +62,17 @@ export class event
     {
         if (this.detainedTimes === 0)
         {
-            this.getCurrentAction()();
-        } else
+            this.getCurrentAction()(this.entity);
+        }
+        else
         {
             this.detainedTimes--;
         }
     }
 
-    doAction(): void
+    doAction(ent: EntityType): void
     {
+        this.entity = ent;
         this.release();
     }
 

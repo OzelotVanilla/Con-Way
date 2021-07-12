@@ -46,7 +46,7 @@ export function releaseKey(event: KeyboardEvent)
 function needPauseFromUserKeybooard(event: KeyboardEvent): boolean
 {
     let should_pause_key: string[] = [" ", "Escape"];
-    if (should_pause_key.includes(event.key)) { return true; }
+    if (should_pause_key.indexOf(event.key) !== -1) { return true; }
     else { return false; }
 }
 
