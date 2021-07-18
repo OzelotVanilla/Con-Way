@@ -2,7 +2,7 @@ import { entity } from "./entity";
 import { visibleEntity } from "./visibleEntity";
 import { loopgrid } from "../container/loopgrid";
 import { doublegrid } from "../container/doublegrid";
-import { eventbus, event_bus } from "../event/eventbus";
+import { event_bus } from "../event/eventbus";
 import { tickevent } from "../event/tickevent";
 
 /**
@@ -251,8 +251,3 @@ var ticker: {
         }
     }
 }
-
-/**
- * The main golSpace on the screen.
- */
-export var the_space: golSpace;

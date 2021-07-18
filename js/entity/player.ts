@@ -1,8 +1,7 @@
-import { entity } from "./entity";
 import { visibleEntity } from "./visibleEntity"
 import { effect } from "../lifegame/speffect/effect"
-import { the_space } from "./golSpace";
-import { event_bus } from "../event/eventbus";
+import { the_space } from "../../pages/game/game";
+import { golSpace } from "./golSpace";
 
 /**
  * The plane that player controls
@@ -18,10 +17,10 @@ export class player extends visibleEntity
      */
     effect_buffer: Map<effect, number>;
 
-    constructor()
+    constructor(space: golSpace = the_space, pos: { xPos: number, yPos: number } = { xPos: space.width / 2, yPos: space.height * 0.05 })
     {
-        var c = the_space.canvas.canvas;
-        super("player", { xPos: c.width / 2, yPos: c.height * 0.95, xVelocity: 0, yVelocity: 0 }, the_space, true, the_space.canvas);
+        var c = space.canvas.canvas;
+        super("player", { xPos: pos.xPos, yPos: pos.yPos, xVelocity: 0, yVelocity: 0 }, space, true, space.canvas);
     }
 
     tick(time: number)
@@ -70,8 +69,6 @@ export class player extends visibleEntity
         }
     }
 }
-
-export var ply = new player();
 
 const fric: number = 0.9;
 

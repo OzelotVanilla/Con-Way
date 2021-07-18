@@ -1,18 +1,19 @@
 import { event_bus } from "../../js/event/eventbus"
-import { startgameevent } from "../../js/event/startgameevent"
 import { tickstopevent } from "../../js/event/tickstopevent"
-import { event } from "../../js/event/event";
-import { initevent } from "../../js/event/initevent";
-import { subscribeEvents as subscribe_events_for_savestate } from "./savestate";
 import { golSpace, rules } from "../../js/entity/golSpace";
-import { subscribeEvents as subscribe_events_for_patternLib } from "../../js/lifegame/patternLib";
-import { subscribeEvents as subscribe_events_for_stage } from "../../js/lifegame/stage";
-import { ply } from "../../js/entity/player";
+import { player } from "../../js/entity/player";
 import { downKey, upKey } from "./moveconverter";
 
-import golSpace_ts = require("../../js/entity/golSpace");
+readonly var block_length = 10;
 
-var canvas: HTMLCanvasElement;
+export var canvas: HTMLCanvasElement;
+
+/**
+ * The main golSpace on the screen.
+ */
+export var the_space: golSpace;
+
+export var the_player: player;
 
 export function pauseGame(): void
 {
@@ -50,7 +51,10 @@ function needPauseFromUserKeybooard(event: KeyboardEvent): boolean
     else { return false; }
 }
 
-function setCanvas(canvas: HTMLCanvasElement, width: number, height: number, block_length: number = 10)
+/**
+ * Set a canvas's width and height to the width and the height.
+ */
+function setCanvas(canvas: HTMLCanvasElement, width: number, height: number)
 {
     console.log("Original canvas: " + canvas.width + ", " + canvas.height);
     console.log("Setting canvas at " + width + ", " + height);
@@ -58,7 +62,6 @@ function setCanvas(canvas: HTMLCanvasElement, width: number, height: number, blo
     canvas.height = height;
     console.log("Setting colour to white...");
     canvas.getContext("2d").fillStyle = "#ffffff";
-    return [Math.round(width / block_length), Math.round(height * 2 / block_length)];
 }
 
 export function resize(ev: Event): void
@@ -71,49 +74,39 @@ export function resize(ev: Event): void
 /**
  * Invoke before posting tickbeginevent.
  */
-function initialize(): HTMLCanvasElement
+function initializeCanvas(): void
 {
     // Create canvas and element on canvas based on user's device's width
-    var canvas: HTMLCanvasElement = <HTMLCanvasElement>($("#cwf")[0]);
+    canvas = <HTMLCanvasElement>($("#cwf")[0]);
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    var [width, height] = setCanvas(canvas, window.innerWidth, window.innerHeight);
+    setCanvas(canvas, window.innerWidth, window.innerHeight);
 
-    // Init the canvas
+    // Init the canvas and its context.
     var context = canvas.getContext("2d");
     context.fillStyle = "#ffffff";
-    golSpace_ts.the_space = new golSpace(
+}
+
+function initializeSpace(): void
+{
+    var width = Math.round(width / block_length);
+    var height = Math.round(height * 2 / block_length);
+    the_space = new golSpace(
         { xPos: 0, yPos: 0, xVelocity: 0, yVelocity: 0 },
         { width: width, height: height, absoluteWidth: canvas.width, absoluteHeight: canvas.height },
         { minX: 0, maxX: width, minY: Math.round(height / 4), maxY: Math.round(height * 3 / 4) + 1 },
-        undefined, context, rules.b3s23
+        undefined, canvas.getContext("2d"), rules.b3s23
     );
-    return canvas;
 }
 
-function subscribeEvents(): void
+function initializePlayer(): void
 {
-    subscribe_events_for_patternLib(event_bus);
-    subscribe_events_for_savestate(event_bus);
-    subscribe_events_for_stage(event_bus);
+    the_player = new player();
 }
 
 /**
  * Entry of the game
  */
-$(
-    () => 
-    {
-        subscribeEvents();
-        var ev: initevent;
-        event_bus.post(
-            ev = new initevent(
-                () =>
-                {
-                    canvas = initialize();
-                    event_bus.post(new startgameevent(event_bus, ev.sst));
-                }
-            )
-        );
-    }
-);
+initializeCanvas();
+initializeSpace();
+initializePlayer();
