@@ -1,4 +1,5 @@
 import { event } from "./event";
+import { judgementstate, detainablestate } from "./eventstate";
 
 export class eventbus
 {
@@ -8,7 +9,15 @@ export class eventbus
      * Value: a set of functions which is linked with the event (key).
      * One event can trigger multiple events.
      */
-    subscribers: Map<string, Set<(ev: event<any>) => void>> = new Map();
+    subscribers: {
+        judger: Map<string, Set<(ev: judgementstate<any, any>) => void>>,
+        pre_action: Map<string, Set<(ev: detainablestate<any, any>) => void>>,
+        post_action: Map<string, Set<(ev: detainablestate<any, any>) => void>>
+    } = {
+            judger: new Map<string, Set<(ev: judgementstate<any, any>) => void>>(),
+            pre_action: new Map<string, Set<(ev: detainablestate<any, any>) => void>>(),
+            post_action: new Map<string, Set<(ev: detainablestate<any, any>) => void>>()
+        };
 
     constructor() { }
 
@@ -17,17 +26,52 @@ export class eventbus
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribe<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber?: (ev: TypeName) => void): void
+    subscribeJudger<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: judgementstate<EntityType, event<EntityType>>) => void): void
     {
-        let subscriber_group: Set<(ev: event<any>) => void>;
-        if (this.subscribers.has(event_name))
+        let subscriber_group: Set<(ev: judgementstate<any, any>) => void>;
+        if (this.subscribers.judger.has(event_name))
         {
-            subscriber_group = this.subscribers.get(event_name);
+            subscriber_group = this.subscribers.judger.get(event_name);
         }
         else
         {
             subscriber_group = new Set();
-            this.subscribers.set(event_name, subscriber_group);
+            this.subscribers.judger.set(event_name, subscriber_group);
+        }
+        subscriber_group.add(<(ev: any) => void>subscriber);
+    }
+
+    /**
+     * 
+     * @param {string} event_name The name you want to find in the event bus
+     * @param {function} subscriber The action you want to add to the event
+     */
+    subscribePreAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void): void
+    {
+        this.subscribe(this.subscribers.pre_action, event_name, subscriber);
+    }
+
+    /**
+     * 
+     * @param {string} event_name The name you want to find in the event bus
+     * @param {function} subscriber The action you want to add to the event
+     */
+    subscribePostAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void): void
+    {
+        this.subscribe(this.subscribers.post_action, event_name, subscriber);
+    }
+
+    private subscribe(group: Map<string, Set<(ev: detainablestate<any, any>) => void>>, event_name: string, subscriber: (ev: detainablestate<any, any>) => void): void
+    {
+        let subscriber_group: Set<(ev: detainablestate<any, any>) => void>;
+        if (group.has(event_name))
+        {
+            subscriber_group = group.get(event_name);
+        }
+        else
+        {
+            subscriber_group = new Set();
+            group.set(event_name, subscriber_group);
         }
         subscriber_group.add(<(ev: any) => void>subscriber);
     }
@@ -39,15 +83,39 @@ export class eventbus
      * @param {string} eventName The name you want to find in the event bus
      * @param {function} subscriber The action you want to cancel from the event bus
      */
-    desubscribe<EntityType, TypeName extends event<EntityType>>(eventName: string, subscriber: (ev: TypeName) => void): void
+    desubscribeJudger<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: judgementstate<EntityType, event<EntityType>>) => void = undefined): void
     {
-        let subscriber_group = this.subscribers.get(eventName); // subscriberGroup: set
-        if (subscriber_group != null)
+        let subscribers = this.subscribers.judger.get(event_name); // subscriberGroup: set
+        if (subscribers != null)
         {
-            if (subscriber === undefined) { subscriber_group.clear(); }
+            if (subscriber === undefined) { subscribers.clear(); }
             else
             {
-                subscriber_group.delete(<(ev: any) => void>subscriber);
+                subscribers.delete(<(ev: any) => void>subscriber);
+            }
+        }
+    }
+
+    desubscribePreAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void = undefined): void
+    {
+        this.desubscribe(this.subscribers.pre_action, event_name, subscriber);
+    }
+
+    desubscribePostAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void = undefined): void
+    {
+        this.desubscribe(this.subscribers.post_action, event_name, subscriber);
+    }
+
+    private desubscribe(group: Map<string, Set<(ev: detainablestate<any, any>) => void>>, event_name: string, subscriber: (ev: detainablestate<any, any>) => void = undefined): void
+    {
+
+        let subscribers = group.get(event_name); // subscriberGroup: set
+        if (subscribers != null)
+        {
+            if (subscriber === undefined) { subscribers.clear(); }
+            else
+            {
+                subscribers.delete(<(ev: any) => void>subscriber);
             }
         }
     }
@@ -58,25 +126,81 @@ export class eventbus
      * 
      * @param ev The event you want to post
      */
-    post<EntityType>(ev: event<any>, ent: EntityType): void
+    post<EntityType>(ev: event<any>, ent: EntityType, finished: () => void): void
     {
         var elements = ev.getName().split("_");
+        var judger_groups: Set<(ev: judgementstate<any, any>) => void>[] = [];
+        var pre_action_groups: Set<(ev: detainablestate<any, any>) => void>[] = [];
+        var post_action_groups: Set<(ev: detainablestate<any, any>) => void>[] = [];
         for (var i = 0, name = elements[0]; i < elements.length; i = i + 1, name = name + "_" + elements[i])
         {
-            var subscriberGroup = this.subscribers.get(name);
-            if (subscriberGroup != undefined)
+            let judger = this.subscribers.judger.get(name);
+            if (judger != undefined)
             {
-                for (var subscriber of subscriberGroup)
-                {
-                    subscriber(ev);
-                }
+                judger_groups.push(judger);
+            }
+            let pre_action = this.subscribers.pre_action.get(name);
+            if (pre_action != undefined)
+            {
+                pre_action_groups.push(pre_action);
+            }
+            let post_action = this.subscribers.post_action.get(name);
+            if (post_action != undefined)
+            {
+                post_action_groups.push(post_action);
             }
         }
-        if (!ev.isCanceled())
         {
-            ev.doAction(ent);
+            let state = new judgementstate<EntityType, typeof ev>(ev);
+            for (var judger_group of judger_groups)
+            {
+                for (let judger of judger_group)
+                {
+                    judger(state);
+                }
+            }
+            if (state.isCanceled())
+            {
+                return;
+            }
+        }
+        {
+            let state = new detainablestate<EntityType, typeof ev>(ev, () =>
+            {
+                ev.getCurrentAction()(ent);
+                {
+                    let state = new detainablestate<EntityType, typeof ev>(ev, () =>
+                    {
+                        finished();
+                    });
+                    for (var post_action_group of post_action_groups)
+                    {
+                        for (let post_action of post_action_group)
+                        {
+                            post_action(state);
+                        }
+                    }
+                    state.doAction();
+                }
+            });
+            for (var pre_action_group of pre_action_groups)
+            {
+                for (let pre_action of pre_action_group)
+                {
+                    pre_action(state);
+                }
+            }
+            state.doAction();
         }
     }
 }
 
 export var event_bus: eventbus = new eventbus();
+
+export class global
+{
+    constructor(value: never)
+    {
+
+    }
+}
