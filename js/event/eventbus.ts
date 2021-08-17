@@ -1,6 +1,24 @@
 import { event } from "./event";
 import { judgementstate, detainablestate } from "./eventstate";
 
+/**
+ * An eventbus is an indepandent system to handle events.
+ * Register subscribers to an eventbus to subscribe to events.
+ * Every time you post an event, all subscribers about the event will be invoked.
+ * A complete event handling process includes judging, pre_action notifying and post_action notifying.
+ * Judging is a process to decide whether the event will happen or not.
+ * Subscribers will be invoked with a judgementstate object which is cancelable.
+ * Handling process will be stopped and following steps will not be executed
+ * and the event will be considered not happened if the judgementstate is set to canceled.
+ * Then is pre_action step. In this step, the event is determined to happen but not happened yet.
+ * In this step, subscribers can prepare things for the event or detain it
+ * so it wouldn't happen until all subscribers release its detainablestate.
+ * After all pre_action subscribers invoked or released,
+ * the event's action will be executed which means the event will be considered happened.
+ * Then is post_action step. Subscribers can also detain to detain the event handling process's complete.
+ * Finally, when all post_action subscriber is invoked or released,
+ * the poster of the event will be notified by callback function.
+ */
 export class eventbus
 {
 
@@ -125,6 +143,7 @@ export class eventbus
      * then run these functions.
      * 
      * @param ev The event you want to post
+     * @param finished The callback function which will be called when the event handling process finish.
      */
     post<EntityType>(ev: event<any>, ent: EntityType, finished: () => void): void
     {

@@ -1,4 +1,8 @@
 import { event } from "./event";
+
+/**
+ * Use these classes's instances to cancel or detain events.
+ */
 export class judgementstate<EntityType, EventType extends event<EntityType>> {
 
     event: event<EntityType>;
