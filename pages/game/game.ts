@@ -1,29 +1,24 @@
 import { event_bus } from "../../js/event/eventbus"
 import { tickstopevent } from "../../js/event/tickstopevent"
-import { golSpace, rules } from "../../js/entity/golSpace";
-import { player } from "../../js/entity/player";
 import { downKey, upKey } from "./moveconverter";
+import { completeinitevent } from "../../js/event/completeinitevent";
+import { initializeEventActions, processBegin } from "./game_process";
+import stage = require("../../js/lifegame/stage");
+import game_process = require("game_process");
 
-readonly var block_length = 10;
+export var block_length = 10;
 
 export var canvas: HTMLCanvasElement;
 
-/**
- * The main golSpace on the screen.
- */
-export var the_space: golSpace;
-
-export var the_player: player;
-
-export function pauseGame(): void
+export function pauseGame(callback: () => void): void
 {
-    event_bus.post(new tickstopevent());
+    event_bus.post(new tickstopevent(), undefined, callback);
     return;
 }
 
-export function resumeGame(): void
+export function resumeGame(callback: () => void): void
 {
-    event_bus.post(new tickstopevent());
+    event_bus.post(new tickstopevent(), undefined, callback);
     return;
 }
 
@@ -31,7 +26,7 @@ export function pressKey(event: KeyboardEvent)
 {
     if (needPauseFromUserKeybooard(event))
     {
-        pauseGame();
+        pauseGame(() => { });
     }
     else
     {
@@ -87,26 +82,19 @@ function initializeCanvas(): void
     context.fillStyle = "#ffffff";
 }
 
-function initializeSpace(): void
+function subscribeEvents(): void
 {
-    var width = Math.round(width / block_length);
-    var height = Math.round(height * 2 / block_length);
-    the_space = new golSpace(
-        { xPos: 0, yPos: 0, xVelocity: 0, yVelocity: 0 },
-        { width: width, height: height, absoluteWidth: canvas.width, absoluteHeight: canvas.height },
-        { minX: 0, maxX: width, minY: Math.round(height / 4), maxY: Math.round(height * 3 / 4) + 1 },
-        undefined, canvas.getContext("2d"), rules.b3s23
-    );
-}
-
-function initializePlayer(): void
-{
-    the_player = new player();
+    stage.subscribeEvents();
+    game_process.subscribeEvents();
 }
 
 /**
  * Entry of the game
  */
 initializeCanvas();
-initializeSpace();
-initializePlayer();
+
+initializeEventActions();
+
+subscribeEvents();
+
+event_bus.post(new completeinitevent(), undefined, processBegin);

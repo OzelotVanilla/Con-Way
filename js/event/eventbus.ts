@@ -44,7 +44,7 @@ export class eventbus
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribeJudger<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: judgementstate<EntityType, event<EntityType>>) => void): void
+    subscribeJudger<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: judgementstate<EntityType, TypeName>) => void): void
     {
         let subscriber_group: Set<(ev: judgementstate<any, any>) => void>;
         if (this.subscribers.judger.has(event_name))
@@ -64,7 +64,7 @@ export class eventbus
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribePreAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void): void
+    subscribePreAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, TypeName>) => void): void
     {
         this.subscribe(this.subscribers.pre_action, event_name, subscriber);
     }
@@ -74,7 +74,7 @@ export class eventbus
      * @param {string} event_name The name you want to find in the event bus
      * @param {function} subscriber The action you want to add to the event
      */
-    subscribePostAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void): void
+    subscribePostAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, TypeName>) => void): void
     {
         this.subscribe(this.subscribers.post_action, event_name, subscriber);
     }
@@ -101,7 +101,7 @@ export class eventbus
      * @param {string} eventName The name you want to find in the event bus
      * @param {function} subscriber The action you want to cancel from the event bus
      */
-    desubscribeJudger<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: judgementstate<EntityType, event<EntityType>>) => void = undefined): void
+    desubscribeJudger<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: judgementstate<EntityType, TypeName>) => void = undefined): void
     {
         let subscribers = this.subscribers.judger.get(event_name); // subscriberGroup: set
         if (subscribers != null)
@@ -114,12 +114,12 @@ export class eventbus
         }
     }
 
-    desubscribePreAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void = undefined): void
+    desubscribePreAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, TypeName>) => void = undefined): void
     {
         this.desubscribe(this.subscribers.pre_action, event_name, subscriber);
     }
 
-    desubscribePostAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, event<EntityType>>) => void = undefined): void
+    desubscribePostAction<EntityType, TypeName extends event<EntityType>>(event_name: string, subscriber: (ev: detainablestate<EntityType, TypeName>) => void = undefined): void
     {
         this.desubscribe(this.subscribers.post_action, event_name, subscriber);
     }

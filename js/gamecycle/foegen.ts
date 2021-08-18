@@ -1,7 +1,6 @@
 import { loopgrid } from "../container/loopgrid";
-import { event } from "../event/event";
-import { event_bus } from "../../js/event/eventbus";
 import { mode } from "./mode/mode";
+import { tickevent } from "../event/tickevent";
 
 /**
  * 
@@ -50,7 +49,7 @@ export class foegen
      * 
      * @param {event} ev The event 
      */
-    tick(ev: event): void
+    tick(ev: tickevent): void
     {
         if (this.currentMode === undefined)
         {

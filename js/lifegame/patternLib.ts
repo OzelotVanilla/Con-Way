@@ -9,11 +9,6 @@ import { eventbus } from "../event/eventbus";
 
 export var patternLib: Map<string, (grid: loopgrid, x: number, y: number) => void> = new Map();
 
-export function subscribeEvents(bus: eventbus): void
-{
-    bus.subscribe("init", onInit);
-}
-
 function onInit(): void
 {
     var data: { [x: string]: number[][] } = JSON.parse(sessionStorage.getItem("patternLib"));
@@ -45,3 +40,5 @@ function onInit(): void
         patternLib.set(key, gen);
     }
 }
+
+onInit();

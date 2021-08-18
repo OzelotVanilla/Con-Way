@@ -1,5 +1,5 @@
 import { event } from "./event";
-import { eventbus } from "./eventbus";
+import { eventbus, global } from "./eventbus";
 import { tickbeginevent } from "./tickbeginevent";
 import { savestate } from "../../pages/game/savestate";
 import { stages_names } from "../lifegame/stage";
@@ -7,32 +7,19 @@ import { stages_names } from "../lifegame/stage";
 /**
  * Begin game ticking (game loop).
  */
-export class startgameevent extends event
+export class startgameevent extends event<global>
 {
     sst: savestate;
 
-    constructor(event_bus: eventbus, sst: savestate)
+    constructor()
     {
-        super("game_start", () => event_bus.post(new tickbeginevent()));
-        this.sst = sst;
-        startgameevent.normalizeSavestate(sst);
+        super("game_start", default_action);
     }
 
-    /**
-     * If the savestate is not valid, make them default.
-     */
-    static normalizeSavestate(sst: savestate): savestate
+    static setDefaultAction(action: (ent: global) => any)
     {
-        if (sst.name === null || sst.name === undefined)
-        {
-            sst.name = "User"
-        }
-
-        // If the stage name is invalid (does not in the list)
-        if (sst.stage === null || sst.stage === undefined || stages_names.indexOf(sst.stage) === -1)
-        {
-            sst.stage = "meadow";
-        }
-        return sst;
+        default_action = action;
     }
 }
+
+var default_action: (ent: global) => any;

@@ -12,23 +12,27 @@ export class player extends visibleEntity
     kill: number;
     bullet_shoot_rate: number;
 
+    engine_vector: { x_from_key: number, y_from_key: number, x_from_screen: number, y_from_screen: number };
+
     /**
      * The buffer which contains the key: effect, and value : remaining tick it have.
      */
     effect_buffer: Map<effect, number>;
 
-    constructor(space: golSpace = the_space, pos: { xPos: number, yPos: number } = { xPos: space.width / 2, yPos: space.height * 0.05 })
+    constructor(engine: { x_from_key: number, y_from_key: number, x_from_screen: number, y_from_screen: number },
+        space: golSpace = the_space, pos: { xPos: number, yPos: number } = { xPos: space.width / 2, yPos: space.height * 0.05 })
     {
         var c = space.canvas.canvas;
         super("player", { xPos: pos.xPos, yPos: pos.yPos, xVelocity: 0, yVelocity: 0 }, space, true, space.canvas);
+        this.engine_vector = engine;
     }
 
     tick(time: number)
     {
         var acc: { x: number, y: number } =
         {
-            x: engine_vector.x_from_key + engine_vector.x_from_screen,
-            y: engine_vector.y_from_key + engine_vector.y_from_screen
+            x: this.engine_vector.x_from_key + this.engine_vector.x_from_screen,
+            y: this.engine_vector.y_from_key + this.engine_vector.y_from_screen
         };
 
         {
@@ -74,10 +78,3 @@ const fric: number = 0.9;
 
 const max_velocity = 1.0;
 
-export var engine_vector: { x_from_key: number, y_from_key: number, x_from_screen: number, y_from_screen: number } =
-{
-    x_from_key: 0,
-    y_from_key: 0,
-    x_from_screen: 0,
-    y_from_screen: 0
-}

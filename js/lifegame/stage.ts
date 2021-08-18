@@ -1,10 +1,9 @@
-import { tickevent } from "../event/tickevent";
-import { tickbeginevent } from "../event/tickbeginevent";
-import { tickstopevent } from "../event/tickstopevent";
 import { startgameevent } from "../event/startgameevent";
 import { foegen } from "../gamecycle/foegen";
-import { the_space } from "../../js/entity/golSpace";
-import { eventbus, event_bus } from "../event/eventbus";
+import { the_space } from "../../pages/game/the_space";
+import { event_bus, global } from "../event/eventbus";
+import { detainablestate, judgementstate } from "../event/eventstate";
+import game_process = require("../../pages/game/game_process");
 
 /**
  * Complete stage object.
@@ -32,14 +31,9 @@ export class stage
 
 export var stages_names: string[] = JSON.parse(sessionStorage.getItem("stageLib")).stages;
 
-export function subscribeEvents(bus: eventbus): void
+function onStartGame(ev: detainablestate<global, startgameevent>)
 {
-    bus.subscribe("game_start", onStartGame);
-}
-
-function onStartGame(ev: startgameevent)
-{
-    var e: startgameevent = (<startgameevent>ev);
+    var e: startgameevent = ev.event;
     var sst = e.sst;
     ev.detain();
     $.ajax(
@@ -53,14 +47,16 @@ function onStartGame(ev: startgameevent)
             foegen.loadFoegenFromJSON(data.mode, the_space.grid,
                 gen =>
                 {
-                    var the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
-                    the_stage.bgm.loop = true;
-                    event_bus.subscribe("tick", (e: tickevent) => { gen.tick(e); });
-                    event_bus.subscribe("tick_begin", () => { the_stage.bgm.play(); });
-                    event_bus.subscribe("tick_stop", () => { the_stage.bgm.pause(); });
+                    game_process.the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
+                    game_process.the_stage.bgm.loop = true;
                     ev.release();
                 }
             );
         }
     );
+}
+
+export function subscribeEvents(): void
+{
+    event_bus.subscribePostAction("game_end", onStartGame);
 }

@@ -1,5 +1,4 @@
-import { player, ply, engine_vector } from "../../js/entity/player"
-import { the_space, golSpace } from "../../js/entity/golSpace";
+import { engine_vector, the_player } from "./the_player";
 
 /**
  * Export kinematics data to lead the player's plane's movement.
@@ -22,8 +21,8 @@ export function moveMouse(move_src: MouseEvent): void
 
 function moveScreen(x_pos: number, y_pos: number): void
 {
-    engine_vector.x_from_screen = x_pos - ply.xPos;
-    engine_vector.y_from_screen = y_pos - ply.yPos;
+    engine_vector.x_from_screen = x_pos - the_player.xPos;
+    engine_vector.y_from_screen = y_pos - the_player.yPos;
 }
 
 export function downKey(move_src: KeyboardEvent): void

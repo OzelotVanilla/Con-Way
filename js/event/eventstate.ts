@@ -5,15 +5,15 @@ import { event } from "./event";
  */
 export class judgementstate<EntityType, EventType extends event<EntityType>> {
 
-    event: event<EntityType>;
+    event: EventType;
     canceled: boolean;
 
-    constructor(event: event<EntityType>)
+    constructor(event: EventType)
     {
         this.event = event;
     }
 
-    getEvent(): event<EntityType>
+    getEvent(): EventType
     {
         return this.event;
     }
@@ -31,7 +31,7 @@ export class judgementstate<EntityType, EventType extends event<EntityType>> {
 
 export class detainablestate<EntityType, EventType extends event<EntityType>> {
 
-    event: event<EntityType>;
+    event: EventType;
 
     callback: () => void;
 
@@ -40,13 +40,13 @@ export class detainablestate<EntityType, EventType extends event<EntityType>> {
      */
     detainedTimes: number = 0;
 
-    constructor(event: event<EntityType>, callback: () => void)
+    constructor(event: EventType, callback: () => void)
     {
         this.event = event;
         this.callback = callback;
     }
 
-    getEvent(): event<EntityType>
+    getEvent(): EventType
     {
         return this.event;
     }
