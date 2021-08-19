@@ -1,20 +1,22 @@
+import { event } from "./event";
+import { global } from "./eventbus";
 import { tickevent } from "./tickevent";
 
 /**
  * Begin game ticking (game loop).
  */
-export class tickbeginevent extends tickevent
+export class tickbeginevent extends event<global>
 {
-    constructor(current_time: number = new Date().getTime())
+    constructor()
     {
-        super(current_time);
-        this.name = "tick_begin";
-        var tick_action = this.currentAction;
-        this.currentAction = this.defaultAction = () =>
-        {
-            tickevent.ticking = true;
-            tick_action();
-            setTimeout(tickevent.tick, 0);
-        };
+        super("tick_begin", default_action);
     }
+
+    static setDefaultAction(action: (ent: global) => any)
+    {
+        default_action = action;
+    }
+
 }
+
+var default_action: (ent: global) => any;

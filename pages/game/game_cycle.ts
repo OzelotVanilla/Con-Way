@@ -50,3 +50,14 @@ var ticker: {
         });
     }
 }
+
+export function tickBegin(): void
+{
+    ticker.ticking = true;
+    setTimeout(ticker.tick);
+}
+
+export function tickStop(): void
+{
+    ticker.ticking = false;
+}

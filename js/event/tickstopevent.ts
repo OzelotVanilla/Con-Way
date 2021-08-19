@@ -1,14 +1,22 @@
+import { event } from "./event";
+import { global } from "./eventbus";
 import { tickevent } from "./tickevent";
 
 /**
  * Stop game ticking (game loop).
  */
-export class tickstopevent extends tickevent
+export class tickstopevent extends event<global>
 {
-    constructor(current_time: number = new Date().getTime())
+    constructor()
     {
-        super(current_time);
-        this.name = "tick_stop";
-        this.currentAction = this.defaultAction = () => tickevent.ticking = false;
+        super("tick_stop", default_action);
     }
+
+    static setDefaultAction(action: (ent: global) => any)
+    {
+        default_action = action;
+    }
+
 }
+
+var default_action: (ent: global) => any;

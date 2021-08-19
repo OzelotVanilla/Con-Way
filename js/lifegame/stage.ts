@@ -58,5 +58,5 @@ function onStartGame(ev: detainablestate<global, startgameevent>)
 
 export function subscribeEvents(): void
 {
-    event_bus.subscribePostAction("game_end", onStartGame);
+    event_bus.subscribePostAction("game_new", onStartGame);
 }

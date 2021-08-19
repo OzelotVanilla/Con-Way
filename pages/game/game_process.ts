@@ -1,4 +1,4 @@
-import { event_bus, global } from "../../js/event/eventbus";
+import { event_bus } from "../../js/event/eventbus";
 import { newgameevent } from "../../js/event/newgameevent";
 import { savestate } from "./savestate";
 import { overgameevent } from "../../js/event/overgameevent";
@@ -10,11 +10,24 @@ import { foegen } from "../../js/gamecycle/foegen";
 import { tickevent } from "../../js/event/tickevent";
 import { detainablestate } from "../../js/event/eventstate";
 import { golSpace } from "../../js/entity/golSpace";
+import { tickstopevent } from "../../js/event/tickstopevent";
+import { tickBegin, tickStop } from "./game_cycle";
 
+//This ts file controls the game's life cycle from initialize to the end.
+
+/**
+ * The save state. It will be initialized during every newgameevent.
+ */
 export var sst: savestate;
 
+/**
+ * The stage. It will be initialized during every newgameevent's post_action step.
+ */
 export var the_stage: stage;
 
+/**
+ * This is the entry of the game and it will be invoked just after the completeinitevent in game.ts.
+ */
 export function processBegin(): void
 {
     event_bus.post(new newgameevent(), undefined, () =>
@@ -29,6 +42,9 @@ export function processBegin(): void
     });
 }
 
+/**
+ * The default_action of the newgameevent.
+ */
 function onNewGame(): void
 {
     sst = new savestate(
@@ -39,6 +55,9 @@ function onNewGame(): void
 
 }
 
+/**
+ * The default_action of the startgameevent.
+ */
 function onStartGame(): void
 {
 
@@ -48,7 +67,9 @@ export function initializeEventActions(): void
 {
     newgameevent.setDefaultAction(onNewGame);
     overgameevent.setDefaultAction(onStartGame);
-    victorygameevent.setDefaultAction(undefined);
+    victorygameevent.setDefaultAction(() => { });
+    tickbeginevent.setDefaultAction(tickBegin);
+    tickstopevent.setDefaultAction(tickStop);
 }
 
 export function subscribeEvents(): void

@@ -1,7 +1,7 @@
 import { visibleEntity } from "./visibleEntity"
 import { effect } from "../lifegame/speffect/effect"
-import { the_space } from "../../pages/game/game";
 import { golSpace } from "./golSpace";
+import { the_space } from "../../pages/game/the_space";
 
 /**
  * The plane that player controls
