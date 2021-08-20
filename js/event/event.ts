@@ -1,8 +1,12 @@
-
 /**
  * An event object is acts as an event.
+ * 
  * Events can be anything, but it must clearly happens inside its action.
- * Some abstract types of events like events of periods have no action which means their actions are empty or just logs.
+ * 
+ * Event happend when its action is invoked but still didn't returned.
+ * 
+ * Some abstract types of events, like events of periods (onload, onfinish, etc.),
+ * have no action (which means their actions are empty or just logs).
  */
 export class event<EntityType>
 {

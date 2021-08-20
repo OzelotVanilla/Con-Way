@@ -17,7 +17,8 @@ var ticker: {
      * Delay between two ticks.
      */
     delay: number;
-} = {
+} =
+{
     ticking: false,
     lastTime: 0,
     delay: 50,
@@ -28,26 +29,28 @@ var ticker: {
     tick: () =>
     {
         let now: number = new Date().getTime();
-        event_bus.post(new tickevent(now), the_space, () =>
-        {
-            if (ticker.ticking)
+        event_bus.post(new tickevent(now), the_space,
+            () =>
             {
-                let sleep: number = ticker.delay - now + ticker.lastTime;
-                if (sleep >= 0)
+                if (ticker.ticking)
                 {
-                    if (sleep <= ticker.delay)
+                    let sleep: number = ticker.delay - now + ticker.lastTime;
+                    if (sleep >= 0)
                     {
-                        ticker.lastTime += ticker.delay;
+                        if (sleep <= ticker.delay)
+                        {
+                            ticker.lastTime += ticker.delay;
+                        }
                     }
+                    else
+                    {
+                        ticker.lastTime = now;
+                        sleep = ticker.delay;
+                    }
+                    setTimeout(ticker.tick, sleep);
                 }
-                else
-                {
-                    ticker.lastTime = now;
-                    sleep = ticker.delay;
-                }
-                setTimeout(ticker.tick, sleep);
             }
-        });
+        );
     }
 }
 

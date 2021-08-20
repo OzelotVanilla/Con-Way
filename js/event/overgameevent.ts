@@ -1,5 +1,5 @@
 import { event } from "./event";
-import { eventbus, global } from "./eventbus";
+import { global } from "./eventbus";
 
 /**
  * While the player can go next stage, or dead, this event is called.

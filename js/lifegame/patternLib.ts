@@ -1,5 +1,4 @@
 import { loopgrid } from "../container/loopgrid";
-import { eventbus } from "../event/eventbus";
 
 /**
  * All legal patterns from patternLib.json will be loaded into con-way.patternLib.

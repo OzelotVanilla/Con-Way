@@ -1,7 +1,6 @@
 import { visibleEntity } from "./visibleEntity"
 import { effect } from "../lifegame/speffect/effect"
 import { golSpace } from "./golSpace";
-import { the_space } from "../../pages/game/the_space";
 
 /**
  * The plane that player controls
@@ -20,7 +19,7 @@ export class player extends visibleEntity
     effect_buffer: Map<effect, number>;
 
     constructor(engine: { x_from_key: number, y_from_key: number, x_from_screen: number, y_from_screen: number },
-        space: golSpace = the_space, pos: { xPos: number, yPos: number } = { xPos: space.width / 2, yPos: space.height * 0.05 })
+        space: golSpace, pos: { xPos: number, yPos: number } = { xPos: space.width / 2, yPos: space.height * 0.05 })
     {
         var c = space.canvas.canvas;
         super("player", { xPos: pos.xPos, yPos: pos.yPos, xVelocity: 0, yVelocity: 0 }, space, true, space.canvas);

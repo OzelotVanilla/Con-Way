@@ -2,8 +2,6 @@ import { entity } from "./entity";
 import { visibleEntity } from "./visibleEntity";
 import { loopgrid } from "../container/loopgrid";
 import { doublegrid } from "../container/doublegrid";
-import { event_bus } from "../event/eventbus";
-import { tickevent } from "../event/tickevent";
 
 /**
  * Game of life Space

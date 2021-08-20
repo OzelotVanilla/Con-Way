@@ -1,8 +1,6 @@
 import { event } from "./event";
-import { event_bus } from "../../js/event/eventbus";
 import { golSpace } from "../../js/entity/golSpace";
 import { the_space } from "../../pages/game/the_space";
-
 
 /**
  * News and posts it every tick. (- _- )

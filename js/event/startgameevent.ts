@@ -1,8 +1,6 @@
 import { event } from "./event";
-import { eventbus, global } from "./eventbus";
-import { tickbeginevent } from "./tickbeginevent";
+import { global } from "./eventbus";
 import { savestate } from "../../pages/game/savestate";
-import { stages_names } from "../lifegame/stage";
 
 /**
  * Begin game ticking (game loop).

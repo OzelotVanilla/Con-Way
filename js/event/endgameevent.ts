@@ -1,6 +1,5 @@
 import { event } from "./event";
-import { eventbus, event_bus, global } from "./eventbus";
-import { savestate } from "../../pages/game/savestate";
+import { event_bus, global } from "./eventbus";
 import { victorygameevent } from "./victorygameevent";
 import { overgameevent } from "./overgameevent";
 

@@ -74,27 +74,41 @@ export function initializeEventActions(): void
 
 export function subscribeEvents(): void
 {
-    event_bus.subscribePostAction("game_start", () =>
-    {
-        let the_foegen: foegen = the_stage.gen_method;
-        let foegen_begin: (ev: detainablestate<golSpace, tickevent>) => void = (ev: detainablestate<golSpace, tickevent>) =>
+    event_bus.subscribePostAction("game_start",
+        () =>
         {
-            the_foegen.tick(ev.event);
-        };
-        event_bus.subscribePostAction("tick", foegen_begin);
-        let foegen_stop: (ev: detainablestate<golSpace, tickevent>) => void = (ev: detainablestate<golSpace, tickevent>) =>
-        {
-            event_bus.desubscribePostAction("tick", foegen_begin);
-            event_bus.desubscribePreAction("game_end", foegen_stop);
+            let the_foegen: foegen = the_stage.gen_method;
+
+            let foegen_begin: (ev: detainablestate<golSpace, tickevent>) => void =
+                (ev: detainablestate<golSpace, tickevent>) =>
+                {
+                    the_foegen.tick(ev.event);
+                }
+
+            event_bus.subscribePostAction("tick", foegen_begin);
+
+            let foegen_stop: (ev: detainablestate<golSpace, tickevent>) => void =
+                (ev: detainablestate<golSpace, tickevent>) =>
+                {
+                    event_bus.desubscribePostAction("tick", foegen_begin);
+                    event_bus.desubscribePreAction("game_end", foegen_stop);
+                }
+
+            event_bus.subscribePreAction("game_end", foegen_stop);
         }
-        event_bus.subscribePreAction("game_end", foegen_stop);
-    })
-    event_bus.subscribePostAction("game_start", () =>
-    {
-        the_stage.bgm.play();
-    });
-    event_bus.subscribePostAction("game_stop", () =>
-    {
-        the_stage.bgm.play();
-    });
+    );
+
+    event_bus.subscribePostAction("game_start",
+        () =>
+        {
+            the_stage.bgm.play();
+        }
+    );
+
+    event_bus.subscribePostAction("game_stop",
+        () =>
+        {
+            the_stage.bgm.pause();
+        }
+    );
 }

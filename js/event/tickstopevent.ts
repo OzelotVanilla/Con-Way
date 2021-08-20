@@ -1,6 +1,5 @@
 import { event } from "./event";
 import { global } from "./eventbus";
-import { tickevent } from "./tickevent";
 
 /**
  * Stop game ticking (game loop).

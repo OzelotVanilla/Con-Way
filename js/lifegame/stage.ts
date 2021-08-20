@@ -2,7 +2,7 @@ import { startgameevent } from "../event/startgameevent";
 import { foegen } from "../gamecycle/foegen";
 import { the_space } from "../../pages/game/the_space";
 import { event_bus, global } from "../event/eventbus";
-import { detainablestate, judgementstate } from "../event/eventstate";
+import { detainablestate } from "../event/eventstate";
 import game_process = require("../../pages/game/game_process");
 
 /**
