@@ -1,5 +1,5 @@
 import { golSpace, rules } from "../../js/entity/golSpace";
-import { block_length, canvas } from "./game";
+import { block_length, canvas } from "./canvas";
 
 export var the_space;
 

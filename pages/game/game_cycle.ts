@@ -56,11 +56,13 @@ var ticker: {
 
 export function tickBegin(): void
 {
+    console.log("tick_begin action.");
     ticker.ticking = true;
     setTimeout(ticker.tick);
 }
 
 export function tickStop(): void
 {
+    console.log("tick_stop action.");
     ticker.ticking = false;
 }

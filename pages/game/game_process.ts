@@ -4,7 +4,6 @@ import { savestate } from "./savestate";
 import { overgameevent } from "../../js/event/overgameevent";
 import { victorygameevent } from "../../js/event/victorygameevent";
 import { startgameevent } from "../../js/event/startgameevent";
-import { stage } from "../../js/lifegame/stage";
 import { tickbeginevent } from "../../js/event/tickbeginevent";
 import { foegen } from "../../js/gamecycle/foegen";
 import { tickevent } from "../../js/event/tickevent";
@@ -12,18 +11,10 @@ import { detainablestate } from "../../js/event/eventstate";
 import { golSpace } from "../../js/entity/golSpace";
 import { tickstopevent } from "../../js/event/tickstopevent";
 import { tickBegin, tickStop } from "./game_cycle";
+import { the_stage } from "./the_stage";
+import the_stage_ts = require("the_stage");
 
 //This ts file controls the game's life cycle from initialize to the end.
-
-/**
- * The save state. It will be initialized during every newgameevent.
- */
-export var sst: savestate;
-
-/**
- * The stage. It will be initialized during every newgameevent's post_action step.
- */
-export var the_stage: stage;
 
 /**
  * This is the entry of the game and it will be invoked just after the completeinitevent in game.ts.
@@ -32,11 +23,13 @@ export function processBegin(): void
 {
     event_bus.post(new newgameevent(), undefined, () =>
     {
+        console.log("game_new complete.");
         event_bus.post(new startgameevent(), undefined, () =>
         {
+            console.log("game_start complete.");
             event_bus.post(new tickbeginevent(), undefined, () =>
             {
-
+                console.log("tick_begin complete.");
             });
         });
     });
@@ -47,12 +40,12 @@ export function processBegin(): void
  */
 function onNewGame(): void
 {
-    sst = new savestate(
+    console.log("game_new action.");
+    the_stage_ts.sst = new savestate(
         localStorage.getItem("name"),
         localStorage.getItem("stage"),
         Number(localStorage.getItem("score"))
     );
-
 }
 
 /**
@@ -60,7 +53,7 @@ function onNewGame(): void
  */
 function onStartGame(): void
 {
-
+    console.log("game_start action.");
 }
 
 export function initializeEventActions(): void
