@@ -15,4 +15,7 @@ function initializeSpace(): void
         undefined, canvas.getContext("2d"), rules.b3s23
     );
 }
+
 initializeSpace();
+
+console.log("the_space initialized");

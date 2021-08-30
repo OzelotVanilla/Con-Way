@@ -3,7 +3,7 @@ import { event } from "./event";
 /**
  * Use these classes's instances to cancel or detain events.
  */
-export class judgementstate<EntityType, EventType extends event<EntityType>> {
+export class judgementstate<EntityType, EventType extends event<EntityType, EventType>> {
 
     event: EventType;
     canceled: boolean;
@@ -29,7 +29,7 @@ export class judgementstate<EntityType, EventType extends event<EntityType>> {
     }
 }
 
-export class detainablestate<EntityType, EventType extends event<EntityType>> {
+export class detainablestate<EntityType, EventType extends event<EntityType, EventType>> {
 
     event: EventType;
 

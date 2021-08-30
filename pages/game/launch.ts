@@ -1,5 +1,5 @@
 import { initializeEventActions, processBegin } from "./game_process";
-import stage = require("../../js/lifegame/stage");
+import the_stage = require("./the_stage");
 import game_process = require("game_process");
 import { event_bus } from "../../js/event/eventbus";
 import { completeinitevent } from "../../js/event/completeinitevent";
@@ -7,7 +7,7 @@ import { completeinitevent } from "../../js/event/completeinitevent";
 
 function subscribeEvents(): void
 {
-    stage.subscribeEvents();
+    the_stage.subscribeEvents();
     game_process.subscribeEvents();
 }
 

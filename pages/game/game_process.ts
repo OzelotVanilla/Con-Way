@@ -1,4 +1,4 @@
-import { event_bus } from "../../js/event/eventbus";
+import { event_bus, global } from "../../js/event/eventbus";
 import { newgameevent } from "../../js/event/newgameevent";
 import { savestate } from "./savestate";
 import { overgameevent } from "../../js/event/overgameevent";
@@ -11,8 +11,8 @@ import { detainablestate } from "../../js/event/eventstate";
 import { golSpace } from "../../js/entity/golSpace";
 import { tickstopevent } from "../../js/event/tickstopevent";
 import { tickBegin, tickStop } from "./game_cycle";
-import { the_stage } from "./the_stage";
 import the_stage_ts = require("the_stage");
+import { endgameevent } from "../../js/event/endgameevent";
 
 //This ts file controls the game's life cycle from initialize to the end.
 
@@ -21,10 +21,11 @@ import the_stage_ts = require("the_stage");
  */
 export function processBegin(): void
 {
-    event_bus.post(new newgameevent(), undefined, () =>
+    let game_new: newgameevent = new newgameevent();
+    event_bus.post(game_new, undefined, () =>
     {
         console.log("game_new complete.");
-        event_bus.post(new startgameevent(), undefined, () =>
+        event_bus.post(new startgameevent(game_new.sst, game_new.the_stage), undefined, () =>
         {
             console.log("game_start complete.");
             event_bus.post(new tickbeginevent(), undefined, () =>
@@ -41,11 +42,6 @@ export function processBegin(): void
 function onNewGame(): void
 {
     console.log("game_new action.");
-    the_stage_ts.sst = new savestate(
-        localStorage.getItem("name"),
-        localStorage.getItem("stage"),
-        Number(localStorage.getItem("score"))
-    );
 }
 
 /**
@@ -68,9 +64,9 @@ export function initializeEventActions(): void
 export function subscribeEvents(): void
 {
     event_bus.subscribePostAction("game_start",
-        () =>
+        (ev: detainablestate<global, startgameevent>, ent: undefined) =>
         {
-            let the_foegen: foegen = the_stage.gen_method;
+            let the_foegen: foegen = ev.event.the_stage.gen_method;
 
             let foegen_begin: (ev: detainablestate<golSpace, tickevent>) => void =
                 (ev: detainablestate<golSpace, tickevent>) =>
@@ -92,16 +88,16 @@ export function subscribeEvents(): void
     );
 
     event_bus.subscribePostAction("game_start",
-        () =>
+        (ev: detainablestate<global, startgameevent>, ent: undefined) =>
         {
-            the_stage.bgm.play();
+            ev.event.the_stage.bgm.play();
         }
     );
 
-    event_bus.subscribePostAction("game_stop",
-        () =>
+    event_bus.subscribePostAction("game_end",
+        (ev: detainablestate<global, endgameevent>, ent: undefined) =>
         {
-            the_stage.bgm.pause();
+            ev.event.the_stage.bgm.pause();
         }
     );
 }

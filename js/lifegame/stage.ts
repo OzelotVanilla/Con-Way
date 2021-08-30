@@ -1,9 +1,4 @@
-import { startgameevent } from "../event/startgameevent";
 import { foegen } from "../gamecycle/foegen";
-import { the_space } from "../../pages/game/the_space";
-import { event_bus, global } from "../event/eventbus";
-import { detainablestate } from "../event/eventstate";
-import the_stage = require("../../pages/game/the_stage");
 
 /**
  * Complete stage object.
@@ -31,32 +26,3 @@ export class stage
 
 export var stages_names: string[] = JSON.parse(sessionStorage.getItem("stageLib")).stages;
 
-function onStartGame(ev: detainablestate<global, startgameevent>)
-{
-    var e: startgameevent = ev.event;
-    var sst = e.sst;
-    ev.detain();
-    $.ajax(
-        "/js/lifegame/stages/" + sst.stage + ".json",
-        {
-            dataType: "json"
-        }
-    ).done(
-        (data: any) =>
-        {
-            foegen.loadFoegenFromJSON(data.mode, the_space.grid,
-                gen =>
-                {
-                    the_stage.the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
-                    the_stage.the_stage.bgm.loop = true;
-                    ev.release();
-                }
-            );
-        }
-    );
-}
-
-export function subscribeEvents(): void
-{
-    event_bus.subscribePostAction("game_new", onStartGame);
-}

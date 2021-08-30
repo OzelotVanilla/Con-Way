@@ -8,15 +8,15 @@
  * Some abstract types of events, like events of periods (onload, onfinish, etc.),
  * have no action (which means their actions are empty or just logs).
  */
-export class event<EntityType>
+export class event<EntityType, RealType extends event<EntityType, RealType>>
 {
 
     name: string;
 
-    defaultAction: (ent: EntityType) => void;
-    currentAction: (ent: EntityType) => void;
+    defaultAction: (ev: RealType, ent: EntityType) => void;
+    currentAction: (ev: RealType, ent: EntityType) => void;
 
-    constructor(name: string, action: (ent: EntityType) => any)
+    constructor(name: string, action: (ev: RealType, ent: EntityType) => any)
     {
         this.name = name;
         this.defaultAction = this.currentAction = action;
@@ -27,12 +27,12 @@ export class event<EntityType>
         return this.name;
     }
 
-    getDefaultAction(): (ent: EntityType) => any
+    getDefaultAction(): (ev: RealType, ent: EntityType) => any
     {
         return this.defaultAction;
     }
 
-    getCurrentAction(): (ent: EntityType) => any
+    getCurrentAction(): (ev: RealType, ent: EntityType) => any
     {
         return this.currentAction;
     }

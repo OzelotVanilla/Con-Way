@@ -37,4 +37,5 @@ export function initializeCanvas(): void
     context.fillStyle = "#ffffff";
 }
 initializeCanvas();
+
 console.log("canvas initialized");
