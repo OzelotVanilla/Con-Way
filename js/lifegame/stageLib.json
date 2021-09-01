@@ -1,0 +1,33 @@
+{
+    "stages": [
+        "meadow",
+        "forest",
+        "ocean"
+    ],
+    "fallback": {
+        "name": "fallback",
+        "bgm": "Meadow_We_Go.mp3",
+        "bkimg": "#000000",
+        "length": 120,
+        "mode": [
+            {
+                "name": "fallback generation mode",
+                "type": "binomialmode",
+                "interval": -1,
+                "pattern": [
+                    {
+                        "type": "example",
+                        "weight": 0
+                    }
+                ],
+                "data": {
+                    "expectation": 0.5,
+                    "deviation": 0.3
+                },
+                "succ": [
+                    "fallback generation mode"
+                ]
+            }
+        ]
+    }
+}
