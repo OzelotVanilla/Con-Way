@@ -1,7 +1,7 @@
 import { event } from "./event";
 import { global } from "./eventbus";
 
-export class completeinitevent extends event<global, completeinitevent>
+export class CompleteInitEvent extends event<global, CompleteInitEvent>
 {
     constructor()
     {

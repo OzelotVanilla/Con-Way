@@ -1,4 +1,4 @@
-import { golSpace, rules } from "../../js/entity/golSpace";
+import { GolSpace, rules } from "../../js/entity/GolSpace";
 import { block_length, canvas } from "./canvas";
 
 export var the_space;
@@ -8,10 +8,10 @@ function initializeSpace(): void
 {
     var width = Math.round(width / block_length);
     var height = Math.round(height * 2 / block_length);
-    the_space = new golSpace(
-        { xPos: 0, yPos: 0, xVelocity: 0, yVelocity: 0 },
-        { width: width, height: height, absoluteWidth: canvas.width, absoluteHeight: canvas.height },
-        { minX: 0, maxX: width, minY: Math.round(height / 4), maxY: Math.round(height * 3 / 4) + 1 },
+    the_space = new GolSpace(
+        { x_pos: 0, y_pos: 0, x_velocity: 0, y_velocity: 0 },
+        { width: width, height: height, absolute_width: canvas.width, absolute_height: canvas.height },
+        { min_x: 0, max_x: width, min_y: Math.round(height / 4), max_y: Math.round(height * 3 / 4) + 1 },
         undefined, canvas.getContext("2d"), rules.b3s23
     );
 }

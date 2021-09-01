@@ -1,6 +1,6 @@
 import { mode } from "./mode"
 
-export class scanningmode extends mode
+export class ScanningMode extends mode
 {
 
     initial_place: number;

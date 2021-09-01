@@ -1,15 +1,15 @@
-import { stage } from "../../js/lifegame/stage";
+import { Stage } from "../../js/lifegame/Stage";
 import { savestate } from "./savestate";
-import { foegen } from "../../js/gamecycle/foegen";
+import { FoeGen } from "../../js/foe_gen/FoeGen";
 import { the_space } from "./the_space";
 import { event_bus, global } from "../../js/event/eventbus";
 import { detainablestate } from "../../js/event/eventstate";
-import { newgameevent } from "../../js/event/newgameevent";
+import { NewGameEvent } from "../../js/event/NewGameEvent";
 
 
-function onNewGame(ev: detainablestate<global, newgameevent>)
+function onNewGame(ev: detainablestate<global, NewGameEvent>)
 {
-    var e: newgameevent = ev.event;
+    var e: NewGameEvent = ev.event;
     var sst = e.sst;
     ev.detain();
     $.ajax(
@@ -20,10 +20,10 @@ function onNewGame(ev: detainablestate<global, newgameevent>)
     ).done(
         (data: any) =>
         {
-            foegen.loadFoegenFromJSON(data.mode, the_space.grid,
+            FoeGen.loadFoegenFromJSON(data.mode, the_space.grid,
                 gen =>
                 {
-                    e.the_stage = new stage(data.name, data.bgm, data.bkimg, data.length, gen);
+                    e.the_stage = new Stage(data.name, data.bgm, data.bkimg, data.length, gen);
                     e.the_stage.bgm.loop = true;
                     console.log("stage loaded.");
                     ev.release();
@@ -33,7 +33,7 @@ function onNewGame(ev: detainablestate<global, newgameevent>)
     );
 }
 
-function beforeNewGame(ev: detainablestate<global, newgameevent>): void
+function beforeNewGame(ev: detainablestate<global, NewGameEvent>): void
 {
     ev.event.sst = new savestate(
         localStorage.getItem("name"),

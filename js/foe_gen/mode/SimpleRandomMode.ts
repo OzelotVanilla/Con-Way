@@ -3,7 +3,7 @@ import { mode } from "./mode"
 /**
  * Use simple random function to calculate the position of generate place of enermy
  */
-export class simplerandommode extends mode
+export class SimpleRandomMode extends mode
 {
 
     /**

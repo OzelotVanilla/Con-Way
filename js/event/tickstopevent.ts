@@ -4,18 +4,18 @@ import { global } from "./eventbus";
 /**
  * Stop game ticking (game loop).
  */
-export class tickstopevent extends event<global, tickstopevent>
+export class TickStopEvent extends event<global, TickStopEvent>
 {
     constructor()
     {
         super("tick_stop", default_action);
     }
 
-    static setDefaultAction(action: (ev: tickstopevent, ent: global) => any)
+    static setDefaultAction(action: (ev: TickStopEvent, ent: global) => any)
     {
         default_action = action;
     }
 
 }
 
-var default_action: (ev: tickstopevent, ent: global) => any;
+var default_action: (ev: TickStopEvent, ent: global) => any;

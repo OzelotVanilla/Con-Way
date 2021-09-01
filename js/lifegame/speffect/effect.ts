@@ -1,6 +1,6 @@
 // import { entity } from "../../entity/entity"
 
-export class effect
+export class Effect
 {
     name: string;
     action: () => any;

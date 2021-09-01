@@ -5,7 +5,7 @@ import { global } from "./eventbus";
  * While the player can go next stage, or dead, this event is called.
  */
 
-export class overgameevent extends event<global, overgameevent>
+export class OverGameEvent extends event<global, OverGameEvent>
 {
 
     constructor()
@@ -13,10 +13,10 @@ export class overgameevent extends event<global, overgameevent>
         super("game_over", default_action);
     }
 
-    static setDefaultAction(action: (ev: overgameevent, ent: global) => any)
+    static setDefaultAction(action: (ev: OverGameEvent, ent: global) => any)
     {
         default_action = action;
     }
 }
 
-var default_action: (ev: overgameevent, ent: global) => any;
+var default_action: (ev: OverGameEvent, ent: global) => any;

@@ -1,18 +1,18 @@
-import { visibleEntity } from "./visibleEntity"
-import { effect } from "../lifegame/speffect/effect"
-import { golSpace } from "../entity/golSpace"
+import { VisibleEntity } from "./VisibleEntity"
+import { Effect } from "../lifegame/speffect/Effect"
+import { GolSpace } from "./GolSpace"
 
 /**
  * The card that give players special effect.
  */
-export class effectcard extends visibleEntity
+export class EffectCard extends VisibleEntity
 {
-    inside: effect;
+    inside: Effect;
     remaining_tick: number;
 
-    constructor(effect_inside: effect, duration: number,
-        kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number },
-        space: golSpace, canvas: CanvasRenderingContext2D)
+    constructor(effect_inside: Effect, duration: number,
+        kinematics: { x_pos: number, y_pos: number, x_velocity: number, y_velocity: number },
+        space: GolSpace, canvas: CanvasRenderingContext2D)
     {
         super("effectcard", kinematics, space, true, canvas);
         this.inside = effect_inside;
@@ -23,7 +23,7 @@ export class effectcard extends visibleEntity
     {
         super.tick(time);
         this.remaining_tick -= 1;
-        if (this.remaining_tick <= 0) { this.isDead = true; }
+        if (this.remaining_tick <= 0) { this.is_dead = true; }
     }
 
     render()
@@ -36,6 +36,6 @@ export class effectcard extends visibleEntity
      */
     picked()
     {
-        this.isDead = true;
+        this.is_dead = true;
     }
 }

@@ -1,11 +1,11 @@
-import { visibleEntity } from "./visibleEntity"
-import { effect } from "../lifegame/speffect/effect"
-import { golSpace } from "./golSpace";
+import { VisibleEntity } from "./VisibleEntity"
+import { Effect } from "../lifegame/speffect/Effect"
+import { GolSpace } from "./GolSpace";
 
 /**
  * The plane that player controls
  */
-export class player extends visibleEntity
+export class Player extends VisibleEntity
 {
     hp: number;
     kill: number;
@@ -16,13 +16,13 @@ export class player extends visibleEntity
     /**
      * The buffer which contains the key: effect, and value : remaining tick it have.
      */
-    effect_buffer: Map<effect, number>;
+    effect_buffer: Map<Effect, number>;
 
     constructor(engine: { x_from_key: number, y_from_key: number, x_from_screen: number, y_from_screen: number },
-        space: golSpace, pos: { xPos: number, yPos: number } = { xPos: space.width / 2, yPos: space.height * 0.05 })
+        space: GolSpace, pos: { x_pos: number, y_pos: number } = { x_pos: space.width / 2, y_pos: space.height * 0.05 })
     {
         var c = space.canvas.canvas;
-        super("player", { xPos: pos.xPos, yPos: pos.yPos, xVelocity: 0, yVelocity: 0 }, space, true, space.canvas);
+        super("player", { x_pos: pos.x_pos, y_pos: pos.y_pos, x_velocity: 0, y_velocity: 0 }, space, true, space.canvas);
         this.engine_vector = engine;
     }
 
@@ -43,8 +43,8 @@ export class player extends visibleEntity
             }
         }
 
-        this.xVelocity = this.xVelocity * fric + acc.x;
-        this.yVelocity = this.yVelocity * fric + acc.y;
+        this.x_velocity = this.x_velocity * fric + acc.x;
+        this.y_velocity = this.y_velocity * fric + acc.y;
 
         super.tick(time);
 

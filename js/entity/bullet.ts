@@ -1,17 +1,17 @@
-import { player } from "./player";
-import { visibleEntity } from "./visibleEntity";
+import { Player } from "./Player";
+import { VisibleEntity } from "./VisibleEntity";
 
-export class bullet extends visibleEntity
+export class Bullet extends VisibleEntity
 {
     /**
      * Create a new flying bullet according to player's speed and position.
      * @param ply The player who shoot the bullet
      */
-    constructor(ply: player)
+    constructor(ply: Player)
     {
         super(
             "bullet",
-            { xPos: ply.xPos, yPos: ply.yPos, xVelocity: ply.xVelocity, yVelocity: ply.yVelocity },
+            { x_pos: ply.x_pos, y_pos: ply.y_pos, x_velocity: ply.x_velocity, y_velocity: ply.y_velocity },
             ply.space, true, ply.canvas
         );
     }

@@ -1,15 +1,15 @@
 import { event } from "./event";
 import { event_bus, global } from "./eventbus";
-import { victorygameevent } from "./victorygameevent";
-import { overgameevent } from "./overgameevent";
+import { VictoryGameEvent } from "./VictoryGameEvent";
+import { OverGameEvent } from "./OverGameEvent";
 import { savestate } from "../../pages/game/savestate";
-import { stage } from "../lifegame/stage";
+import { Stage } from "../lifegame/Stage";
 
 /**
  * While the player can go next stage, or dead, this event is called.
  */
 
-export class endgameevent extends event<global, endgameevent>
+export class EndGameEvent extends event<global, EndGameEvent>
 {
 
     /**
@@ -20,19 +20,19 @@ export class endgameevent extends event<global, endgameevent>
     /**
      * The stage. It is already initialized during every newgameevent's post_action step.
      */
-    the_stage: stage;
+    the_stage: Stage;
 
-    constructor(is_victory: boolean, sst: savestate, the_stage: stage)
+    constructor(is_victory: boolean, sst: savestate, the_stage: Stage)
     {
         super("game_end",
             (g) =>
             {
                 if (is_victory)
                 {
-                    event_bus.post(new victorygameevent(), undefined, () => { });
+                    event_bus.post(new VictoryGameEvent(), undefined, () => { });
                 } else
                 {
-                    event_bus.post(new overgameevent(), undefined, () => { });
+                    event_bus.post(new OverGameEvent(), undefined, () => { });
                 }
             }
         );

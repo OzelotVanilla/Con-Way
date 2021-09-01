@@ -3,7 +3,7 @@ import { mode } from "./mode"
 /**
  * Put patterns currectly at the fixed point.
  */
-export class fixedpointmode extends mode
+export class FixedPointMode extends mode
 {
 
     plan: number[];

@@ -5,30 +5,30 @@
  * The factory function which the forEach method needs should looks like this: factory(this, x, y){ } and have return value,
  * because its return value will be the new value of that position.
  */
-export class loopgrid
+export class LoopGrid
 {
 
-    innerarray: boolean[][];
+    inner_array: boolean[][];
     width: number;
     height: number;
-    initialize: (grid: loopgrid, x: number, y: number) => boolean;
-    horizonalLoop: boolean;
-    verticalLoop: boolean;
+    initialize: (grid: LoopGrid, x: number, y: number) => boolean;
+    horizonal_loop: boolean;
+    vertical_loop: boolean;
 
-    constructor(x: number, y: number, factory: (grid: loopgrid, x: number, y: number) => boolean,
-        horizonalLoop: boolean, verticalLoop: boolean)
+    constructor(x: number, y: number, factory: (grid: LoopGrid, x: number, y: number) => boolean,
+        horizonal_loop: boolean, vertical_loop: boolean)
     {
-        this.innerarray = new Array();
+        this.inner_array = new Array();
         this.width = x;
         this.height = y;
         this.initialize = factory;
-        this.horizonalLoop = horizonalLoop;
-        this.verticalLoop = verticalLoop;
+        this.horizonal_loop = horizonal_loop;
+        this.vertical_loop = vertical_loop;
 
         for (var dx = 0; dx < x; dx++)
         {
             var column: boolean[] = [];
-            this.innerarray[dx] = column;
+            this.inner_array[dx] = column;
             for (var dy: number = 0; dy < y; dy++)
             {
                 column[dy] = factory(this, dx, dy);
@@ -50,7 +50,7 @@ export class loopgrid
     {
         if (x < 0 || this.width <= x)
         {
-            if (!this.horizonalLoop)
+            if (!this.horizonal_loop)
             {
                 return;
             }
@@ -65,7 +65,7 @@ export class loopgrid
         }
         if (y < 0 || this.height <= y)
         {
-            if (!this.verticalLoop)
+            if (!this.vertical_loop)
             {
                 return;
             }
@@ -78,14 +78,14 @@ export class loopgrid
                 }
             }
         }
-        this.innerarray[x][y] = data;
+        this.inner_array[x][y] = data;
     }
 
     getAndSet(x: number, y: number, data: boolean): boolean
     {
         if (x < 0 || this.width <= x)
         {
-            if (!this.horizonalLoop)
+            if (!this.horizonal_loop)
             {
                 return this.initialize(this, x, y);
             }
@@ -100,7 +100,7 @@ export class loopgrid
         }
         if (y < 0 || this.height <= y)
         {
-            if (!this.verticalLoop)
+            if (!this.vertical_loop)
             {
                 return this.initialize(this, x, y);
             }
@@ -113,8 +113,8 @@ export class loopgrid
                 }
             }
         }
-        var re: boolean = this.innerarray[x][y];
-        this.innerarray[x][y] = data;
+        var re: boolean = this.inner_array[x][y];
+        this.inner_array[x][y] = data;
         return re;
     }
 
@@ -122,7 +122,7 @@ export class loopgrid
     {
         if (x < 0 || this.width <= x)
         {
-            if (!this.horizonalLoop)
+            if (!this.horizonal_loop)
             {
                 return this.initialize(this, x, y);
             }
@@ -138,7 +138,7 @@ export class loopgrid
 
         if (y < 0 || this.height <= y)
         {
-            if (!this.verticalLoop)
+            if (!this.vertical_loop)
             {
                 return this.initialize(this, x, y);
             } else
@@ -151,7 +151,7 @@ export class loopgrid
             }
         }
 
-        return this.innerarray[x][y];
+        return this.inner_array[x][y];
     }
 
     getPropoties(): number | number
@@ -159,13 +159,13 @@ export class loopgrid
         return this.width, this.height;
     }
 
-    forEach(factory: (grid: loopgrid, x: number, y: number) => null)
+    forEach(factory: (grid: LoopGrid, x: number, y: number) => null)
     {
         for (var y: number = 0; y < this.height; y++)
         {
             for (var x: number = 0; x < this.width; x++)
             {
-                this.innerarray[x][y] = factory(this, x, y);
+                this.inner_array[x][y] = factory(this, x, y);
             }
         }
     }

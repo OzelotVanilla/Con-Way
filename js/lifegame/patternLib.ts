@@ -1,4 +1,4 @@
-import { loopgrid } from "../container/loopgrid";
+import { LoopGrid } from "../container/LoopGrid";
 
 /**
  * All legal patterns from patternLib.json will be loaded into con-way.patternLib.
@@ -6,7 +6,7 @@ import { loopgrid } from "../container/loopgrid";
  * All patterns' name will be made one item of con-way.patternLib.
  */
 
-export var patternLib: Map<string, (grid: loopgrid, x: number, y: number) => void> = new Map();
+export var PatternLib: Map<string, (grid: LoopGrid, x: number, y: number) => void> = new Map();
 
 function onInit(): void
 {
@@ -25,7 +25,7 @@ function onInit(): void
                 pattern[dy][dx] = (o_line[dx] != 0);
             }
         }
-        function gen(grid: loopgrid, x: number, y: number): void
+        function gen(grid: LoopGrid, x: number, y: number): void
         {
             for (var dy = 0; dy < pattern.length; dy++)
             {
@@ -36,7 +36,7 @@ function onInit(): void
                 }
             }
         };
-        patternLib.set(key, gen);
+        PatternLib.set(key, gen);
     }
 }
 

@@ -1,5 +1,5 @@
 import { event_bus } from "../../js/event/eventbus";
-import { tickevent } from "../../js/event/tickevent";
+import { TickEvent } from "../../js/event/TickEvent";
 import { the_space } from "./the_space";
 
 var ticker: {
@@ -11,7 +11,7 @@ var ticker: {
     tick: () => void
 
 
-    lastTime: number;
+    last_time: number;
 
     /**
      * Delay between two ticks.
@@ -20,7 +20,7 @@ var ticker: {
 } =
 {
     ticking: false,
-    lastTime: 0,
+    last_time: 0,
     delay: 50,
 
     /**
@@ -29,22 +29,22 @@ var ticker: {
     tick: () =>
     {
         let now: number = new Date().getTime();
-        event_bus.post(new tickevent(now), the_space,
+        event_bus.post(new TickEvent(now), the_space,
             () =>
             {
                 if (ticker.ticking)
                 {
-                    let sleep: number = ticker.delay - now + ticker.lastTime;
+                    let sleep: number = ticker.delay - now + ticker.last_time;
                     if (sleep >= 0)
                     {
                         if (sleep <= ticker.delay)
                         {
-                            ticker.lastTime += ticker.delay;
+                            ticker.last_time += ticker.delay;
                         }
                     }
                     else
                     {
-                        ticker.lastTime = now;
+                        ticker.last_time = now;
                         sleep = ticker.delay;
                     }
                     setTimeout(ticker.tick, sleep);

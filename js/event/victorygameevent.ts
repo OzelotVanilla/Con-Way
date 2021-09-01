@@ -5,7 +5,7 @@ import { global } from "./eventbus";
  * While the player can go next stage, or dead, this event is called.
  */
 
-export class victorygameevent extends event<global, victorygameevent>
+export class VictoryGameEvent extends event<global, VictoryGameEvent>
 {
 
     constructor()
@@ -13,10 +13,10 @@ export class victorygameevent extends event<global, victorygameevent>
         super("game_victory", default_action);
     }
 
-    static setDefaultAction(action: (ev: victorygameevent, ent: global) => any)
+    static setDefaultAction(action: (ev: VictoryGameEvent, ent: global) => any)
     {
         default_action = action;
     }
 }
 
-var default_action: (ev: victorygameevent, ent: global) => any;
+var default_action: (ev: VictoryGameEvent, ent: global) => any;

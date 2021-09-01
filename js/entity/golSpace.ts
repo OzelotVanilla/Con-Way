@@ -1,13 +1,13 @@
 import { entity } from "./entity";
-import { visibleEntity } from "./visibleEntity";
-import { loopgrid } from "../container/loopgrid";
-import { doublegrid } from "../container/doublegrid";
+import { VisibleEntity } from "./VisibleEntity";
+import { LoopGrid } from "../container/LoopGrid";
+import { DoubleGrid } from "../container/DoubleGrid";
 
 /**
  * Game of life Space
  * It can be a background of game, or be contained
  */
-export class golSpace extends visibleEntity
+export class GolSpace extends VisibleEntity
 {
 
     /**
@@ -23,56 +23,56 @@ export class golSpace extends visibleEntity
     /**
      * The grid which contains game of life cells.
      */
-    grid: doublegrid;
+    grid: DoubleGrid;
 
     entities: Set<entity> = new Set();
 
-    canvasheight: number;
+    canvas_height: number;
 
     /**
      * Rule of gol.
      */
-    rule: (grid: loopgrid, x: number, y: number) => boolean;
+    rule: (grid: LoopGrid, x: number, y: number) => boolean;
 
     /**
      * Part of the grid which players can see.
      */
-    visibleRange: { minX: number, maxX: number, minY: number, maxY: number };
+    visible_range: { min_x: number, max_x: number, min_y: number, max_y: number };
 
     /**
      * Size players see on the screen.
      */
-    absoluteWidth: number;
-    absoluteHeight: number;
+    absolute_width: number;
+    absolute_height: number;
 
-    absoluteXPos: number; //absoluteXPos and absoluteYPos are the position where the golSpace is on the screen;
-    absoluteYPos: number; //absoluteYPos
+    absolute_x_pos: number; //absolute_x_pos and absolute_y_pos are the position where the GolSpace is on the screen;
+    absolute_y_pos: number; //absolute_y_pos
 
-    constructor(kinematics: { xPos: number, yPos: number, xVelocity: number, yVelocity: number },
-        scale: { width: number, height: number, absoluteWidth: number, absoluteHeight: number },
-        visibleRange: { minX: number, maxX: number, minY: number, maxY: number },
-        space: golSpace, canvas: CanvasRenderingContext2D,
-        rule: (grid: loopgrid, x: number, y: number) => boolean)
+    constructor(kinematics: { x_pos: number, y_pos: number, x_velocity: number, y_velocity: number },
+        scale: { width: number, height: number, absolute_width: number, absolute_height: number },
+        visible_range: { min_x: number, max_x: number, min_y: number, max_y: number },
+        space: GolSpace, canvas: CanvasRenderingContext2D,
+        rule: (grid: LoopGrid, x: number, y: number) => boolean)
     {
         // golSpace uses its own code to render hence it doesn't need a renderer function.
         super("golSpace", kinematics, space, false, canvas);
 
-        this.grid = new doublegrid(scale.width, scale.height, (grid: loopgrid, x: number, y: number) =>
+        this.grid = new DoubleGrid(scale.width, scale.height, (grid: LoopGrid, x: number, y: number) =>
         {
             return false;
         }, true, false);
         this.width = scale.width;
         this.height = scale.height;
         this.rule = rule;
-        this.canvasheight = canvas.canvas.height;
-        this.absoluteWidth = scale.absoluteWidth;
-        this.absoluteHeight = scale.absoluteHeight;
-        this.visibleRange = visibleRange;
+        this.canvas_height = canvas.canvas.height;
+        this.absolute_width = scale.absolute_width;
+        this.absolute_height = scale.absolute_height;
+        this.visible_range = visible_range;
 
         if (space === undefined)
         {
-            this.absoluteXPos = kinematics.xPos;
-            this.absoluteYPos = kinematics.yPos;
+            this.absolute_x_pos = kinematics.x_pos;
+            this.absolute_y_pos = kinematics.y_pos;
         }
     }
 
@@ -85,8 +85,8 @@ export class golSpace extends visibleEntity
     {
         if (this.space != undefined)
         {
-            this.absoluteXPos = Math.round(this.space.absoluteXPos + this.xPos * this.absoluteWidth / this.width);
-            this.absoluteYPos = Math.round(this.space.absoluteYPos + this.yPos * this.absoluteHeight / this.height);
+            this.absolute_x_pos = Math.round(this.space.absolute_x_pos + this.x_pos * this.absolute_width / this.width);
+            this.absolute_y_pos = Math.round(this.space.absolute_y_pos + this.y_pos * this.absolute_height / this.height);
         }
         else
         {
@@ -94,29 +94,29 @@ export class golSpace extends visibleEntity
         }
         super.tick(time);
         this.grid.forEachPenetrated(
-            (grid: loopgrid, x: number, y: number) =>
+            (grid: LoopGrid, x: number, y: number) =>
             {
                 if (this.rule(grid, x, y))
                 {
-                    if (this.visibleRange.minX <= x &&
-                        x < this.visibleRange.maxX &&
-                        this.visibleRange.minY <= y &&
-                        y < this.visibleRange.maxY)
+                    if (this.visible_range.min_x <= x &&
+                        x < this.visible_range.max_x &&
+                        this.visible_range.min_y <= y &&
+                        y < this.visible_range.max_y)
                     {
-                        var renderX: number = x - this.visibleRange.minX;
-                        var width: number = this.visibleRange.maxX - this.visibleRange.minX;
-                        var fillX: number = Math.round(renderX * this.absoluteWidth / width);
-                        var sideX: number = Math.round((renderX + 1) * this.absoluteWidth / width) - fillX;
-                        fillX += this.absoluteXPos;
-                        var renderY: number = y - this.visibleRange.minY;
-                        var height: number = this.visibleRange.maxY - this.visibleRange.minY;
-                        var fillY: number = Math.round((renderY + 1) * this.absoluteHeight / height);
-                        var sideY: number = fillY - Math.round((renderY) * this.absoluteHeight / height);
-                        fillY = this.canvasheight - fillY - this.absoluteYPos;
+                        var render_x: number = x - this.visible_range.min_x;
+                        var width: number = this.visible_range.max_x - this.visible_range.min_x;
+                        var fill_x: number = Math.round(render_x * this.absolute_width / width);
+                        var side_x: number = Math.round((render_x + 1) * this.absolute_width / width) - fill_x;
+                        fill_x += this.absolute_x_pos;
+                        var render_y: number = y - this.visible_range.min_y;
+                        var height: number = this.visible_range.max_y - this.visible_range.min_y;
+                        var fill_y: number = Math.round((render_y + 1) * this.absolute_height / height);
+                        var side_y: number = fill_y - Math.round((render_y) * this.absolute_height / height);
+                        fill_y = this.canvas_height - fill_y - this.absolute_y_pos;
                         this.canvas.fillRect(
-                            fillX,
-                            fillY,
-                            sideX, sideY);
+                            fill_x,
+                            fill_y,
+                            side_x, side_y);
                     }
                     return true;
                 }
@@ -130,7 +130,7 @@ export class golSpace extends visibleEntity
         this.entities.forEach(
             entity =>
             {
-                if (!entity.isDead)
+                if (!entity.is_dead)
                 {
                     entity.tick(time);
                 }
@@ -144,17 +144,17 @@ export class golSpace extends visibleEntity
 }
 
 export var rules = {
-    scroll: function (grid: loopgrid, x: number, y: number): boolean
+    scroll: function (grid: LoopGrid, x: number, y: number): boolean
     {
         return grid.get(x, y + 1);
     },
 
-    stay: function (grid: loopgrid, x: number, y: number): boolean
+    stay: function (grid: LoopGrid, x: number, y: number): boolean
     {
         return grid.get(x, y);
     },
 
-    b3s23: function (grid: loopgrid, x: number, y: number): boolean
+    b3s23: function (grid: LoopGrid, x: number, y: number): boolean
     {
         var numberOfCells: number = 0;
 

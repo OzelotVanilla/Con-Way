@@ -1,12 +1,12 @@
 import { savestate } from "../../pages/game/savestate";
-import { stage } from "../lifegame/stage";
+import { Stage } from "../lifegame/Stage";
 import { event } from "./event";
 import { global } from "./eventbus";
 
 /**
  * Begin game ticking (game loop).
  */
-export class startgameevent extends event<global, startgameevent>
+export class StartGameEvent extends event<global, StartGameEvent>
 {
 
     /**
@@ -17,9 +17,9 @@ export class startgameevent extends event<global, startgameevent>
     /**
      * The stage. It is already initialized during every newgameevent's post_action step.
      */
-    the_stage: stage;
+    the_stage: Stage;
 
-    constructor(sst: savestate, the_stage: stage)
+    constructor(sst: savestate, the_stage: Stage)
     {
         super("game_start", default_action);
     }

@@ -1,17 +1,17 @@
 import { event_bus } from "../../js/event/eventbus"
-import { tickstopevent } from "../../js/event/tickstopevent"
+import { TickStopEvent } from "../../js/event/TickStopEvent"
 import { downKey, upKey } from "./moveconverter";
 
 
 export function pauseGame(callback: () => void): void
 {
-    event_bus.post(new tickstopevent(), undefined, callback);
+    event_bus.post(new TickStopEvent(), undefined, callback);
     return;
 }
 
 export function resumeGame(callback: () => void): void
 {
-    event_bus.post(new tickstopevent(), undefined, callback);
+    event_bus.post(new TickStopEvent(), undefined, callback);
     return;
 }
 

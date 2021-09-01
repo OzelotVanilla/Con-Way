@@ -1,17 +1,17 @@
-import { foegen } from "../gamecycle/foegen";
+import { FoeGen } from "../foe_gen/FoeGen";
 
 /**
  * Complete stage object.
  */
-export class stage
+export class Stage
 {
     name: string;
     bgm: HTMLAudioElement;
     bkimg: HTMLImageElement;
     length: number;
-    gen_method: foegen;
+    gen_method: FoeGen;
 
-    constructor(name: string, bgm_path: string, bkimg_path: string, length: number, gen_method: foegen)
+    constructor(name: string, bgm_path: string, bkimg_path: string, length: number, gen_method: FoeGen)
     {
         this.name = name;
         this.bgm = new Audio("../../bgm/" + bgm_path);

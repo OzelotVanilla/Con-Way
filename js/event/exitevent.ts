@@ -5,4 +5,4 @@ import { global } from "./eventbus";
  * Save user's state before exit
  */
 
-export class exitevent extends event<global, exitevent> { }
+export class ExitEvent extends event<global, ExitEvent> { }

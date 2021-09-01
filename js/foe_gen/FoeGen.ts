@@ -1,14 +1,14 @@
-import { loopgrid } from "../container/loopgrid";
+import { LoopGrid } from "../container/LoopGrid";
 import { mode } from "./mode/mode";
-import { tickevent } from "../event/tickevent";
+import { TickEvent } from "../event/TickEvent";
 
 /**
  * 
  */
-export class foegen
+export class FoeGen
 {
 
-    space: loopgrid;
+    space: LoopGrid;
     initialized: boolean = false;
     modes: { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] = [];
     height: number;
@@ -33,7 +33,7 @@ export class foegen
         });
     }
 
-    finish(space: loopgrid)
+    finish(space: LoopGrid)
     {
         this.space = space;
         this.height = this.space.getHeight() - 1;
@@ -49,7 +49,7 @@ export class foegen
      * 
      * @param {event} ev The event 
      */
-    tick(ev: tickevent): void
+    tick(ev: TickEvent): void
     {
         if (this.currentMode === undefined)
         {
@@ -62,7 +62,7 @@ export class foegen
             var mode: mode = this.currentMode.mode;
             // Init postion and gen func, by getting two return values from place()
             var position: number = mode.place();
-            var currentPattern: (grid: loopgrid, x: number, y: number) => void = mode.getPattern();
+            var currentPattern: (grid: LoopGrid, x: number, y: number) => void = mode.getPattern();
             currentPattern(this.space, Math.round(position * this.space.getWidth()), this.height);
 
             // If reach the max limit of generation in one mode
@@ -134,11 +134,11 @@ export class foegen
             pattern: { type: string, weight: number }[],
             duration: number, weight: number, data: any, succ: any
         }[],
-        grid: loopgrid, cb: (gen: foegen) => void
+        grid: LoopGrid, cb: (gen: FoeGen) => void
     ): void
     {
         let mode_classes: Map<string, typeof mode> = new Map();
-        let theFoegen: foegen = new foegen();
+        let the_foegen: FoeGen = new FoeGen();
         let remaining_items: number = 1;
         for (let struct of structs)
         {
@@ -148,7 +148,7 @@ export class foegen
             {
                 let mode_class;
                 mode_class = mode_classes.get(type);
-                theFoegen.bind(
+                the_foegen.bind(
                     new mode_class(struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
                     struct.duration, struct.weight
                 );
@@ -160,15 +160,15 @@ export class foegen
                     (clazz) =>
                     {
                         mode_classes.set(type, clazz[type]);
-                        theFoegen.bind(
+                        the_foegen.bind(
                             new clazz[type](struct.name, struct.interval, struct.data, struct.pattern, struct.succ),
                             struct.duration, struct.weight
                         );
                         remaining_items--;
                         if (remaining_items === 0)
                         {
-                            theFoegen.finish(grid);
-                            cb(theFoegen);
+                            the_foegen.finish(grid);
+                            cb(the_foegen);
                         }
                     }
                 );
@@ -177,8 +177,8 @@ export class foegen
         remaining_items--;
         if (remaining_items === 0)
         {
-            theFoegen.finish(grid);
-            cb(theFoegen);
+            the_foegen.finish(grid);
+            cb(the_foegen);
         }
     }
 }

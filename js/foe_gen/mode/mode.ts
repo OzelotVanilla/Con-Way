@@ -1,5 +1,5 @@
-import { loopgrid } from "../../container/loopgrid";
-import { patternLib } from "../../lifegame/patternLib";
+import { LoopGrid } from "../../container/LoopGrid";
+import { PatternLib } from "../../lifegame/PatternLib";
 
 export abstract class mode
 {
@@ -10,7 +10,7 @@ export abstract class mode
     /**
      * From pattern libs, choose one pattern.
      */
-    patterns: { pattern: (grid: loopgrid, x: number, y: number) => void, top: number }[] = [];
+    patterns: { pattern: (grid: LoopGrid, x: number, y: number) => void, top: number }[] = [];
 
     succ: { mode: mode, gen_limit: number, interval: number, top: number, weight: number } |
         { mode: mode, gen_limit: number, interval: number, top: number, weight: number }[] |
@@ -29,7 +29,7 @@ export abstract class mode
         for (var i = 0; i < patterns.length; i++)
         {
             this.patterns[i] = {
-                pattern: patternLib.get(patterns[i].type),
+                pattern: PatternLib.get(patterns[i].type),
                 top: lastTop = patterns[i].weight + lastTop
             }
         }
@@ -39,9 +39,9 @@ export abstract class mode
 
     getInterval(): number { return this.interval; }
 
-    getPattern(): (grid: loopgrid, x: number, y: number) => void
+    getPattern(): (grid: LoopGrid, x: number, y: number) => void
     {
-        var currentPattern: (grid: loopgrid, x: number, y: number) => void;
+        var currentPattern: (grid: LoopGrid, x: number, y: number) => void;
         var random = Math.random() * this.patterns[this.patterns.length - 1].top;
         for (var pattern of this.patterns)
         {

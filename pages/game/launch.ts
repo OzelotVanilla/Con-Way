@@ -2,7 +2,7 @@ import { initializeEventActions, processBegin } from "./game_process";
 import the_stage = require("./the_stage");
 import game_process = require("game_process");
 import { event_bus } from "../../js/event/eventbus";
-import { completeinitevent } from "../../js/event/completeinitevent";
+import { CompleteInitEvent } from "../../js/event/CompleteInitEvent";
 
 
 function subscribeEvents(): void
@@ -23,6 +23,6 @@ subscribeEvents();
 
 console.log("event subscriber initialized.");
 
-event_bus.post(new completeinitevent(), undefined, processBegin);
+event_bus.post(new CompleteInitEvent(), undefined, processBegin);
 
 console.log("process began.");

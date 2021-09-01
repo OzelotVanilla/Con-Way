@@ -3,7 +3,7 @@ import { mode } from "./mode"
 /**
  * Use binomial curve to calculate the position of generate place of enermy
  */
-export class binomialmode extends mode
+export class BinomialMode extends mode
 {
 
     /**
