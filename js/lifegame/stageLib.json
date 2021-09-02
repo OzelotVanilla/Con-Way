@@ -12,7 +12,7 @@
         "mode": [
             {
                 "name": "fallback generation mode",
-                "type": "binomialmode",
+                "type": "BinomialMode",
                 "interval": -1,
                 "pattern": [
                     {

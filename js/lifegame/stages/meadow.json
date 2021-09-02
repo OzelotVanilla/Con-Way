@@ -6,7 +6,7 @@
     "mode": [
         {
             "name": "easy bionm",
-            "type": "binomialmode",
+            "type": "BinomialMode",
             "data": {
                 "expectation": 0.5,
                 "deviation": 0.8

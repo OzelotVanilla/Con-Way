@@ -6,8 +6,8 @@ export var the_space;
 
 function initializeSpace(): void
 {
-    var width = Math.round(width / block_length);
-    var height = Math.round(height * 2 / block_length);
+    var width = Math.round(canvas.width / block_length);
+    var height = Math.round(canvas.height * 2 / block_length);
     the_space = new GolSpace(
         { x_pos: 0, y_pos: 0, x_velocity: 0, y_velocity: 0 },
         { width: width, height: height, absolute_width: canvas.width, absolute_height: canvas.height },

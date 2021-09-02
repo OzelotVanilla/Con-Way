@@ -23,8 +23,17 @@ function onNewGame(ev: detainablestate<global, NewGameEvent>)
             FoeGen.loadFoegenFromJSON(data.mode, the_space.grid,
                 gen =>
                 {
-                    e.the_stage = new Stage(data.name, data.bgm, data.bkimg, data.length, gen);
+                    let the_stage = e.the_stage = new Stage(data.name, data.bgm, data.bkimg, data.length, gen);
                     e.the_stage.bgm.loop = true;
+                    let playBgm = () => { the_stage.bgm.play() };
+                    let pauseBgm = () =>
+                    {
+                        the_stage.bgm.pause();
+                        event_bus.desubscribePostAction("game_start", playBgm);
+                        event_bus.desubscribePostAction("game_end", pauseBgm);
+                    };
+                    event_bus.subscribePostAction("game_start", playBgm);
+                    event_bus.subscribePostAction("game_end", pauseBgm);
                     console.log("stage loaded.");
                     ev.release();
                 }
@@ -35,12 +44,13 @@ function onNewGame(ev: detainablestate<global, NewGameEvent>)
 
 function beforeNewGame(ev: detainablestate<global, NewGameEvent>): void
 {
-    ev.event.sst = new savestate(
+    let sst: savestate = new savestate(
         localStorage.getItem("name"),
         localStorage.getItem("stage"),
         Number(localStorage.getItem("score"))
     );
-    console.log("sst loaded.");
+    ev.event.sst = sst;
+    console.log("sst loaded: ", sst);
 }
 
 export function subscribeEvents(): void

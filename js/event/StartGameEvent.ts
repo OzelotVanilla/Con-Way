@@ -22,6 +22,8 @@ export class StartGameEvent extends event<global, StartGameEvent>
     constructor(sst: savestate, the_stage: Stage)
     {
         super("game_start", default_action);
+        this.sst = sst;
+        this.the_stage = the_stage;
     }
 
     static setDefaultAction(action: (ent: global) => any)

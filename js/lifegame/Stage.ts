@@ -26,3 +26,5 @@ export class Stage
 
 export var stages_names: string[] = JSON.parse(sessionStorage.getItem("stageLib")).stages;
 
+console.log(stages_names);
+

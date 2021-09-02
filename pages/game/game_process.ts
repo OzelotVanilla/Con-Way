@@ -55,10 +55,11 @@ function onStartGame(): void
 export function initializeEventActions(): void
 {
     NewGameEvent.setDefaultAction(onNewGame);
-    OverGameEvent.setDefaultAction(onStartGame);
-    VictoryGameEvent.setDefaultAction(() => { });
+    StartGameEvent.setDefaultAction(onStartGame);
     TickBeginEvent.setDefaultAction(tickBegin);
     TickStopEvent.setDefaultAction(tickStop);
+    OverGameEvent.setDefaultAction(() => { });
+    VictoryGameEvent.setDefaultAction(() => { });
 }
 
 export function subscribeEvents(): void
