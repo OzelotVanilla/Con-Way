@@ -11,7 +11,6 @@ import { detainablestate } from "../../js/event/eventstate";
 import { GolSpace } from "../../js/entity/GolSpace";
 import { TickStopEvent } from "../../js/event/TickStopEvent";
 import { tickBegin, tickStop } from "./game_cycle";
-import the_stage_ts = require("the_stage");
 import { EndGameEvent } from "../../js/event/EndGameEvent";
 
 //This ts file controls the game's life cycle from initialize to the end.

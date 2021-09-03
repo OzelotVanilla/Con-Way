@@ -117,6 +117,7 @@ export class GolSpace extends VisibleEntity
                             fill_x,
                             fill_y,
                             side_x, side_y);
+                        console.log("rendered at :", fill_x, fill_y);
                     }
                     return true;
                 }

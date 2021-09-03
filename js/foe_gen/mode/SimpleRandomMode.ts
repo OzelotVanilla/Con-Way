@@ -28,6 +28,7 @@ export class SimpleRandomMode extends mode
 
     place(): number
     {
+        console.log("placed");
         return this.expectation + (Math.random() - 0.5) * this.deviation;
     }
 

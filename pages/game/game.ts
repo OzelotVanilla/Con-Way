@@ -39,3 +39,9 @@ function needPauseFromUserKeybooard(event: KeyboardEvent): boolean
     else { return false; }
 }
 
+
+export function registerSubscribers()
+{
+    $(document).keydown(pressKey);
+    $(document).keyup(releaseKey);
+}

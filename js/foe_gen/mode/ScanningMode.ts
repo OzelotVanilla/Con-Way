@@ -20,6 +20,7 @@ export class ScanningMode extends mode
 
     place(): number
     {
+        console.log("placed");
         this.current_place = this.current_place + this.offset;
         if (this.current_place > 1)
         {

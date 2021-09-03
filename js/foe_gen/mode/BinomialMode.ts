@@ -28,6 +28,7 @@ export class BinomialMode extends mode
 
     place(): number
     {
+        console.log("placed");
         return this.expectation + (this.place0() - 0.5) * this.deviation;
     }
 

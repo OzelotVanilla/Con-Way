@@ -15,24 +15,6 @@
 
 </head>
 
-<script>
-    $(
-        function ()
-        {
-            require(["./game", "./moveconverter"],
-                function (game, converter)
-                {
-                    $(document).keydown(game.pressKey);
-                    $(document).keyup(game.releaseKey);
-                    $(document).on("mousedown", converter.downMouse);
-                    $(document).on("mouseup", converter.upMouse);
-                    $(document).on("mousemove", converter.moveMouse);
-                }
-            )
-        }
-    );
-</script>
-
 <body onkeydown="" onkeyup=""
     onresize="require(['../../js/event/tickevent'],function(e){e.setCanvas($('#cwf')[0], window.innerWidth,window.innerHeight);});">
     <canvas id="cwf" height="" width="">
@@ -45,6 +27,6 @@
     </svg>
 
 </body>
-<script src="https://requirejs.org/docs/release/2.3.6/comments/require.js" data-main="./launch.js"></script>
+<script src="https://requirejs.org/docs/release/2.3.6/comments/require.js"></script>
 
 </html>

@@ -104,3 +104,10 @@ var key_down_state: { left: boolean, down: boolean, right: boolean, up: boolean 
 };
 
 var mouse_down: boolean = false;
+
+export function registerSubscribers()
+{
+    $(document).on("mousedown", downMouse);
+    $(document).on("mouseup", upMouse);
+    $(document).on("mousemove", moveMouse);
+}
