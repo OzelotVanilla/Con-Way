@@ -1,4 +1,4 @@
-import { FoeGen } from "../foe_gen/FoeGen";
+import { FoeGen } from "js/foe_gen/FoeGen";
 
 /**
  * Complete stage object.
@@ -16,7 +16,10 @@ export class Stage
         this.name = name;
         this.bgm = new Audio("../../bgm/" + bgm_path);
         this.bkimg = new Image();
-        this.bkimg.src = "../../img/" + bkimg_path;
+        if (bkimg_path != null)
+        {
+            this.bkimg.src = "../../img/" + bkimg_path;
+        }
         this.length = length;
         this.gen_method = gen_method; // TODO use name to load
     }

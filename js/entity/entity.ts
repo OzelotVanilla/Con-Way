@@ -1,4 +1,4 @@
-import { GolSpace } from "./GolSpace";
+import { GolSpace } from "js/entity/GolSpace";
 
 /**
 * Special object on a golSpace, which has a position and a velocity and has its specific behaviour.

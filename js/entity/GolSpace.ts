@@ -1,7 +1,7 @@
-import { entity } from "./entity";
-import { VisibleEntity } from "./VisibleEntity";
-import { LoopGrid } from "../container/LoopGrid";
-import { DoubleGrid } from "../container/DoubleGrid";
+import { entity } from "js/entity/entity";
+import { VisibleEntity } from "js/entity/VisibleEntity";
+import { LoopGrid } from "js/container/LoopGrid";
+import { DoubleGrid } from "js/container/DoubleGrid";
 
 /**
  * Game of life Space
@@ -117,7 +117,6 @@ export class GolSpace extends VisibleEntity
                             fill_x,
                             fill_y,
                             side_x, side_y);
-                        console.log("rendered at :", fill_x, fill_y);
                     }
                     return true;
                 }

@@ -1,4 +1,4 @@
-import { mode } from "./mode"
+import { mode } from "js/foe_gen/mode/mode"
 
 /**
  * Use simple random function to calculate the position of generate place of enermy
@@ -28,7 +28,6 @@ export class SimpleRandomMode extends mode
 
     place(): number
     {
-        console.log("placed");
         return this.expectation + (Math.random() - 0.5) * this.deviation;
     }
 

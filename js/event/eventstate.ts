@@ -1,4 +1,4 @@
-import { event } from "./event";
+import { event } from "js/event/event";
 
 /**
  * Use these classes's instances to cancel or detain events.

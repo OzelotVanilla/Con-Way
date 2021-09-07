@@ -1,4 +1,4 @@
-import { mode } from "./mode"
+import { mode } from "js/foe_gen/mode/mode"
 
 /**
  * Put patterns currectly at the fixed point.
@@ -20,7 +20,6 @@ export class FixedPointMode extends mode
 
     place(): number
     {
-        console.log("placed");
         if (this.index < this.plan.length)
         {
             return this.plan[this.index];

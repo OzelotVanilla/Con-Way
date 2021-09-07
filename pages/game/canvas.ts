@@ -38,4 +38,6 @@ export function initializeCanvas(): void
 }
 initializeCanvas();
 
+$(document).on("resize", resize);
+
 console.log("canvas initialized");

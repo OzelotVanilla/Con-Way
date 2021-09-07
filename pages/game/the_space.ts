@@ -1,5 +1,5 @@
-import { GolSpace, rules } from "../../js/entity/GolSpace";
-import { block_length, canvas } from "./canvas";
+import { GolSpace, rules } from "js/entity/GolSpace";
+import { block_length, canvas } from "pages/game/canvas";
 
 export var the_space: GolSpace;
 
@@ -12,7 +12,7 @@ function initializeSpace(): void
         { x_pos: 0, y_pos: 0, x_velocity: 0, y_velocity: 0 },
         { width: width, height: height, absolute_width: canvas.width, absolute_height: canvas.height },
         { min_x: 0, max_x: width, min_y: Math.round(height / 4), max_y: Math.round(height * 3 / 4) + 1 },
-        undefined, canvas.getContext("2d"), rules.scroll
+        undefined, canvas.getContext("2d"), rules.b3s23
     );
 }
 

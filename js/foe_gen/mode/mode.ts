@@ -1,5 +1,5 @@
-import { LoopGrid } from "../../container/LoopGrid";
-import { PatternLib } from "../../lifegame/PatternLib";
+import { LoopGrid } from "js/container/LoopGrid";
+import { PatternLib } from "js/lifegame/PatternLib";
 
 export abstract class mode
 {

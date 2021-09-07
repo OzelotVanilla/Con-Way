@@ -1,6 +1,6 @@
-import { VisibleEntity } from "./VisibleEntity"
-import { Effect } from "../lifegame/speffect/Effect"
-import { GolSpace } from "./GolSpace"
+import { VisibleEntity } from "js/entity/VisibleEntity"
+import { Effect } from "js/lifegame/speffect/Effect"
+import { GolSpace } from "js/entity/GolSpace"
 
 /**
  * The card that give players special effect.

@@ -1,9 +1,9 @@
-import { event } from "./event";
-import { event_bus, global } from "./eventbus";
-import { VictoryGameEvent } from "./VictoryGameEvent";
-import { OverGameEvent } from "./OverGameEvent";
-import { savestate } from "../../pages/game/savestate";
-import { Stage } from "../lifegame/Stage";
+import { event } from "js/event/event";
+import { event_bus, global } from "js/event/eventbus";
+import { VictoryGameEvent } from "js/event/VictoryGameEvent";
+import { OverGameEvent } from "js/event/OverGameEvent";
+import { savestate } from "pages/game/savestate";
+import { Stage } from "js/lifegame/Stage";
 
 /**
  * While the player can go next stage, or dead, this event is called.

@@ -1,5 +1,5 @@
-import { event } from "./event";
-import { global } from "./eventbus";
+import { event } from "js/event/event";
+import { global } from "js/event/eventbus";
 
 export class CompleteInitEvent extends event<global, CompleteInitEvent>
 {

@@ -1,5 +1,5 @@
-import { event } from "./event";
-import { judgementstate, detainablestate } from "./eventstate";
+import { event } from "js/event/event";
+import { judgementstate, detainablestate } from "js/event/eventstate";
 
 /**
  * An eventbus is an indepandent system to handle events.

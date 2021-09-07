@@ -1,5 +1,5 @@
-import { entity } from "./entity";
-import { GolSpace } from "./GolSpace";
+import { entity } from "js/entity/entity";
+import { GolSpace } from "js/entity/GolSpace";
 
 /**
  * A visible entity.

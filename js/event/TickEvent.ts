@@ -1,6 +1,6 @@
-import { event } from "./event";
-import { GolSpace } from "../entity/GolSpace";
-import { the_space } from "../../pages/game/the_space";
+import { event } from "js/event/event";
+import { GolSpace } from "js/entity/GolSpace";
+import { the_space } from "pages/game/the_space";
 
 /**
  * News and posts it every tick. (- _- )

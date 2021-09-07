@@ -1,8 +1,8 @@
-import { initializeEventActions, processBegin } from "./game_process";
-import the_stage = require("./the_stage");
-import game_process = require("game_process");
-import { event_bus } from "../../js/event/eventbus";
-import { CompleteInitEvent } from "../../js/event/CompleteInitEvent";
+import { initializeEventActions, processBegin } from "pages/game/game_process";
+import the_stage = require("pages/game/the_stage");
+import game_process = require("pages/game/game_process");
+import { event_bus } from "js/event/eventbus";
+import { CompleteInitEvent } from "js/event/CompleteInitEvent";
 
 
 function subscribeEvents(): void

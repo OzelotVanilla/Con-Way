@@ -1,6 +1,6 @@
-import { event_bus } from "../../js/event/eventbus"
-import { TickStopEvent } from "../../js/event/TickStopEvent"
-import { downKey, upKey } from "./moveconverter";
+import { event_bus } from "js/event/eventbus"
+import { TickStopEvent } from "js/event/TickStopEvent"
+import { downKey, upKey } from "pages/game/moveconverter";
 
 
 export function pauseGame(callback: () => void): void
@@ -42,6 +42,6 @@ function needPauseFromUserKeybooard(event: KeyboardEvent): boolean
 
 export function registerSubscribers()
 {
-    $(document).keydown(pressKey);
-    $(document).keyup(releaseKey);
+    $(document).on("keydown", <any>pressKey);
+    $(document).on("keyup", <any>releaseKey);
 }

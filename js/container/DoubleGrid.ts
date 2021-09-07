@@ -1,4 +1,4 @@
-import { LoopGrid } from "./LoopGrid";
+import { LoopGrid } from "js/container/LoopGrid";
 
 /**
  * A modified loopgrid. It has two looping spaces. One is its facial space, and the other is a hidden space.

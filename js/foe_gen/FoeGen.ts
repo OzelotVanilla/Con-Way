@@ -1,6 +1,6 @@
-import { LoopGrid } from "../container/LoopGrid";
-import { mode } from "./mode/mode";
-import { TickEvent } from "../event/TickEvent";
+import { LoopGrid } from "js/container/LoopGrid";
+import { mode } from "js/foe_gen/mode/mode";
+import { TickEvent } from "js/event/TickEvent";
 
 /**
  * 

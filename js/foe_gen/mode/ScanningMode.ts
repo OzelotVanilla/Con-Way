@@ -1,4 +1,4 @@
-import { mode } from "./mode"
+import { mode } from "js/foe_gen/mode/mode"
 
 export class ScanningMode extends mode
 {
@@ -20,7 +20,6 @@ export class ScanningMode extends mode
 
     place(): number
     {
-        console.log("placed");
         this.current_place = this.current_place + this.offset;
         if (this.current_place > 1)
         {

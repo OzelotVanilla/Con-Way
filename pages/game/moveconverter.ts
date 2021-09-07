@@ -1,4 +1,4 @@
-import { engine_vector, the_player } from "./the_player";
+import { engine_vector, the_player } from "pages/game/the_player";
 
 /**
  * Export kinematics data to lead the player's plane's movement.
@@ -107,7 +107,7 @@ var mouse_down: boolean = false;
 
 export function registerSubscribers()
 {
-    $(document).on("mousedown", downMouse);
-    $(document).on("mouseup", upMouse);
-    $(document).on("mousemove", moveMouse);
+    $(document).on("mousedown", <any>downMouse);
+    $(document).on("mouseup", <any>upMouse);
+    $(document).on("mousemove", <any>moveMouse);
 }

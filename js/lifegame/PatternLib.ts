@@ -1,4 +1,4 @@
-import { LoopGrid } from "../container/LoopGrid";
+import { LoopGrid } from "js/container/LoopGrid";
 
 /**
  * All legal patterns from patternLib.json will be loaded into con-way.patternLib.

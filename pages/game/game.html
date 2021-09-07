@@ -15,9 +15,8 @@
 
 </head>
 
-<body onkeydown="" onkeyup=""
-    onresize="require(['../../js/event/tickevent'],function(e){e.setCanvas($('#cwf')[0], window.innerWidth,window.innerHeight);});">
-    <canvas id="cwf" height="" width="">
+<body>
+    <canvas id="cwf">
         Sorry, your brower does not support HTML canvas. There is no game. (T _ T)
     </canvas>
 
@@ -28,5 +27,16 @@
 
 </body>
 <script src="https://requirejs.org/docs/release/2.3.6/comments/require.js"></script>
+
+<script>
+    requirejs.config({
+        baseUrl: '../../',
+    });
+
+    require(["./launch.js"], function (launch)
+    {
+        console.log("launched.");
+    })
+</script>
 
 </html>

@@ -1,17 +1,16 @@
-import { event_bus, global } from "../../js/event/eventbus";
-import { NewGameEvent } from "../../js/event/NewGameEvent";
-import { savestate } from "./savestate";
-import { OverGameEvent } from "../../js/event/OverGameEvent";
-import { VictoryGameEvent } from "../../js/event/VictoryGameEvent";
-import { StartGameEvent } from "../../js/event/StartGameEvent";
-import { TickBeginEvent } from "../../js/event/TickBeginEvent";
-import { FoeGen } from "../../js/foe_gen/FoeGen";
-import { TickEvent } from "../../js/event/TickEvent";
-import { detainablestate } from "../../js/event/eventstate";
-import { GolSpace } from "../../js/entity/GolSpace";
-import { TickStopEvent } from "../../js/event/TickStopEvent";
-import { tickBegin, tickStop } from "./game_cycle";
-import { EndGameEvent } from "../../js/event/EndGameEvent";
+import { event_bus, global } from "js/event/eventbus";
+import { NewGameEvent } from "js/event/NewGameEvent";
+import { OverGameEvent } from "js/event/OverGameEvent";
+import { VictoryGameEvent } from "js/event/VictoryGameEvent";
+import { StartGameEvent } from "js/event/StartGameEvent";
+import { TickBeginEvent } from "js/event/TickBeginEvent";
+import { FoeGen } from "js/foe_gen/FoeGen";
+import { TickEvent } from "js/event/TickEvent";
+import { detainablestate } from "js/event/eventstate";
+import { GolSpace } from "js/entity/GolSpace";
+import { TickStopEvent } from "js/event/TickStopEvent";
+import { tickBegin, tickStop } from "pages/game/game_cycle";
+import { EndGameEvent } from "js/event/EndGameEvent";
 
 //This ts file controls the game's life cycle from initialize to the end.
 

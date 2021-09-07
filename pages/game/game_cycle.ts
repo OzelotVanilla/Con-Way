@@ -1,6 +1,6 @@
-import { event_bus } from "../../js/event/eventbus";
-import { TickEvent } from "../../js/event/TickEvent";
-import { the_space } from "./the_space";
+import { event_bus } from "js/event/eventbus";
+import { TickEvent } from "js/event/TickEvent";
+import { the_space } from "pages/game/the_space";
 
 var ticker: {
     ticking: boolean,

@@ -1,10 +1,10 @@
-import { Stage } from "../../js/lifegame/Stage";
-import { savestate } from "./savestate";
-import { FoeGen } from "../../js/foe_gen/FoeGen";
-import { the_space } from "./the_space";
-import { event_bus, global } from "../../js/event/eventbus";
-import { detainablestate } from "../../js/event/eventstate";
-import { NewGameEvent } from "../../js/event/NewGameEvent";
+import { Stage } from "js/lifegame/Stage";
+import { savestate } from "pages/game/savestate";
+import { FoeGen } from "js/foe_gen/FoeGen";
+import { the_space } from "pages/game/the_space";
+import { event_bus, global } from "js/event/eventbus";
+import { detainablestate } from "js/event/eventstate";
+import { NewGameEvent } from "js/event/NewGameEvent";
 
 
 function onNewGame(ev: detainablestate<global, NewGameEvent>)

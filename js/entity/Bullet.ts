@@ -1,5 +1,5 @@
-import { Player } from "./Player";
-import { VisibleEntity } from "./VisibleEntity";
+import { Player } from "js/entity/Player";
+import { VisibleEntity } from "js/entity/VisibleEntity";
 
 export class Bullet extends VisibleEntity
 {

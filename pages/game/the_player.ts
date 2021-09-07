@@ -1,5 +1,5 @@
-import { Player } from "../../js/entity/Player";
-import { the_space } from "./the_space";
+import { Player } from "js/entity/Player";
+import { the_space } from "pages/game/the_space";
 
 export var the_player;
 

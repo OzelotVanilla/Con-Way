@@ -1,7 +1,7 @@
-import { savestate } from "../../pages/game/savestate";
-import { Stage } from "../lifegame/Stage";
-import { event } from "./event";
-import { global } from "./eventbus";
+import { savestate } from "pages/game/savestate";
+import { Stage } from "js/lifegame/Stage";
+import { event } from "js/event/event";
+import { global } from "js/event/eventbus";
 
 /**
  * While the player can go next stage, or dead, this event is called.
