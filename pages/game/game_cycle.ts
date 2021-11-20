@@ -2,6 +2,8 @@ import { event_bus } from "js/event/eventbus";
 import { TickEvent } from "js/event/TickEvent";
 import { the_space } from "pages/game/the_space";
 
+export var tick_per_second: number;
+
 var ticker: {
     ticking: boolean,
 
@@ -21,7 +23,7 @@ var ticker: {
 {
     ticking: false,
     last_time: 0,
-    delay: 50,
+    delay: 0,
 
     /**
      * The tick function.
@@ -29,7 +31,7 @@ var ticker: {
     tick: () =>
     {
         let now: number = new Date().getTime();
-        event_bus.post(new TickEvent(now), the_space,
+        event_bus.post(new TickEvent(now / 1000.0), the_space,
             () =>
             {
                 if (ticker.ticking)
@@ -66,3 +68,12 @@ export function tickStop(): void
     console.log("tick_stop action.");
     ticker.ticking = false;
 }
+
+export function setInterval(interval: number): void
+{
+    ticker.delay = interval;
+
+    tick_per_second = 1000 / ticker.delay;
+}
+
+setInterval(50);

@@ -11,6 +11,7 @@ import { GolSpace } from "js/entity/GolSpace";
 import { TickStopEvent } from "js/event/TickStopEvent";
 import { tickBegin, tickStop } from "pages/game/game_cycle";
 import { EndGameEvent } from "js/event/EndGameEvent";
+import { registerSubscribers } from "./moveconverter";
 
 //This ts file controls the game's life cycle from initialize to the end.
 
@@ -56,7 +57,11 @@ export function initializeEventActions(): void
     StartGameEvent.setDefaultAction(onStartGame);
     TickBeginEvent.setDefaultAction(tickBegin);
     TickStopEvent.setDefaultAction(tickStop);
-    OverGameEvent.setDefaultAction(() => { });
+    OverGameEvent.setDefaultAction(() =>
+    {
+        event_bus.post(new TickStopEvent(), undefined, undefined);
+        setTimeout(() => { location.replace("/") }, 2500);
+    });
     VictoryGameEvent.setDefaultAction(() => { });
 }
 
@@ -99,4 +104,5 @@ export function subscribeEvents(): void
             ev.event.the_stage.bgm.pause();
         }
     );
+    registerSubscribers();
 }

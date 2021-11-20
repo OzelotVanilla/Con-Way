@@ -1,4 +1,5 @@
 import { GolSpace } from "js/entity/GolSpace";
+import { tick_per_second } from "../../pages/game/game_cycle";
 
 /**
 * Special object on a golSpace, which has a position and a velocity and has its specific behaviour.
@@ -26,8 +27,12 @@ export class entity
         this.y_pos = kinematics.y_pos;
         this.x_velocity = kinematics.x_velocity;
         this.y_velocity = kinematics.y_velocity;
-        this.space = space;
-        this.last_update_time = new Date().getMilliseconds() / 1000.0;
+        if (!(space === undefined))
+        {
+            this.space = space;
+            space.addEntity(this);
+        }
+        this.last_update_time = new Date().getTime() / 1000.0;
     }
 
     getPos(time: number): number
@@ -38,8 +43,47 @@ export class entity
 
     tick(time: number): void
     {
-        var delta = time - this.last_update_time;
-        this.x_pos, this.y_pos = this.x_pos + delta * this.x_velocity, this.y_pos + delta * this.y_velocity;
-        this.last_update_time = time;
+        if (!(this.space === undefined))
+        {
+
+            {
+                if (this.y_pos < 0)
+                {
+                    if (this.y_velocity < 0)
+                    {
+                        this.y_velocity = - this.y_velocity;
+                    }
+                }
+                else
+                {
+                    if (this.y_pos > this.space.height)
+                    {
+                        if (this.y_velocity > 0)
+                        {
+                            this.y_velocity = - this.y_velocity;
+                        }
+                    }
+                }
+            }
+            var delta = (time - this.last_update_time) * tick_per_second;
+            this.x_pos = this.x_pos + delta * this.x_velocity;
+            this.y_pos = this.y_pos + delta * this.y_velocity;
+            this.last_update_time = time;
+            {
+                var space_width = this.space.width;
+                if (this.x_pos < 0)
+                {
+                    this.x_pos += space_width;
+                }
+                else
+                {
+                    if (this.x_pos > space_width)
+                    {
+                        this.x_pos -= space_width;
+                    }
+                }
+            }
+        }
     }
+
 }

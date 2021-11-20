@@ -27,8 +27,6 @@ export class GolSpace extends VisibleEntity
 
     entities: Set<entity> = new Set();
 
-    canvas_height: number;
-
     /**
      * Rule of gol.
      */
@@ -64,15 +62,18 @@ export class GolSpace extends VisibleEntity
         this.width = scale.width;
         this.height = scale.height;
         this.rule = rule;
-        this.canvas_height = canvas.canvas.height;
         this.absolute_width = scale.absolute_width;
         this.absolute_height = scale.absolute_height;
         this.visible_range = visible_range;
 
-        if (space === undefined)
+        if (space != undefined)
         {
             this.absolute_x_pos = kinematics.x_pos;
             this.absolute_y_pos = kinematics.y_pos;
+        } else
+        {
+            this.absolute_x_pos = -visible_range.min_x * (scale.absolute_width / (visible_range.max_x - visible_range.min_x));
+            this.absolute_y_pos = -visible_range.min_y * (scale.absolute_height / (visible_range.max_y - visible_range.min_y));
         }
     }
 
@@ -80,6 +81,8 @@ export class GolSpace extends VisibleEntity
     {
         this.entities.add(ent);
     }
+
+    scroll_counter: number = 0;
 
     tick(time: number): void
     {
@@ -90,33 +93,43 @@ export class GolSpace extends VisibleEntity
         }
         else
         {
+            this.canvas.beginPath();
             this.canvas.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height);
         }
         super.tick(time);
+
+        if (this.scroll_counter === 10)
+        {
+            this.scroll_counter = 1;
+            this.rule = rules.scroll;
+        } else
+        {
+            if (this.scroll_counter === 1)
+            {
+                this.rule = rules.b3s23;
+            }
+            this.scroll_counter++;
+        }
+
         this.grid.forEachPenetrated(
             (grid: LoopGrid, x: number, y: number) =>
             {
                 if (this.rule(grid, x, y))
                 {
-                    if (this.visible_range.min_x <= x &&
-                        x < this.visible_range.max_x &&
-                        this.visible_range.min_y <= y &&
-                        y < this.visible_range.max_y)
+                    if (this.visible_range.min_x <= x && x < this.visible_range.max_x &&
+                        this.visible_range.min_y <= y && y < this.visible_range.max_y)
                     {
                         var render_x: number = x - this.visible_range.min_x;
                         var width: number = this.visible_range.max_x - this.visible_range.min_x;
                         var fill_x: number = Math.round(render_x * this.absolute_width / width);
                         var side_x: number = Math.round((render_x + 1) * this.absolute_width / width) - fill_x;
-                        fill_x += this.absolute_x_pos;
+
                         var render_y: number = y - this.visible_range.min_y;
                         var height: number = this.visible_range.max_y - this.visible_range.min_y;
                         var fill_y: number = Math.round((render_y + 1) * this.absolute_height / height);
                         var side_y: number = fill_y - Math.round((render_y) * this.absolute_height / height);
-                        fill_y = this.canvas_height - fill_y - this.absolute_y_pos;
-                        this.canvas.fillRect(
-                            fill_x,
-                            fill_y,
-                            side_x, side_y);
+                        fill_y = this.canvas_height - fill_y;
+                        this.canvas.rect(fill_x, fill_y, side_x, side_y);
                     }
                     return true;
                 }
@@ -127,6 +140,7 @@ export class GolSpace extends VisibleEntity
             }
         );
         this.grid.flip();
+
         this.entities.forEach(
             entity =>
             {
@@ -140,7 +154,19 @@ export class GolSpace extends VisibleEntity
                 }
             }
         );
+        this.canvas.fill();
     }
+
+    isThisPosAlive(x: number, y: number): boolean
+    {
+        return this.grid.get(x, y);
+    }
+
+    setThisPosAlive(x: number, y: number, data: boolean): void
+    {
+        this.grid.set(x, y, data);
+    }
+
 }
 
 export var rules = {

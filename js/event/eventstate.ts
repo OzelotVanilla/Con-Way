@@ -40,7 +40,7 @@ export class detainablestate<EntityType, EventType extends event<EntityType, Eve
      */
     detainedTimes: number = 0;
 
-    constructor(event: EventType, callback: () => void)
+    constructor(event: EventType, callback: () => void = undefined)
     {
         this.event = event;
         this.callback = callback;
@@ -67,7 +67,7 @@ export class detainablestate<EntityType, EventType extends event<EntityType, Eve
 
     release(): void
     {
-        if (this.detainedTimes === 0)
+        if ((this.detainedTimes === 0) && (this.callback != undefined))
         {
             this.callback();
         }

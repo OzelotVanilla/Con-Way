@@ -188,10 +188,7 @@ export class eventbus
             {
                 ev.getCurrentAction()(ev, ent);
                 {
-                    let state = new detainablestate<EntityType, typeof ev>(ev, () =>
-                    {
-                        finished();
-                    });
+                    let state = new detainablestate<EntityType, typeof ev>(ev, finished);
                     for (var post_action_group of post_action_groups)
                     {
                         for (let post_action of post_action_group)
