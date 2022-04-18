@@ -10,7 +10,7 @@ export class TickEvent extends event<GolSpace, TickEvent>
 
     current_time: number;
 
-    constructor(current_time: number = new Date().getTime())
+    constructor(current_time: number = new Date().getTime() / 1000)
     {
         super("tick",
             (ev: TickEvent, space: GolSpace) =>

@@ -81,7 +81,7 @@ export class Player extends VisibleEntity
             var y_int = Math.round(this.y_pos);
             if (this.space.isThisPosAlive(x_int, y_int) || this.space.isThisPosAlive(x_int + 1, y_int))
             {
-                event_bus.post(new OverGameEvent(), undefined, () => {})
+                event_bus.post(new OverGameEvent(), undefined);
             }
         }
 

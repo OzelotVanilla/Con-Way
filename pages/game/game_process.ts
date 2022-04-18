@@ -11,7 +11,9 @@ import { GolSpace } from "js/entity/GolSpace";
 import { TickStopEvent } from "js/event/TickStopEvent";
 import { tickBegin, tickStop } from "pages/game/game_cycle";
 import { EndGameEvent } from "js/event/EndGameEvent";
-import { registerSubscribers } from "./moveconverter";
+import { registerSubscribers as registerSubscribersOfMoveConverter } from "./moveconverter";
+import { ExitEvent } from "../../js/event/ExitEvent";
+import { registerSubscribers as registerSubscribersOfGame } from "./game";
 
 //This ts file controls the game's life cycle from initialize to the end.
 
@@ -20,14 +22,13 @@ import { registerSubscribers } from "./moveconverter";
  */
 export function processBegin(): void
 {
-    let game_new: NewGameEvent = new NewGameEvent();
-    event_bus.post(game_new, undefined, () =>
+    event_bus.launchEvent("game_new", undefined, (event: NewGameEvent) =>
     {
         console.log("game_new complete.");
-        event_bus.post(new StartGameEvent(game_new.sst, game_new.the_stage), undefined, () =>
+        event_bus.post(new StartGameEvent(event.sst, event.the_stage), undefined, () =>
         {
             console.log("game_start complete.");
-            event_bus.post(new TickBeginEvent(), undefined, () =>
+            event_bus.launchEvent("tick_begin", undefined, () =>
             {
                 console.log("tick_begin complete.");
             });
@@ -51,18 +52,28 @@ function onStartGame(): void
     console.log("game_start action.");
 }
 
-export function initializeEventActions(): void
+export function initializeEvents(): void
 {
     NewGameEvent.setDefaultAction(onNewGame);
+    event_bus.registerEventType("game_new", () => new NewGameEvent(), true);
     StartGameEvent.setDefaultAction(onStartGame);
+    event_bus.registerEventType("game_start", undefined);
+    event_bus.registerEventType("tick", undefined, true);
     TickBeginEvent.setDefaultAction(tickBegin);
+    event_bus.registerEventType("tick_begin", () => new TickBeginEvent(), true);
     TickStopEvent.setDefaultAction(tickStop);
+    event_bus.registerEventType("tick_stop", () => new TickStopEvent(), true);
     OverGameEvent.setDefaultAction(() =>
     {
         event_bus.post(new TickStopEvent(), undefined, undefined);
         setTimeout(() => { location.replace("/") }, 2500);
     });
+    event_bus.registerEventType("game_over", () => new OverGameEvent());
     VictoryGameEvent.setDefaultAction(() => { });
+    event_bus.registerEventType("game_victory", () => new VictoryGameEvent());
+
+    event_bus.registerEventType("exit", () => new ExitEvent());
+
 }
 
 export function subscribeEvents(): void
@@ -104,5 +115,6 @@ export function subscribeEvents(): void
             ev.event.the_stage.bgm.pause();
         }
     );
-    registerSubscribers();
+    registerSubscribersOfMoveConverter();
+    registerSubscribersOfGame();
 }

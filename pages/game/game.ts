@@ -1,25 +1,36 @@
 import { event_bus } from "js/event/eventbus"
-import { TickStopEvent } from "js/event/TickStopEvent"
 import { downKey, upKey } from "pages/game/moveconverter";
+import { isTicking } from "./game_cycle";
 
 
-export function pauseGame(callback: () => void): void
+export function pauseGame(callback: () => void = undefined): void
 {
-    event_bus.post(new TickStopEvent(), undefined, callback);
+    event_bus.launchEvent("tick_stop", undefined, callback);
     return;
 }
 
-export function resumeGame(callback: () => void): void
+export function resumeGame(callback: () => void = undefined): void
 {
-    event_bus.post(new TickStopEvent(), undefined, callback);
+    event_bus.launchEvent("tick_begin", undefined, callback);
     return;
+}
+
+export function isGamePaused(): boolean
+{
+    return isTicking();
 }
 
 export function pressKey(event: KeyboardEvent)
 {
     if (needPauseFromUserKeybooard(event))
     {
-        pauseGame(() => { });
+        if (isGamePaused())
+        {
+            pauseGame();
+        } else
+        {
+            resumeGame();
+        }
     }
     else
     {

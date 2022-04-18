@@ -69,6 +69,11 @@ export function tickStop(): void
     ticker.ticking = false;
 }
 
+export function isTicking(): boolean
+{
+    return ticker.ticking;
+}
+
 export function setInterval(interval: number): void
 {
     ticker.delay = interval;

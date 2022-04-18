@@ -6,14 +6,12 @@ import { engine_vector } from "pages/game/the_player";
  */
 export function downMouse(move_src: MouseEvent): void
 {
-    console.log("down");
     engine_vector.mouse_down = true;
     moveScreen(move_src.clientX, move_src.clientY);
 }
 
 export function upMouse(move_src: MouseEvent): void
 {
-    console.log("up");
     engine_vector.mouse_down = false;
 }
 

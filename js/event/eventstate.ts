@@ -1,12 +1,8 @@
 import { event } from "js/event/event";
 
-/**
- * Use these classes's instances to cancel or detain events.
- */
-export class judgementstate<EntityType, EventType extends event<EntityType, EventType>> {
+export abstract class eventstate<EntityType, EventType extends event<EntityType, EventType>> {
 
     event: EventType;
-    canceled: boolean;
 
     constructor(event: EventType)
     {
@@ -16,6 +12,19 @@ export class judgementstate<EntityType, EventType extends event<EntityType, Even
     getEvent(): EventType
     {
         return this.event;
+    }
+}
+
+/**
+ * Use these classes's instances to cancel or detain events.
+ */
+export class judgementstate<EntityType, EventType extends event<EntityType, EventType>> extends eventstate<EntityType, EventType> {
+
+    canceled: boolean;
+
+    constructor(event: EventType)
+    {
+        super(event);
     }
 
     isCanceled(): boolean
@@ -29,11 +38,23 @@ export class judgementstate<EntityType, EventType extends event<EntityType, Even
     }
 }
 
-export class detainablestate<EntityType, EventType extends event<EntityType, EventType>> {
-
-    event: EventType;
+export class callbackedstate<EntityType, EventType extends event<EntityType, EventType>> extends eventstate<EntityType, EventType> {
 
     callback: () => void;
+
+    constructor(event: EventType, callback: () => void = undefined)
+    {
+        super(event);
+        this.callback = callback;
+    }
+
+    doAction(): void
+    {
+        this.callback();
+    }
+}
+
+export class detainablestate<EntityType, EventType extends event<EntityType, EventType>> extends callbackedstate<EntityType, EventType> {
 
     /**
      * Detained times.
@@ -42,13 +63,7 @@ export class detainablestate<EntityType, EventType extends event<EntityType, Eve
 
     constructor(event: EventType, callback: () => void = undefined)
     {
-        this.event = event;
-        this.callback = callback;
-    }
-
-    getEvent(): EventType
-    {
-        return this.event;
+        super(event, callback);
     }
 
     /**
@@ -69,7 +84,7 @@ export class detainablestate<EntityType, EventType extends event<EntityType, Eve
     {
         if ((this.detainedTimes === 0) && (this.callback != undefined))
         {
-            this.callback();
+            super.doAction();
         }
         else
         {

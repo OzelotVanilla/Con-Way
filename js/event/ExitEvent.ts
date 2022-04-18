@@ -5,4 +5,11 @@ import { global } from "js/event/eventbus";
  * Save user's state before exit
  */
 
-export class ExitEvent extends event<global, ExitEvent> { }
+export class ExitEvent extends event<global, ExitEvent> {
+
+    constructor()
+    {
+        super("exit", undefined);
+    }
+
+}
