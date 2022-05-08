@@ -1,23 +1,29 @@
 import { event_bus } from "js/event/eventbus"
 import { downKey, upKey } from "pages/game/moveconverter";
-import { isTicking } from "./game_cycle";
+import { game_clock } from "pages/game/game_clock";
 
 
 export function pauseGame(callback: () => void = undefined): void
 {
-    event_bus.launchEvent("tick_stop", undefined, callback);
+    game_clock.setTimeRate(0);
+    if(callback !== undefined) {
+        callback();
+    }
     return;
 }
 
 export function resumeGame(callback: () => void = undefined): void
 {
-    event_bus.launchEvent("tick_begin", undefined, callback);
+    game_clock.setTimeRate(1);
+    if(callback !== undefined) {
+        callback();
+    }
     return;
 }
 
 export function isGamePaused(): boolean
 {
-    return isTicking();
+    return game_clock.getCurrentTimeRate() === 0;
 }
 
 export function pressKey(event: KeyboardEvent)
@@ -26,10 +32,10 @@ export function pressKey(event: KeyboardEvent)
     {
         if (isGamePaused())
         {
-            pauseGame();
+            resumeGame();
         } else
         {
-            resumeGame();
+            pauseGame();
         }
     }
     else

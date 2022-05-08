@@ -1,7 +1,7 @@
 import { entity } from "js/entity/entity";
 import { VisibleEntity } from "js/entity/VisibleEntity";
-import { LoopGrid } from "js/container/LoopGrid";
-import { DoubleGrid } from "js/container/DoubleGrid";
+import { LoopGrid } from "../util/container/LoopGrid";
+import { DoubleGrid } from "../util/container/DoubleGrid";
 
 /**
  * Game of life Space

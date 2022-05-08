@@ -1,5 +1,6 @@
 import { GolSpace } from "js/entity/GolSpace";
-import { tick_per_second } from "../../pages/game/game_cycle";
+import { tick_per_second } from "pages/game/game_cycle";
+import { game_clock } from "pages/game/game_clock";
 
 /**
 * Special object on a golSpace, which has a position and a velocity and has its specific behaviour.
@@ -32,7 +33,7 @@ export class entity
             this.space = space;
             space.addEntity(this);
         }
-        this.last_update_time = new Date().getTime() / 1000.0;
+        this.last_update_time = game_clock.getTime();
     }
 
     getPos(time: number): number

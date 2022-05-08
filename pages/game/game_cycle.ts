@@ -1,6 +1,7 @@
 import { event_bus } from "js/event/eventbus";
 import { TickEvent } from "js/event/TickEvent";
 import { the_space } from "pages/game/the_space";
+import { game_clock } from "pages/game/game_clock";
 
 export var tick_per_second: number;
 
@@ -30,8 +31,8 @@ var ticker: {
      */
     tick: () =>
     {
-        let now: number = new Date().getTime();
-        event_bus.post(new TickEvent(now / 1000.0), the_space,
+        let now: number = game_clock.getTime();
+        event_bus.post(new TickEvent(now), the_space,
             () =>
             {
                 if (ticker.ticking)
@@ -49,7 +50,7 @@ var ticker: {
                         ticker.last_time = now;
                         sleep = ticker.delay;
                     }
-                    setTimeout(ticker.tick, sleep);
+                    game_clock.setTimeout(ticker.tick, sleep);
                 }
             }
         );
@@ -78,7 +79,7 @@ export function setInterval(interval: number): void
 {
     ticker.delay = interval;
 
-    tick_per_second = 1000 / ticker.delay;
+    tick_per_second = 1 / ticker.delay;
 }
 
-setInterval(50);
+setInterval(0.050);
