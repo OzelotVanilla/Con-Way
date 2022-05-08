@@ -1,9 +1,0 @@
-./gitignore
-.vscode/settings.json
-tsconfig.json
-.vscode/tasks.json
-node_modules
-package.json
-tscCompile.vbs
-package-lock.json
-bgm/.mscbackup
