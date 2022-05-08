@@ -6,7 +6,22 @@ import { game_clock } from "pages/game/game_clock";
 export function pauseGame(callback: () => void = undefined): void
 {
     game_clock.setTimeRate(0);
-    if(callback !== undefined) {
+    $("body")[0].innerHTML = $("body")[0].innerHTML +
+        `
+            <div id="pause_background"
+                style="background-color: #00000030; position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 100;" >
+                <div id="pause_tip"
+                    style="background-color: #ffffff; position: absolute; left: 50%; top: 50%;
+                           -webkit-transform: translate(-50%,-50%);
+                           -moz-transform: translate(-50%,-50%);
+                           transform:translate(-50%,-50%);">
+                    Game paused, press "space to start again"
+                </div>
+            </div>
+        `;
+    $("#pause_background, #pause_tip").trigger("click", resumeGame);
+    if (callback !== undefined)
+    {
         callback();
     }
     return;
@@ -15,7 +30,9 @@ export function pauseGame(callback: () => void = undefined): void
 export function resumeGame(callback: () => void = undefined): void
 {
     game_clock.setTimeRate(1);
-    if(callback !== undefined) {
+    $("#pause_background, #pause_tip").remove();
+    if (callback !== undefined)
+    {
         callback();
     }
     return;
@@ -33,7 +50,8 @@ export function pressKey(event: KeyboardEvent)
         if (isGamePaused())
         {
             resumeGame();
-        } else
+        }
+        else
         {
             pauseGame();
         }

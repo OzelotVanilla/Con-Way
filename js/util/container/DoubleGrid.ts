@@ -9,17 +9,19 @@ import { LoopGrid } from "./LoopGrid";
  */
 export class DoubleGrid extends LoopGrid
 {
-
-    hiden_array: boolean[][];
+    /**
+     * The next tick's data will be stored here.
+     */
+    hidden_array: boolean[][];
 
     constructor(x: number, y: number, factory: (grid: LoopGrid, x: number, y: number) => boolean, horizonal_loop: boolean, vertical_loop: boolean)
     {
         super(x, y, factory, horizonal_loop, vertical_loop);
-        this.hiden_array = [];
+        this.hidden_array = [];
         for (var dx = 0; dx < x; dx++)
         {
             var column: boolean[] = [];
-            this.hiden_array[dx] = column;
+            this.hidden_array[dx] = column;
             for (var dy: number = 0; dy < y; dy++)
             {
                 column[dy] = factory(this, dx, dy);
@@ -30,15 +32,15 @@ export class DoubleGrid extends LoopGrid
     flip()
     {
         var mid: boolean[][] = this.inner_array;
-        this.inner_array = this.hiden_array;
-        this.hiden_array = mid;
+        this.inner_array = this.hidden_array;
+        this.hidden_array = mid;
     }
 
     setPenetrated(x: number, y: number, data)
     {
         if (x < 0 || this.width <= x)
         {
-            if (!this.horizonal_loop)
+            if (!this.horizontal_loop)
             {
                 return;
             } else
@@ -64,14 +66,14 @@ export class DoubleGrid extends LoopGrid
                 }
             }
         }
-        this.hiden_array[x][y] = data;
+        this.hidden_array[x][y] = data;
     }
 
     getAndSetPenetrated(x: number, y: number, data: boolean): boolean
     {
         if (x < 0 || this.width <= x)
         {
-            if (!this.horizonal_loop)
+            if (!this.horizontal_loop)
             {
                 return this.initialize(this, x, y);
             } else
@@ -97,7 +99,7 @@ export class DoubleGrid extends LoopGrid
                 }
             }
         }
-        this.hiden_array[x][y] = data;
+        this.hidden_array[x][y] = data;
         return this.inner_array[x][y];
     }
 
@@ -107,7 +109,7 @@ export class DoubleGrid extends LoopGrid
         {
             for (var x: number = 0; x < this.width; x++)
             {
-                this.hiden_array[x][y] = factory(this, x, y);
+                this.hidden_array[x][y] = factory(this, x, y);
             }
         }
     }

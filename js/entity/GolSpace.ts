@@ -56,10 +56,7 @@ export class GolSpace extends VisibleEntity
         // golSpace uses its own code to render hence it doesn't need a renderer function.
         super(type, kinematics, space, false, canvas, render_centre);
 
-        this.grid = new DoubleGrid(scale.width, scale.height, (grid: LoopGrid, x: number, y: number) =>
-        {
-            return false;
-        }, true, false);
+        this.grid = new DoubleGrid(scale.width, scale.height, (grid: LoopGrid, x: number, y: number) => { return false; }, true, false);
         this.width = scale.width;
         this.height = scale.height;
         this.rule = rule;
