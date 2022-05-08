@@ -14,16 +14,18 @@ export abstract class VisibleEntity extends entity
     canvas: CanvasRenderingContext2D;
     will_auto_render: boolean;
 
+    render_centre: {x_offset: number, y_offset: number};
+
     constructor(type: string, kinematics: { x_pos: number, y_pos: number, x_velocity: number, y_velocity: number },
-        space: GolSpace, que_auto_render: boolean, canvas: CanvasRenderingContext2D,
-        // renderer: (vsb_ent: visibleEntity, x_pos: number, y_pos: number, spc: golSpace, canvas: any) => void
+        space: GolSpace, que_auto_render: boolean, canvas: CanvasRenderingContext2D, render_centre: {x_offset: number, y_offset: number} = {x_offset: 0, y_offset: 0}
     )
     {
         super(type, kinematics, space);
-        // this.renderer = renderer;
+
         this.canvas = canvas;
         this.canvas_height = canvas.canvas.height;
         this.will_auto_render = que_auto_render;
+        this.render_centre = render_centre;
     }
 
     tick(time: number): void

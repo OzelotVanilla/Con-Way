@@ -1,0 +1,13 @@
+{
+    "exclude": [],
+    "compilerOptions": {
+        "module": "AMD",
+        "target": "es6",
+        "jsx": "preserve",
+        "strictFunctionTypes": true,
+        "sourceMap": false,
+        "outDir": "D:/Apache24/htdocs",
+        "allowJs": true
+    },
+    "compileOnSave": false
+}

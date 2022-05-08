@@ -30,7 +30,7 @@ export class GolSpace extends VisibleEntity
     /**
      * Rule of gol.
      */
-    rule: (grid: LoopGrid, x: number, y: number) => boolean;
+    rule: (that: GolSpace) => ((grid: LoopGrid, x: number, y: number) => boolean);
 
     /**
      * Part of the grid which players can see.
@@ -50,10 +50,11 @@ export class GolSpace extends VisibleEntity
         scale: { width: number, height: number, absolute_width: number, absolute_height: number },
         visible_range: { min_x: number, max_x: number, min_y: number, max_y: number },
         space: GolSpace, canvas: CanvasRenderingContext2D,
-        rule: (grid: LoopGrid, x: number, y: number) => boolean)
+        rule: (that: GolSpace) => ((grid: LoopGrid, x: number, y: number) => boolean), type: string = "golSpace",
+        render_centre: {x_offset: number, y_offset: number} = {x_offset: 0, y_offset: 0})
     {
         // golSpace uses its own code to render hence it doesn't need a renderer function.
-        super("golSpace", kinematics, space, false, canvas);
+        super(type, kinematics, space, false, canvas, render_centre);
 
         this.grid = new DoubleGrid(scale.width, scale.height, (grid: LoopGrid, x: number, y: number) =>
         {
@@ -86,10 +87,10 @@ export class GolSpace extends VisibleEntity
 
     tick(time: number): void
     {
-        if (this.space != undefined)
+        if (this.space !== undefined)
         {
-            this.absolute_x_pos = Math.round(this.space.absolute_x_pos + this.x_pos * this.absolute_width / this.width);
-            this.absolute_y_pos = Math.round(this.space.absolute_y_pos + this.y_pos * this.absolute_height / this.height);
+            this.absolute_x_pos = Math.round(this.space.absolute_x_pos + this.x_pos * this.space.absolute_width / (this.space.visible_range.max_x - this.space.visible_range.min_x));
+            this.absolute_y_pos = Math.round(this.space.absolute_y_pos + this.y_pos * this.space.absolute_height / (this.space.visible_range.max_y - this.space.visible_range.min_y));
         }
         else
         {
@@ -98,36 +99,25 @@ export class GolSpace extends VisibleEntity
         }
         super.tick(time);
 
-        if (this.scroll_counter === 10)
-        {
-            this.scroll_counter = 1;
-            this.rule = rules.scroll;
-        } else
-        {
-            if (this.scroll_counter === 1)
-            {
-                this.rule = rules.b3s23;
-            }
-            this.scroll_counter++;
-        }
+        let currentRule: (grid: LoopGrid, x: number, y: number) => boolean = this.rule(this);
 
         this.grid.forEachPenetrated(
             (grid: LoopGrid, x: number, y: number) =>
             {
-                if (this.rule(grid, x, y))
+                if (currentRule(grid, x, y))
                 {
                     if (this.visible_range.min_x <= x && x < this.visible_range.max_x &&
                         this.visible_range.min_y <= y && y < this.visible_range.max_y)
                     {
-                        var render_x: number = x - this.visible_range.min_x;
+                        var render_x: number = x + this.render_centre.x_offset;
                         var width: number = this.visible_range.max_x - this.visible_range.min_x;
-                        var fill_x: number = Math.round(render_x * this.absolute_width / width);
-                        var side_x: number = Math.round((render_x + 1) * this.absolute_width / width) - fill_x;
+                        var fill_x: number = Math.round(render_x * this.absolute_width / width + this.absolute_x_pos);
+                        var side_x: number = Math.round((render_x + 1) * this.absolute_width / width + this.absolute_x_pos) - fill_x;
 
-                        var render_y: number = y - this.visible_range.min_y;
+                        var render_y: number = y + this.render_centre.y_offset;
                         var height: number = this.visible_range.max_y - this.visible_range.min_y;
-                        var fill_y: number = Math.round((render_y + 1) * this.absolute_height / height);
-                        var side_y: number = fill_y - Math.round((render_y) * this.absolute_height / height);
+                        var fill_y: number = Math.round((render_y + 1) * this.absolute_height / height + this.absolute_y_pos);
+                        var side_y: number = fill_y - Math.round((render_y) * this.absolute_height / height + this.absolute_y_pos);
                         fill_y = this.canvas_height - fill_y;
                         this.canvas.rect(fill_x, fill_y, side_x, side_y);
                     }
@@ -154,7 +144,10 @@ export class GolSpace extends VisibleEntity
                 }
             }
         );
-        this.canvas.fill();
+        if (this.space === undefined)
+        {
+            this.canvas.fill();
+        }
     }
 
     isThisPosAlive(x: number, y: number): boolean

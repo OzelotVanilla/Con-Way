@@ -1,16 +1,19 @@
 import { VisibleEntity } from "js/entity/VisibleEntity"
 import { Effect } from "js/lifegame/speffect/Effect"
-import { GolSpace } from "js/entity/GolSpace";
+import { GolSpace, rules } from "js/entity/GolSpace";
 import { Bullet } from "js/entity/Bullet";
 import { event_bus } from "js/event/eventbus";
 import { OverGameEvent } from "js/event/OverGameEvent";
+import { block_length } from "pages/game/canvas";
+import { PatternLib } from "../lifegame/PatternLib";
+import { LoopGrid } from "../util/container/LoopGrid";
 
 /**
  * The plane that player controls
  */
-export class Player extends VisibleEntity
+export class Player extends GolSpace
 {
-    hp: number;
+    hp: number = 17;
     kill: number;
     bullet_shoot_rate: number = 20;
 
@@ -22,10 +25,30 @@ export class Player extends VisibleEntity
     effect_buffer: Map<Effect, number> = new Map<Effect, number>();
 
     constructor(engine: { x_from_key: number, y_from_key: number, x_from_screen: number, y_from_screen: number, mouse_down: boolean },
-        space: GolSpace, pos: { x_pos: number, y_pos: number } = { x_pos: space.width / 2, y_pos: space.height * 0.05 })
+        space: GolSpace, pos: { x_pos: number, y_pos: number } = { x_pos: space.width / 2, y_pos: space.height * 0.30 })
     {
-        super("player", { x_pos: pos.x_pos, y_pos: pos.y_pos, x_velocity: 0, y_velocity: 0 }, space, true, space.canvas);
+        super({ x_pos: pos.x_pos, y_pos: pos.y_pos, x_velocity: 0, y_velocity: 0 },
+            {width: 7, height: 7, absolute_width: 7 * block_length, absolute_height: 7 * block_length},
+            {min_x: 0, max_x: 7, min_y: 0, max_y: 7}, space, space.canvas,
+            () => ((grid: LoopGrid, x: number, y: number) =>
+            {if(grid.get(x, y))
+                {
+                    if(this.space.isThisPosAlive(Math.round(this.x_pos + x - 3.5), Math.round(this.y_pos + y - 3.5)))
+                    {
+                        console.log(x, y, this.hp);
+                        this.hp--;
+                        return false;
+                    } else
+                    {
+                        return true;
+                    }
+                } else {
+                    return false;
+                }
+            }),
+            "player", {x_offset: -3.5, y_offset: -3.5});
         this.engine_vector = engine;
+        PatternLib.get("plane")(this.grid, 0, 7);
     }
 
     invoke_count: number = 0;
@@ -73,16 +96,7 @@ export class Player extends VisibleEntity
         // Check if the player is already dead
         if (this.hp <= 0)
         {
-            // event_bus.post(new endgameevent());
-        }
-
-        {
-            var x_int = Math.round(this.x_pos - 0.5);
-            var y_int = Math.round(this.y_pos);
-            if (this.space.isThisPosAlive(x_int, y_int) || this.space.isThisPosAlive(x_int + 1, y_int))
-            {
-                event_bus.post(new OverGameEvent(), undefined);
-            }
+            event_bus.launchEvent("game_over", undefined);
         }
 
         // Subtract remaining effect tick
@@ -110,12 +124,6 @@ export class Player extends VisibleEntity
     render(): void
     {
         super.render();
-        var y = this.convertY(this.y_pos);
-        var x = this.convertX(this.x_pos);
-
-        this.canvas.moveTo(x, y - 5);
-        this.canvas.lineTo(x - 10, y + 5);
-        this.canvas.lineTo(x + 10, y + 5);
     }
 
 }
